@@ -38,6 +38,7 @@ uint8 isCRCError();
 uint8 getSNRValue();
 int16_t getRSSIValue();
 uint8 getPayloadSize();
+void rxTimeoutIrqCalback();
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -46,6 +47,7 @@ const struct RadioCallback_inferface RadioIrqCallback=
 {
     rxIrqCallback,
     txIrqCallback,
+    rxTimeoutIrqCalback,
 };
 /* Private function  -----------------------------------------------*/
 void rxIrqCallback()
@@ -77,6 +79,11 @@ void txIrqCallback()
     // Intentional fall through
     SX1276.Settings.State = RF_IDLE;
     RadioEvents.TxDone();
+}
+void rxTimeoutIrqCalback()
+{
+    LED1_TOGGLE;
+    SX1276WriteBuffer( REG_LR_IRQFLAGS, RFLR_IRQFLAGS_RXTIMEOUT );
 }
 /* Private functions prototypes---------------------------------------------------------*/
 /* Public functions ----------------------------------------------------------*/
@@ -338,6 +345,7 @@ INTERRUPT_HANDLER(EXTI5_IRQHandler,13)
     if ((GPIO_ReadInputData(SX1276.DIO0.port) & SX1276.DIO0.pin) == 
         SX1276.DIO0.pin)
     {
+        
         switch( SX1276.Settings.State )
         {
         case RF_RX_RUNNING:
@@ -361,6 +369,12 @@ INTERRUPT_HANDLER(EXTI6_IRQHandler,14)
     /* In order to detect unexpected events during development,
        it is recommended to set a breakpoint on the following instruction.
     */
+    if ((GPIO_ReadInputData(SX1276.DIO1.port) & SX1276.DIO1.pin) == 
+        SX1276.DIO1.pin)
+    {
+        RadioIrqCallback.timeoutCallback();
+    }
+    EXTI_ClearITPendingBit(EXTI_IT_Pin6);
 }
 
 /**

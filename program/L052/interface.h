@@ -226,6 +226,7 @@ struct RadioCallback_inferface
 {
     void (*rxCallback)();
     void (*txCallback)();
+    void (*timeoutCallback)();
 };
 
 #endif

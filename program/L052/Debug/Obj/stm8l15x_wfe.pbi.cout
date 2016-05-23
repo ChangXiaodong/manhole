@@ -1,22 +1,22 @@
-"F:\Manhole\program\L052-v0.0.1\Libraries\src\stm8l15x_wfe.c"
+"F:\Manhole\program\L052\Libraries\src\stm8l15x_wfe.c"
 -std=c99
 -ferror-limit=100
 -I
-F:\Manhole\program\L052-v0.0.1
+F:\Manhole\program\L052
 -I
-F:\Manhole\program\L052-v0.0.1\Libraries\hardware
+F:\Manhole\program\L052\Libraries\hardware
 -I
-F:\Manhole\program\L052-v0.0.1\Libraries\inc
+F:\Manhole\program\L052\Libraries\inc
 -I
 D:\IAR Systems\STM8\stm8\inc
 -I
 D:\IAR Systems\STM8\stm8\inc\c
 -I
-F:\Manhole\program\L052-v0.0.1
+F:\Manhole\program\L052
 -I
-F:\Manhole\program\L052-v0.0.1\Libraries\hardware
+F:\Manhole\program\L052\Libraries\hardware
 -I
-F:\Manhole\program\L052-v0.0.1\Libraries\inc
+F:\Manhole\program\L052\Libraries\inc
 -DSTM8L05X_LD_VL=1
 -DUSE_BAND_433=1
 -D__CHAR_BITS__=8
