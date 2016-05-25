@@ -52,6 +52,7 @@ const struct RadioCallback_inferface RadioIrqCallback=
 /* Private function  -----------------------------------------------*/
 void rxIrqCallback()
 {
+    SX1276WriteBuffer( REG_LR_IRQFLAGS, RFLR_IRQFLAGS_RXDONE );
     if(isCRCError())
     {
         RadioEvents.RxError(); 
@@ -61,29 +62,54 @@ void rxIrqCallback()
     SX1276.PacketInfo.SnrValue = getSNRValue();
     SX1276.PacketInfo.RssiValue = getRSSIValue();
     SX1276.PacketInfo.Size = getPayloadSize();
-    
-    SX1276ReadFifo(RxBuffer,SX1276.PacketInfo.Size );
-    
+    SX1276ReadFifo(RxBuffer,SX1276.PacketInfo.Size);
+
     if( SX1276.Settings.LoRa.RxContinuous == FALSE )
     {
         SX1276.Settings.State = RF_IDLE;
     }
-    SX1276WriteBuffer( REG_LR_IRQFLAGS, RFLR_IRQFLAGS_RXDONE );
-    RadioEvents.RxDone( RxBuffer);
+
+    if(!Link.ifValid(RxBuffer))
+    {
+        RadioEvents.Invalid();
+        return;
+    }
+    
+    TQStruct task;
+    switch(RxBuffer[4])
+    {
+    case DATA_PACK:
+        task.event = RECEIVE_DATA_PACKET;
+        memcpy(task.data, RxBuffer, SX1276.PacketInfo.Size);
+        OS.postTask(task);
+        break;
+        
+    case DATA_ACK_PACK:
+        LED2_TOGGLE;
+        Protocol.ack_received = 1;
+        task.event = RECEIVE_DATAACK_PACKET;
+        memcpy(task.data, RxBuffer, SX1276.PacketInfo.Size);
+        OS.postTask(task);
+        break;
+    }
+    
+    RadioEvents.RxDone(RxBuffer);
 }
 void txIrqCallback()
 {
     // Clear Irq
     SX1276WriteBuffer( REG_LR_IRQFLAGS, RFLR_IRQFLAGS_TXDONE );
-    LED1_TOGGLE;
     // Intentional fall through
     SX1276.Settings.State = RF_IDLE;
     RadioEvents.TxDone();
 }
 void rxTimeoutIrqCalback()
 {
-    LED1_TOGGLE;
+
     SX1276WriteBuffer( REG_LR_IRQFLAGS, RFLR_IRQFLAGS_RXTIMEOUT );
+    Protocol.resend_times++;
+    Protocol.send_failed = 1;
+    
 }
 /* Private functions prototypes---------------------------------------------------------*/
 /* Public functions ----------------------------------------------------------*/
@@ -230,10 +256,20 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler,4)
     /* In order to detect unexpected events during development,
        it is recommended to set a breakpoint on the following instruction.
     */
-    //LED1_TOGGLE;
+#if defined( SENSOR_NODE )
+
     RTC_WakeUpCmd(DISABLE);
-    RTC_SetWakeUpCounter(12000);
+    RTC_SetWakeUpCounter(20000);
     RTC_WakeUpCmd(ENABLE);
+    
+    TQStruct task;
+    task.event = COLLECT_DATA;
+    OS.postTask(task);
+#elif defined( RELAY_NODE )
+#else
+  #error "Please define the type of the node."
+#endif
+    
     RTC_ClearITPendingBit(RTC_IT_WUT);
 }
 /**

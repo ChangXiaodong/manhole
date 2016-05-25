@@ -2,10 +2,7 @@
 
 <workspace>
   <project>
-    <path>$WS_DIR$\Flash\Flash.ewp</path>
-  </project>
-  <project>
-    <path>$WS_DIR$\manhole.ewp</path>
+    <path>$WS_DIR$\Flash.ewp</path>
   </project>
   <batchBuild/>
 </workspace>

@@ -2,7 +2,7 @@
 #define __INTERFACE_H
 
 #include "common.h"
-
+#include "ProcessEvent.h"
 
 struct Radio_interface
 {
@@ -36,7 +36,7 @@ struct Radio_interface
     *
     * \retval isFree         [true: Channel is free, false: Channel is not free]
     */
-    bool    ( *isChannelFree )( RadioModems_t modem, uint32_t freq, int16_t rssiThresh );
+    bool    ( *isChannelFree )(int16_t rssiThresh );
     
     /*!
     * \brief Sets the reception parameters
@@ -169,11 +169,18 @@ struct Radio_interface
     int16_t ( *getRssi )( RadioModems_t modem );
     
     /*!
-    * Return current radio send status
+    * brief Return current radio send status
     *
-    * \param 1: sending 0:sending finished
+    * \return 1: sending 0:sending finished
     */
     uint8_t ( *sendNotDone )( void );
+    
+    /*!
+    * brief Scaning the channel and choose a optimal channel basaed on rssi and snr
+    *
+    * \return the number of the optimal channel
+    */
+    uint8_t ( *getOptiamlChannel )( void );
 };
 
 /*!
@@ -220,6 +227,14 @@ struct RadioEvents_inferface
      * \param [IN] channelDetected    Channel Activity detected during the CAD
      */
     void ( *CadDone ) ( bool channelActivityDetected );
+    /*!
+     * \brief Invalid packet Error callback prototype.
+     */
+    void ( *Invalid )( void );
+    /*!
+     * \brief On resend failed Error callback prototype.
+     */
+    void ( *ResendFailed )( void );
 };
 
 struct RadioCallback_inferface
@@ -228,5 +243,22 @@ struct RadioCallback_inferface
     void (*txCallback)();
     void (*timeoutCallback)();
 };
+
+struct TaskQuene_inferface
+{
+    uint8 (*executeTask)();
+    uint8 (*postTask)(TQStruct task);
+    uint8 (*isEmpty)();
+    void (*initTQ)();
+};
+
+struct Link_interface
+{
+    void (*sendData)();
+    void (*sendDataACK)(uint8* data);
+    void (*receiveDataACK)(uint8* data);
+    uint8 (*ifValid)(uint8* data);
+};
+
 
 #endif
