@@ -86,7 +86,6 @@ static uint8 Process_Event()
         if(Sensor.ifStatusChanged())
         {
             Protocol.resend_times = 0;
-            
             Link.sendData();
         }
         break;

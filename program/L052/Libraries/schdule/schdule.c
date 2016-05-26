@@ -2,48 +2,39 @@
 Sensor_s Sensor;
 
 //unfinished
-static uint16 getSensorData()
+SensorData_s getSensorData()
 {
-    uint16 data = 4095;
-    Sensor.Data = data;
-    return data;
+    EN_SAMPLE_SET;
+    delay_ms(150);
+    ADC_SoftwareStartConv(ADC1);
+    while(ADC_GetFlagStatus(ADC1,ADC_FLAG_EOC) != SET);  
+    Sensor.Data.TMR = ADC_GetConversionValue(ADC1);
+    Sensor.Data.reed = REED_GET;
+    EN_SAMPLE_RESET;
+    return Sensor.Data;
 }
 
-//unfinished
-static uint8 ifStatusChanged()
+bool ifStatusChanged()
 {
-    uint16 data;
+    SensorData_s data;
+    bool changed_flag = FALSE;
+    
     data = getSensorData();
-    return 1;
-//    if(data == 0)
-//    {
-//        return 1;
-//    }
-//    else
-//    {
-//        return 0;
-//    }
+    if((data.reed!=data.reed_memory)||
+       (abs(data.TMR - data.TMR_memory) > 100))
+    {
+        changed_flag = TRUE;
+    }
+    data.reed_memory = data.reed;
+    data.TMR_memory = data.TMR;
+    
+    return changed_flag;
 }
 
-static uint8 getStatus()
+uint8 getStatus()
 {
     return Sensor.Status;
 }
 
-//unfinished
-static void initSensor()
-{
-
-}
-
-
-void Init_Sensor()
-{
-    Sensor.getData = getSensorData;
-    Sensor.getStatus = getStatus;
-    Sensor.ifStatusChanged = ifStatusChanged;
-    Sensor.InitSensor = initSensor;
-    
-    Sensor.InitSensor();
-}           
+        
 

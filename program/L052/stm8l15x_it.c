@@ -256,19 +256,13 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler,4)
     /* In order to detect unexpected events during development,
        it is recommended to set a breakpoint on the following instruction.
     */
-#if defined( SENSOR_NODE )
-
     RTC_WakeUpCmd(DISABLE);
-    RTC_SetWakeUpCounter(20000);
+    RTC_SetWakeUpCounter(500);
     RTC_WakeUpCmd(ENABLE);
     
     TQStruct task;
     task.event = COLLECT_DATA;
     OS.postTask(task);
-#elif defined( RELAY_NODE )
-#else
-  #error "Please define the type of the node."
-#endif
     
     RTC_ClearITPendingBit(RTC_IT_WUT);
 }
@@ -330,6 +324,21 @@ INTERRUPT_HANDLER(EXTI1_IRQHandler,9)
     /* In order to detect unexpected events during development,
        it is recommended to set a breakpoint on the following instruction.
     */
+    if ((GPIO_ReadInputData(SX1276.DIO0.port) & SX1276.DIO0.pin) == 
+    SX1276.DIO0.pin)
+    {
+        
+        switch( SX1276.Settings.State )
+        {
+        case RF_RX_RUNNING:
+            RadioIrqCallback.rxCallback();
+            break;
+        case RF_TX_RUNNING:
+            RadioIrqCallback.txCallback();
+            break;
+        }
+    }
+    EXTI_ClearITPendingBit(EXTI_IT_Pin1);
 }
 
 /**
@@ -366,6 +375,12 @@ INTERRUPT_HANDLER(EXTI4_IRQHandler,12)
     /* In order to detect unexpected events during development,
        it is recommended to set a breakpoint on the following instruction.
     */
+    if ((GPIO_ReadInputData(SX1276.DIO1.port) & SX1276.DIO1.pin) == 
+    SX1276.DIO1.pin)
+    {
+        RadioIrqCallback.timeoutCallback();
+    }
+    EXTI_ClearITPendingBit(EXTI_IT_Pin4);
 }
 
 /**
@@ -378,21 +393,6 @@ INTERRUPT_HANDLER(EXTI5_IRQHandler,13)
     /* In order to detect unexpected events during development,
     it is recommended to set a breakpoint on the following instruction.
     */
-    if ((GPIO_ReadInputData(SX1276.DIO0.port) & SX1276.DIO0.pin) == 
-        SX1276.DIO0.pin)
-    {
-        
-        switch( SX1276.Settings.State )
-        {
-        case RF_RX_RUNNING:
-            RadioIrqCallback.rxCallback();
-            break;
-        case RF_TX_RUNNING:
-            RadioIrqCallback.txCallback();
-            break;
-        }
-    }
-    EXTI_ClearITPendingBit(EXTI_IT_Pin5);
 }
 
 /**
@@ -405,12 +405,7 @@ INTERRUPT_HANDLER(EXTI6_IRQHandler,14)
     /* In order to detect unexpected events during development,
        it is recommended to set a breakpoint on the following instruction.
     */
-    if ((GPIO_ReadInputData(SX1276.DIO1.port) & SX1276.DIO1.pin) == 
-        SX1276.DIO1.pin)
-    {
-        RadioIrqCallback.timeoutCallback();
-    }
-    EXTI_ClearITPendingBit(EXTI_IT_Pin6);
+
 }
 
 /**

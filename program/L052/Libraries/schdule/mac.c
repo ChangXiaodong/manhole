@@ -1,7 +1,7 @@
 #include "common.h"
 static void sendByCSMA();
 static uint8 ifPacketValid(uint8* data);
-static void dataackCallback(uint8* data);
+static void receiveDataackCallback(uint8* data);
 static void receiveDataCallback(uint8* data);
 DataPacketStruct DataPacket;
 DataPacketStruct DataACKPacket;
@@ -10,7 +10,7 @@ const struct Link_interface Link =
 {
     sendByCSMA,
     receiveDataCallback,
-    dataackCallback,
+    receiveDataackCallback,
     ifPacketValid,
 };
 
@@ -34,17 +34,17 @@ static void papredDataPacket(uint8* data)
     DataPacket.src_address = SX1276.Settings.Address;
     DataPacket.packet_type = DATA_PACK;
     DataPacket.data_type = DATA_DATA;
-    DataPacket.data_cmd = Sensor.Data;
+    DataPacket.data_cmd = Sensor.Data.TMR;
     
     creatSendPacket(data,DataPacket);
 }
 
 static void CSMABackOff()
 {
-    
+    delay_ms_T5(1000);
 }
 
-static void dataackCallback(uint8* data)
+static void receiveDataackCallback(uint8* data)
 {
     //处理返回命令 （未完成）
 }
@@ -60,10 +60,10 @@ static void papredDataACKPacket(uint8* rxdata,uint8* packet_data)
     creatSendPacket(packet_data,DataACKPacket);
     
 }
-uint8 data_ack_packet[DATA_PACKET_LENGTH];  
+
 static void receiveDataCallback(uint8* data)
 {
-    
+    uint8 data_ack_packet[DATA_PACKET_LENGTH];  
     LED1_TOGGLE;
     papredDataACKPacket(data,data_ack_packet);
     Radio.Send(data_ack_packet,sizeof(DataPacket)-1);
@@ -104,6 +104,16 @@ static uint8 receivedACK()
         return FAILED;
     }   
 }
+static bool isChannelFree(int16_t threshold)
+{
+    return Radio.getRssi() < threshold;
+}
+
+//unfinished
+static void systemSleep()
+{
+
+}
 
 void sendByCSMA()
 {
@@ -112,24 +122,31 @@ void sendByCSMA()
     papredDataPacket(packet_data);
     for(uint8 i=0;i<BACKOFF_TIMES;i++)
     {
-        if(Radio.isChannelFree(-100))
+        if(isChannelFree(-30))
         {
             Radio.Send(packet_data,sizeof(DataPacket)-1);
             while(Radio.sendNotDone());
             Radio.setRxState(RX_TIMEOUT_VALUE);
-            /*if(!receivedACK())
-            {
-                TQStruct task;
-                task.event = SEND_DATA;
-                if(Protocol.resend_times<MAX_RESEND_TIMES)
-                {
-                    OS.postTask(task);
-                }
-                else
-                {
-                    RadioEvents.ResendFailed();
-                }
-            }*/
+//            if(!receivedACK())
+//            {
+//                TQStruct task;
+//                RTC_WakeUpCmd(DISABLE);
+//                task.event = SEND_DATA;
+//                if(Protocol.resend_times<MAX_RESEND_TIMES)
+//                {
+//                    OS.postTask(task);
+//                }
+//                else
+//                {
+//                    RadioEvents.ResendFailed();
+//                }
+//            }
+//            else
+//            {
+//                RTC_WakeUpCmd(ENABLE);
+//                halt();
+//                Radio.setSleepState();
+//            }
             break;
         }
         else
@@ -137,5 +154,6 @@ void sendByCSMA()
             CSMABackOff();
         }
     }
+    systemSleep();
 }
 

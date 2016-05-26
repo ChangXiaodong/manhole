@@ -166,7 +166,7 @@ struct Radio_interface
     *
     * \retval rssiValue Current RSSI value in [dBm]
     */
-    int16_t ( *getRssi )( RadioModems_t modem );
+    int16_t ( *getRssi )();
     
     /*!
     * brief Return current radio send status
