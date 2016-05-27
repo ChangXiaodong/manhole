@@ -1,0 +1,15 @@
+"D:\IAR Systems\ARM\arm\bin\armproc.dll" 
+
+"D:\IAR Systems\ARM\arm\bin\armstlink.dll" 
+
+"F:\Manhole\program\STM32L051\EWARM\relay\Exe\relay.out" 
+
+--plugin "D:\IAR Systems\ARM\arm\bin\armbat.dll" 
+
+--device_macro "D:\IAR Systems\ARM\arm\config\debugger\ST\STM32L1xx.dmac" 
+
+--flash_loader "D:\IAR Systems\ARM\arm\config\flashloader\ST\FlashSTM32L0xxx8.board" 
+
+
+
+
