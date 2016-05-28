@@ -6,7 +6,7 @@
 FLASH_ProcessTypeDef ProcFlash;
 
 #define FLASH_ADDRESS  0x08080100
-#define PHY_ADDRESS   0x1111
+#define PHY_ADDRESS   0x00001111
 uint32_t flash_test = 0;
 
 int main(void)

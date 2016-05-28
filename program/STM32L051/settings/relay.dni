@@ -8,24 +8,34 @@ UseTrigger=1
 TriggerName=main
 LimitSize=0
 ByteLimit=50
-[JLinkDriver]
-WatchCond=_ 0
-Watch0=_ 0 "" 0 "" 0 "" 0 "" 0 0 0 0
-Watch1=_ 0 "" 0 "" 0 "" 0 "" 0 0 0 0
-[stlink]
-stlinkserialNo=7B570771
-stlinkfoundProbes=
 [DebugChecksum]
-Checksum=815696667
+Checksum=-1363469802
+[CodeCoverage]
+Enabled=_ 0
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
-[CodeCoverage]
-Enabled=_ 0
 [CallStack]
 ShowArgs=0
 [Disassembly]
 MixedMode=1
+[Interrupts]
+Enabled=1
+[MemConfig]
+Base=1
+Manual=0
+Ddf=1
+TypeViol=0
+Stop=1
+[Trace1]
+Enabled=0
+ShowSource=1
+[Simulator]
+Freq=10000000
+MultiCoreRunAll=1
+[stlink]
+stlinkserialNo=7B570771
+stlinkfoundProbes=7B570771:FFFFFFFF:
 [SWOTraceHWSettings]
 OverrideDefaultClocks=0
 CpuClock=72000000
@@ -43,8 +53,13 @@ ITMportsEnable=0
 ITMportsTermIO=0
 ITMportsLogFile=0
 ITMlogFile=$PROJ_DIR$\ITM.log
+[struct_types]
+Fmt0=RadioSettings_t-Address	4	0
+Fmt1=struct <Unnamed 39>-SnrValue	3	0
+[array_types]
+Fmt0=uint8_t[11]	4	0
 [watch_formats]
-Fmt0={W}42:flash_test	4	0
+Fmt0={W}42:address	4	0
 [Trace2]
 Enabled=0
 ShowSource=0

@@ -315,11 +315,11 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
-          <state>$PROJ_DIR$/../Inc</state>
-          <state>$PROJ_DIR$/../Drivers/STM32L0xx_HAL_Driver/Inc</state>
-          <state>$PROJ_DIR$/../Drivers/STM32L0xx_HAL_Driver/Inc/Legacy</state>
-          <state>$PROJ_DIR$/../Drivers/CMSIS/Include</state>
-          <state>$PROJ_DIR$/../Drivers/CMSIS/Device/ST/STM32L0xx/Include</state>
+          <state>$PROJ_DIR$/../source/src</state>
+          <state>$PROJ_DIR$/../source/Drivers/STM32L0xx_HAL_Driver/Inc</state>
+          <state>$PROJ_DIR$/../source/Drivers/STM32L0xx_HAL_Driver/Inc/Legacy</state>
+          <state>$PROJ_DIR$/../source/Drivers/CMSIS/Include</state>
+          <state>$PROJ_DIR$/../source/Drivers/CMSIS/Device/ST/STM32L0xx/Include</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -966,10 +966,10 @@
     <name>$PROJ_DIR$\main.c</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\..\Drivers\CMSIS\Device\ST\STM32L0xx\Source\Templates\iar\startup_stm32l051xx.s</name>
+    <name>$PROJ_DIR$\..\source\Drivers\CMSIS\Device\ST\STM32L0xx\Source\Templates\iar\startup_stm32l051xx.s</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\..\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal.c</name>
+    <name>$PROJ_DIR$\..\source\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal.c</name>
   </file>
 </project>
 
