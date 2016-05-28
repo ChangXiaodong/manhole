@@ -2036,9 +2036,6 @@
       <name>$PROJ_DIR$\Libraries\hardware\delay.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\stm8l15x_it.c</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\Libraries\hardware\SX1276.C</name>
     </file>
     <file>
@@ -2070,6 +2067,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\Libraries\schdule\schdule.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\stm8l15x_it.c</name>
     </file>
   </group>
   <file>

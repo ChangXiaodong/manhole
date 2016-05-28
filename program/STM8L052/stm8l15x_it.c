@@ -76,7 +76,7 @@ void rxIrqCallback()
     }
     
     TQStruct task;
-    switch(RxBuffer[4])
+    switch(RxBuffer[8])
     {
     case DATA_PACK:
         task.event = RECEIVE_DATA_PACKET;
@@ -184,6 +184,7 @@ uint8 getPayloadSize()
 {
     return SX1276ReadBuffer( REG_LR_RXNBBYTES );
 }
+
 #ifdef _COSMIC_
 /**
   * @brief Dummy interrupt routine
@@ -260,6 +261,8 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler,4)
     RTC_SetWakeUpCounter(500);
     RTC_WakeUpCmd(ENABLE);
     
+    SystemWake();
+        
     TQStruct task;
     task.event = COLLECT_DATA;
     OS.postTask(task);
@@ -327,7 +330,6 @@ INTERRUPT_HANDLER(EXTI1_IRQHandler,9)
     if ((GPIO_ReadInputData(SX1276.DIO0.port) & SX1276.DIO0.pin) == 
     SX1276.DIO0.pin)
     {
-        
         switch( SX1276.Settings.State )
         {
         case RF_RX_RUNNING:

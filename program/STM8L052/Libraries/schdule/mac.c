@@ -2,24 +2,25 @@
 static void sendByCSMA();
 static uint8 ifPacketValid(uint8* data);
 static void receiveDataackCallback(uint8* data);
-static void receiveDataCallback(uint8* data);
 DataPacketStruct DataPacket;
-DataPacketStruct DataACKPacket;
 ProtocolStruct Protocol;
 const struct Link_interface Link = 
 {
     sendByCSMA,
-    receiveDataCallback,
     receiveDataackCallback,
     ifPacketValid,
 };
 
 static void creatSendPacket(uint8* data, DataPacketStruct Packet)
 {
-    *data++ = Packet.des_address >> 8;
-    *data++ = Packet.des_address;
-    *data++ = Packet.src_address >> 8;
-    *data++ = Packet.src_address;
+    *data++ = (uint32)Packet.des_address >> 24;
+    *data++ = (uint32)Packet.des_address >> 16;
+    *data++ = (uint32)Packet.des_address >> 8;
+    *data++ = (uint32)Packet.des_address;
+    *data++ = (uint32)Packet.src_address >> 24;
+    *data++ = (uint32)Packet.src_address >> 16;
+    *data++ = (uint32)Packet.src_address >> 8;
+    *data++ = (uint32)Packet.src_address;
     *data++ = Packet.packet_type;
     *data = 0;
     *data = Packet.data_type << 4;
@@ -30,7 +31,7 @@ static void creatSendPacket(uint8* data, DataPacketStruct Packet)
 
 static void papredDataPacket(uint8* data)
 {
-    DataPacket.des_address = 0xFFFF;
+    DataPacket.des_address = 0x00001111;
     DataPacket.src_address = SX1276.Settings.Address;
     DataPacket.packet_type = DATA_PACK;
     DataPacket.data_type = DATA_DATA;
@@ -49,35 +50,14 @@ static void receiveDataackCallback(uint8* data)
     //处理返回命令 （未完成）
 }
 
-static void papredDataACKPacket(uint8* rxdata,uint8* packet_data)
-{
-    DataACKPacket.des_address = *(rxdata+2)<<8|*(rxdata+3);
-    DataACKPacket.src_address = SX1276.Settings.Address;
-    DataACKPacket.packet_type = DATA_ACK_PACK;
-    DataACKPacket.data_type = CMD_DATA;
-    DataACKPacket.data_cmd = SX1276.Settings.sta_cmd;
-    
-    creatSendPacket(packet_data,DataACKPacket);
-    
-}
-
-static void receiveDataCallback(uint8* data)
-{
-    uint8 data_ack_packet[DATA_PACKET_LENGTH];  
-    LED1_TOGGLE;
-    papredDataACKPacket(data,data_ack_packet);
-    Radio.Send(data_ack_packet,sizeof(DataPacket)-1);
-    while(Radio.sendNotDone());
-    Radio.setRxState(RX_TIMEOUT_VALUE);
-}
-
 static uint8 ifPacketValid(uint8* data)
 {
 #define VALID     1
 #define INVALID   0
     
-    uint16 address = 0;
-    address = *data<<8|*(data+1);
+    uint32 address = 0;
+    address = (uint32)*data<<24|(uint32)*(data+1)<<16|
+              (uint32)*(data+2)<<8|(uint32)*(data+3);
     if((address == SX1276.Settings.Address)|
        (address == BROADCAST_ADDRESS))
     {
@@ -127,26 +107,25 @@ void sendByCSMA()
             Radio.Send(packet_data,sizeof(DataPacket)-1);
             while(Radio.sendNotDone());
             Radio.setRxState(RX_TIMEOUT_VALUE);
-//            if(!receivedACK())
-//            {
-//                TQStruct task;
-//                RTC_WakeUpCmd(DISABLE);
-//                task.event = SEND_DATA;
-//                if(Protocol.resend_times<MAX_RESEND_TIMES)
-//                {
-//                    OS.postTask(task);
-//                }
-//                else
-//                {
-//                    RadioEvents.ResendFailed();
-//                }
-//            }
-//            else
-//            {
-//                RTC_WakeUpCmd(ENABLE);
-//                halt();
-//                Radio.setSleepState();
-//            }
+            if(!receivedACK())
+            {
+                TQStruct task;
+                RTC_WakeUpCmd(DISABLE);
+                task.event = SEND_DATA;
+                if(Protocol.resend_times<MAX_RESEND_TIMES)
+                {
+                    OS.postTask(task);
+                }
+                else
+                {
+                    RadioEvents.ResendFailed();
+                }
+            }
+            else
+            {
+                RTC_WakeUpCmd(ENABLE);
+                //SystemSleep();
+            }
             break;
         }
         else

@@ -255,7 +255,7 @@ struct TaskQuene_inferface
 struct Link_interface
 {
     void (*sendData)();
-    void (*sendDataACK)(uint8* data);
+    //void (*sendDataACK)(uint8* data);
     void (*receiveDataACK)(uint8* data);
     uint8 (*ifValid)(uint8* data);
 };

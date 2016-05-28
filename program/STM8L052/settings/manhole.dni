@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=812129134
+Checksum=-1861985388
 [CodeCoverage]
 Enabled=_ 0
 [DriverProfiling]
@@ -81,7 +81,8 @@ Fmt4={W}42:read	4	0
 Fmt5={W}42:rx_once	3	0
 Fmt6={W}42:test_address	4	0
 Fmt7={W}42:test_l	3	0
-Fmt8={W}42:write	4	0
+Fmt8={W}42:watch	4	0
+Fmt9={W}42:write	4	0
 [DataSample]
 LogEnabled=0
 GraphEnabled=0
@@ -94,7 +95,12 @@ Category=_ 0
 LoggingEnabled=_ 0
 LogFile=_ ""
 [Breakpoints]
-Count=0
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\Libraries\schdule\ProcessEvent.c}.88.13" 1 0 0 0 "" 0 ""
+Bp1=_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.264.5" 1 0 0 0 "" 0 ""
+Bp2=_ "STD_CODE" "{$PROJ_DIR$\main.c}.9.5" 1 0 0 0 "" 0 ""
+Bp3=_ "STD_CODE" "{$PROJ_DIR$\Libraries\hardware\system.c}.161.5" 1 0 0 0 "" 0 ""
+Bp4=_ "STD_CODE" "{$PROJ_DIR$\Libraries\hardware\system.c}.159.5" 1 0 0 0 "" 0 ""
+Count=5
 [Aliases]
 Count=0
 SuppressDialog=0

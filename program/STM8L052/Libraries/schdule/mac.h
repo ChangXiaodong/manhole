@@ -2,21 +2,21 @@
 #define __MAC_H
 
 #define BACKOFF_TIMES  10
-#define BROADCAST_ADDRESS 0xFFFF
+#define BROADCAST_ADDRESS 0xFFFFFFFF
 #define MAX_RESEND_TIMES  10
 
 /*|des_address|src_address|packet_type|data_type|data_cmd|
-* |   16 bit  |   16bit   |    8bit   |   4bit  |  12bit |
+* |   32 bit  |   32 bit   |   8 bit  |   4 bit | 12 bit |
 * des_address:0x0001--0xFFFE
 * src_address:0x0001--0xFFFE
 * packet_type:DATA_PACK,DATA_ACK_PACK;
 * data_cmd:sensor data & command from server
 * data_type:DATA_DATA,RSSI_DATA,SNR_DATA,BATTERY_DATA
 */
-#define DATA_PACKET_LENGTH  7
+#define DATA_PACKET_LENGTH  11
 typedef struct{
-    uint16  des_address;                 
-    uint16  src_address;    
+    uint32  des_address;                 
+    uint32  src_address;    
     uint8   packet_type;
     uint8   data_type:4;
     uint16  data_cmd:12;                     

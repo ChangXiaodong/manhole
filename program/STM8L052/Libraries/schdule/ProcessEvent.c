@@ -88,14 +88,15 @@ static uint8 Process_Event()
             Protocol.resend_times = 0;
             Link.sendData();
         }
+        else
+        {
+            //SystemSleep();
+        }
         break;
     case EXECUTE_CMD:
         break;
     case SEND_DATA:
         Link.sendData();
-        break;
-    case RECEIVE_DATA_PACKET:
-        Link.sendDataACK(current_event.data);
         break;
     case RECEIVE_DATAACK_PACKET:
         Link.receiveDataACK(current_event.data);

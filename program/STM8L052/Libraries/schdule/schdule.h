@@ -16,7 +16,6 @@ typedef struct
     uint8         Status;
     SensorData_s  Data;
     uint8  Reed;
-    SensorData_s (*getData)();
     bool         (*ifStatusChanged)();
     uint8        (*getStatus)();
     void         (*InitSensor)();
@@ -24,7 +23,9 @@ typedef struct
 
 
 extern Sensor_s Sensor;
-extern SensorData_s getSensorData();
+extern void getSensorData();
 extern bool ifStatusChanged();
 extern uint8 getStatus();
+extern void SystemSleep();
+extern void SystemWake();
 #endif
