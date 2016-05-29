@@ -98,7 +98,7 @@ static void systemSleep()
 void sendByCSMA()
 {
     uint8 packet_data[DATA_PACKET_LENGTH];
-    LED1_TOGGLE;
+    LED1_ON;
     papredDataPacket(packet_data);
     for(uint8 i=0;i<BACKOFF_TIMES;i++)
     {
@@ -115,6 +115,7 @@ void sendByCSMA()
                 if(Protocol.resend_times<MAX_RESEND_TIMES)
                 {
                     OS.postTask(task);
+                    LED2_TOGGLE;
                 }
                 else
                 {
@@ -124,7 +125,7 @@ void sendByCSMA()
             else
             {
                 RTC_WakeUpCmd(ENABLE);
-                //SystemSleep();
+                SystemSleep();
             }
             break;
         }

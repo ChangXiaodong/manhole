@@ -85,7 +85,7 @@ void rxIrqCallback()
         break;
         
     case DATA_ACK_PACK:
-        LED2_TOGGLE;
+        LED1_OFF;
         Protocol.ack_received = 1;
         task.event = RECEIVE_DATAACK_PACKET;
         memcpy(task.data, RxBuffer, SX1276.PacketInfo.Size);

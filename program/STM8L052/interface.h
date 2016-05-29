@@ -181,6 +181,13 @@ struct Radio_interface
     * \return the number of the optimal channel
     */
     uint8_t ( *getOptiamlChannel )( void );
+    /*!
+    * brief write and read reg
+    *
+    * \return 1:correct 0:error
+    */
+    uint8 (*ifCorrect)(void);
+    void  (*Error)();
 };
 
 /*!

@@ -25,7 +25,7 @@ bool ifStatusChanged()
     }
     Sensor.Data.reed_memory = Sensor.Data.reed;
     Sensor.Data.TMR_memory = Sensor.Data.TMR;
-    
+    changed_flag = TRUE;
     return changed_flag;
 }
 
