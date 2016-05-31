@@ -53,10 +53,11 @@ extern UART_HandleTypeDef huart2;
 /* USER CODE END Private defines */
 
 extern void Error_Handler(void);
-
 void MX_USART1_UART_Init(void);
 void MX_USART2_UART_Init(void);
-
+extern void USART_SendData(UART_HandleTypeDef* uart_handle, uint16_t Data);
+extern uint16_t USART_ReceiveData(UART_HandleTypeDef* uart_handle);
+extern uint8_t xbee_receive_buf;
 /* USER CODE BEGIN Prototypes */
 
 /* USER CODE END Prototypes */

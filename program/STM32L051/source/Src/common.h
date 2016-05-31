@@ -31,6 +31,7 @@ typedef __UINT32_T_TYPE__ uint32;
 #include "mac.h"
 #include "schdule.h"
 #include "ProcessEvent.h"
+#include "xbee.h"
 
 #define DISABLE_INTERRUPTS __disable_irq();
 #define ENABLE_INTERRUPTS  __enable_irq(); 

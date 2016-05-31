@@ -2219,19 +2219,10 @@
         <name>$PROJ_DIR$\source\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_tim_ex.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\source\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_tsc.c</name>
-      </file>
-      <file>
         <name>$PROJ_DIR$\source\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_uart.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\source\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_uart_ex.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\source\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_usart.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\source\Drivers\STM32L0xx_HAL_Driver\Src\stm32l0xx_hal_wwdg.c</name>
       </file>
     </group>
     <file>
@@ -2287,6 +2278,12 @@
     </file>
     <file>
       <name>$PROJ_DIR$\source\Src\stm32l0xx_it.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\source\Src\Xbee.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\source\Src\Xbee.h</name>
     </file>
   </group>
   <file>

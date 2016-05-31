@@ -19,10 +19,12 @@ void	PA_SEELP_OUT(void)
 
 void SX1276Reset( void )
 {
+    RF_REST_H;	
+    delay_ms(20);
     RF_REST_L;	
-    delay_ms(200);
-    RF_REST_H;
-    delay_ms(500);
+    delay_ms(20);
+    RF_REST_H;	
+    
 }
 
 void RF_SPI_MasterIO(uint8_t out)
@@ -353,7 +355,7 @@ void RF_RECEIVE (void)
     PA_RXD_OUT();
 }
 
-void SX1276SetModem( RadioModems_t modem )
+static void SX1276SetModem( RadioModems_t modem )
 {
     if( SX1276.Settings.Modem == modem )
     {
@@ -455,9 +457,33 @@ void Init_LORA_SPI()
 
 }
 
+static void clearSettings()
+{
+    SX1276.Settings.Modem = MODEM_FSK;
+    SX1276.Settings.State = RF_SLEEP;
+    SX1276.Settings.Channel = 0;
+    SX1276.Settings.sta_cmd = 0;
+    SX1276.Settings.Address = 0;
+    SX1276.Settings.LoRa.Bandwidth = 0;
+    SX1276.Settings.LoRa.Coderate = 0;
+    SX1276.Settings.LoRa.CrcOn = FALSE;
+    SX1276.Settings.LoRa.Datarate = 0;
+    SX1276.Settings.LoRa.FixLen = FALSE;
+    SX1276.Settings.LoRa.FreqHopOn = FALSE;
+    SX1276.Settings.LoRa.HopPeriod = 0;
+    SX1276.Settings.LoRa.IqInverted = FALSE;
+    SX1276.Settings.LoRa.LowDatarateOptimize = FALSE;
+    SX1276.Settings.LoRa.PayloadLen = 0;
+    SX1276.Settings.LoRa.Power = 0;
+    SX1276.Settings.LoRa.PreambleLen = 0;
+    SX1276.Settings.LoRa.RxContinuous = FALSE;
+    SX1276.Settings.LoRa.TxTimeout = 0;
+}
+
 void  SX1276Init()
 {
     Init_LORA_SPI();
+    clearSettings();
     SX1276Reset();
     RxChainCalibration();
     SX1276SetModem( MODEM_LORA ); 
@@ -1054,11 +1080,12 @@ void SX1276SetRx( uint32_t timeout )
     if( rxContinuous == FALSE )
     {
         SX1276WriteBuffer(REG_LR_MODEMCONFIG2,
-                          (SX1276ReadBuffer(REG_LR_MODEMCONFIG2)&0xFC) | 
-                              (timeout >> 8));
+                         (SX1276ReadBuffer(REG_LR_MODEMCONFIG2)&0xFC) | 
+                         (timeout >> 8));
         SX1276WriteBuffer(REG_LR_SYMBTIMEOUTLSB,timeout);
     }
-    if(rxContinuous == TRUE)
+
+    if( rxContinuous == TRUE )
     {
         SX1276LoRaSetOpMode(Receiver_mode);
     }
@@ -1066,6 +1093,8 @@ void SX1276SetRx( uint32_t timeout )
     {
         SX1276LoRaSetOpMode(receive_single);
     }
+
+    
 }
 
 void SX1276StartCad( void )
@@ -1191,6 +1220,8 @@ const struct Radio_interface Radio =
     SX1276ReadRssi,
     SX1276SendingStatus,
     SX1276OptimalChannel,
+    ifSX1276Correct,
+    LoRa_err,
 };
 
 void Init_Radio()

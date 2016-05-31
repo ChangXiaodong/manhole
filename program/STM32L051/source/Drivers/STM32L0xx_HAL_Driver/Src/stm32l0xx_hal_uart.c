@@ -155,7 +155,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l0xx_hal.h"
-
+#include "common.h"
 /** @addtogroup STM32L0xx_HAL_Driver
   * @{
   */
@@ -1929,6 +1929,7 @@ void UART_AdvFeatureConfig(UART_HandleTypeDef *huart)
   * @param  Timeout: Timeout duration
   * @retval HAL status
   */
+uint32_t tick= 0;
 HAL_StatusTypeDef UART_WaitOnFlagUntilTimeout(UART_HandleTypeDef *huart, uint32_t Flag, FlagStatus Status, uint32_t Timeout)
 {
   uint32_t tickstart = 0x00U;
@@ -1937,12 +1938,17 @@ HAL_StatusTypeDef UART_WaitOnFlagUntilTimeout(UART_HandleTypeDef *huart, uint32_
   /* Wait until flag is set */
   if(Status == RESET)
   {
+    tick = 0;
     while(__HAL_UART_GET_FLAG(huart, Flag) == RESET)
     {
       /* Check for the Timeout */
       if(Timeout != HAL_MAX_DELAY)
       {
-        if((Timeout == 0U)||((HAL_GetTick() - tickstart ) > Timeout))
+          
+        //tick = HAL_GetTick();
+        tick++;
+        delay_ms(1);
+        if((Timeout == 0U)||((tick - tickstart ) > Timeout))
         {
           /* Disable TXE, RXNE, PE and ERR (Frame error, noise error, overrun error) interrupts for the interrupt process */
           __HAL_UART_DISABLE_IT(huart, UART_IT_TXE);

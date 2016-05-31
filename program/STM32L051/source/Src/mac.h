@@ -38,11 +38,12 @@ typedef enum
 
 typedef enum 
 {
-    DATA_DATA          = 1, 
-    CMD_DATA           = 2,
-    RSSI_DATA          = 3, 
-    SNR_DATA           = 4,
-    BATTERY_DATA       = 5,
+    TMR_DATA           = 1, 
+    REED_DATA          = 2, 
+    CMD_DATA           = 3,
+    RSSI_DATA          = 4, 
+    SNR_DATA           = 5,
+    BATTERY_DATA       = 6,
 } DATA_TYPE;
 
 extern ProtocolStruct Protocol;

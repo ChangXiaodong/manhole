@@ -3,6 +3,7 @@ uint8 isCRCError();
 uint8 getSNRValue();
 int16_t getRSSIValue();
 uint8 getPayloadSize();
+uint8 xbee_receive_count = 0;
 static void rxIrqCallback()
 {
     SX1276WriteBuffer( REG_LR_IRQFLAGS, RFLR_IRQFLAGS_RXDONE );
@@ -40,6 +41,28 @@ static void rxIrqCallback()
     
     RadioEvents.RxDone(RxBuffer);
 }
+
+
+#if (XBEE_UART_RX_ENABLE)
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef* UartHandle)
+{
+    if(UartHandle->Instance==USART1){
+        if(xbee_receive_buf == 0x7E)
+        {
+            xbee_receive_count = 0;
+            Xbee.values.ack = 1;
+        }
+        xbee_receive[xbee_receive_count]=xbee_receive_buf;
+        HAL_UART_Receive_IT(&huart1,&xbee_receive_buf,1);
+        xbee_receive_count++;
+        if(xbee_receive_count == 11)
+        {
+            xbee_receive_count = 0;
+        }
+    }
+}
+#endif
+
 static void txIrqCallback()
 {
     // Clear Irq
@@ -181,4 +204,19 @@ void SysTick_Handler(void)
   HAL_IncTick();
   HAL_SYSTICK_IRQHandler();
 }
+
+/**
+* @brief This function handles USART1 global interrupt / USART1 wake-up interrupt through EXTI line 25.
+*/
+void USART1_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART1_IRQn 0 */
+
+  /* USER CODE END USART1_IRQn 0 */
+  HAL_UART_IRQHandler(&huart1);
+  /* USER CODE BEGIN USART1_IRQn 1 */
+
+  /* USER CODE END USART1_IRQn 1 */
+}
+
 

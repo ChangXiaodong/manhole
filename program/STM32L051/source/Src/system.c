@@ -7,8 +7,9 @@ void Init_System()
     Init_Delay();
     Init_GPIO();
     Init_Radio();
-    //MX_USART1_UART_Init();
-    //MX_USART2_UART_Init();
+    Init_Xbee();
+    MX_USART1_UART_Init();
+    MX_USART2_UART_Init();
 }
 
 void SystemClock_Config(void)
@@ -72,6 +73,12 @@ void Error_Handler(void)
   /* User can add his own implementation to report the HAL error return state */
   while(1) 
   {
+      LED1_ON;
+      LED2_OFF;
+      delay_ms(500);
+      LED2_ON;
+      LED1_OFF;
+      delay_ms(500);
   }
   /* USER CODE END Error_Handler */ 
 }

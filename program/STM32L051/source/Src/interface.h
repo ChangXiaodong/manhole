@@ -181,6 +181,8 @@ struct Radio_interface
     * \return the number of the optimal channel
     */
     uint8_t ( *getOptiamlChannel )( void );
+    uint8 (*ifCorrect)(void);
+    void  (*Error)();
 };
 
 /*!
@@ -259,6 +261,8 @@ struct Link_interface
    // void (*receiveDataACK)(uint8* data);
     uint8 (*ifValid)(uint8* data);
 };
+
+
 
 
 #endif

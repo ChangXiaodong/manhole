@@ -16,7 +16,7 @@ Watch1=_ 0 "" 0 "" 0 "" 0 "" 0 0 0 0
 stlinkserialNo=7B570771
 stlinkfoundProbes=
 [DebugChecksum]
-Checksum=815696667
+Checksum=855346660
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0

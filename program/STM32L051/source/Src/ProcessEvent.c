@@ -78,6 +78,9 @@ static uint8 Pop_T(TQStruct* task)
 static uint8 Process_Event()
 {
     TQStruct current_event;
+    uint32 src_address = 0;
+    uint8 data_type = 0;
+    uint16 data = 0;
     
     Pop_T(&current_event);
     switch(current_event.event)
@@ -91,8 +94,14 @@ static uint8 Process_Event()
     case RECEIVE_DATA_PACKET:
         Link.sendDataACK(current_event.data);
         break;
-    case RECEIVE_DATAACK_PACKET:
+    case SEND_XBEE:
+        src_address = current_event.data[0]<<24|current_event.data[1]<<16|
+                      current_event.data[2]<<8 |current_event.data[3];
+        data_type = current_event.data[4];
+        data = current_event.data[5]<<8 | current_event.data[6];
+        Xbee.send(src_address,data_type,data);
         break;
+
     }
     return current_event.event;
 }

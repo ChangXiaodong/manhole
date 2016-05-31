@@ -138,7 +138,7 @@
 /* USER CODE END Private defines */
 
 void Init_GPIO(void);
-
+extern void Init_XBEE_GPIO();
 /* USER CODE BEGIN Prototypes */
 
 /* USER CODE END Prototypes */

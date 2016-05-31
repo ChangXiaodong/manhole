@@ -19,7 +19,7 @@ typedef enum
     EXECUTE_CMD              = 2, 
     SEND_DATA                = 3,
     RECEIVE_DATA_PACKET      = 4,
-    RECEIVE_DATAACK_PACKET   = 5,
+    SEND_XBEE                = 5,
 } EVENT_t;
 
 //extern void Init_TQ(void);
