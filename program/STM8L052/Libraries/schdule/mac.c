@@ -34,7 +34,7 @@ static void papredDataPacket(uint8* data)
     DataPacket.des_address = 0x00001111;
     DataPacket.src_address = SX1276.Settings.Address;
     DataPacket.packet_type = DATA_PACK;
-    DataPacket.data_type = DATA_DATA;
+    DataPacket.data_type = TMR_DATA;
     DataPacket.data_cmd = Sensor.Data.TMR;
     
     creatSendPacket(data,DataPacket);

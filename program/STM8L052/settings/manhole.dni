@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=508858159
+Checksum=-1502201864
 [CodeCoverage]
 Enabled=_ 0
 [DriverProfiling]
@@ -89,8 +89,6 @@ Fmt11={W}42:write	4	0
 LogEnabled=0
 GraphEnabled=0
 ShowTimeLog=1
-[Breakpoints]
-Count=0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -98,6 +96,8 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
+[Breakpoints]
+Count=0
 [Aliases]
 Count=0
 SuppressDialog=0
