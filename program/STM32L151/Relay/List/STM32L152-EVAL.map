@@ -1,0 +1,219 @@
+###############################################################################
+#
+# IAR ELF Linker V7.40.3.8902/W32 for ARM                 02/Jun/2016  17:42:56
+# Copyright 2007-2015 IAR Systems AB.
+#
+#    Output file  =  F:\Manhole\program\STM32L151\Relay\Exe\STM32L152-EVAL.out
+#    Map file     =  F:\Manhole\program\STM32L151\Relay\List\STM32L152-EVAL.map
+#    Command line =  
+#        F:\Manhole\program\STM32L151\Relay\Obj\main.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\misc.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\startup_stm32l1xx_md.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_adc.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_aes.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_aes_util.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_comp.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_crc.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_dac.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_dbgmcu.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_dma.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_exti.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_flash.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_flash_ramfunc.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_fsmc.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_gpio.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_i2c.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_it.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_iwdg.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_lcd.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_opamp.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_pwr.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_rcc.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_rtc.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_sdio.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_spi.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_syscfg.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_tim.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_usart.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\stm32l1xx_wwdg.o
+#        F:\Manhole\program\STM32L151\Relay\Obj\system_stm32l1xx.o --redirect
+#        _Printf=_PrintfFull --redirect _Scanf=_ScanfFull -o
+#        F:\Manhole\program\STM32L151\Relay\Exe\STM32L152-EVAL.out --map
+#        F:\Manhole\program\STM32L151\Relay\List\STM32L152-EVAL.map --config
+#        F:\Manhole\program\STM32L151\stm32l1xx_flash.icf --semihosting --entry
+#        __iar_program_start --vfe
+#
+###############################################################################
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+CppFlavor       = *
+__SystemLibrary = DLib
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"A1":  place at 0x08000000 { ro section .intvec };
+"P1":  place in [from 0x08000000 to 0x0807ffff] { ro };
+"P2":  place in [from 0x20000000 to 0x20013fff] { rw, block CSTACK, block HEAP };
+
+  Section   Kind        Address   Size  Object
+  -------   ----        -------   ----  ------
+"A1":                             0xf4
+  .intvec   ro code  0x08000000   0xf4  startup_stm32l1xx_md.o [1]
+                   - 0x080000f4   0xf4
+
+"P1":                            0x224
+  .text     ro code  0x080000f4  0x100  system_stm32l1xx.o [1]
+  .text     ro code  0x080001f4   0x1a  cmain.o [4]
+  .text     ro code  0x0800020e    0x4  low_level_init.o [3]
+  .text     ro code  0x08000212    0x2  main.o [1]
+  .text     ro code  0x08000214    0x4  exit.o [3]
+  .text     ro code  0x08000218    0xa  cexit.o [4]
+  .text     ro code  0x08000222   0x12  stm32l1xx_it.o [1]
+  .text     ro code  0x08000234   0x14  exit.o [5]
+  .text     ro code  0x08000248   0x10  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000258    0xc  cstartup_M.o [4]
+  .text     ro code  0x08000264    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000268    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x0800026c    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000270    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000274    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000278    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x0800027c    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000280    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000284    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000288    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x0800028c    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000290    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000294    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000298    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x0800029c    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002a0    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002a4    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002a8    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002ac    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002b0    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002b4    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002b8    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002bc    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002c0    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002c4    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002c8    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002cc    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002d0    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002d4    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002d8    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002dc    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002e0    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002e4    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002e8    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002ec    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002f0    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002f4    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002f8    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x080002fc    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000300    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000304    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000308    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x0800030c    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000310    0x4  startup_stm32l1xx_md.o [1]
+  .text     ro code  0x08000314    0x4  startup_stm32l1xx_md.o [1]
+                   - 0x08000318  0x224
+
+"P2":                            0x400
+  CSTACK             0x20000000  0x400  <Block>
+    CSTACK  uninit   0x20000000  0x400  <Block tail>
+                   - 0x20000400  0x400
+
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module                  ro code  rw data
+    ------                  -------  -------
+F:\Manhole\program\STM32L151\Relay\Obj: [1]
+    main.o                        2
+    startup_stm32l1xx_md.o      440
+    stm32l1xx_it.o               18
+    system_stm32l1xx.o          256
+    ----------------------------------------
+    Total:                      716
+
+command line: [2]
+    ----------------------------------------
+    Total:
+
+dl7M_tln.a: [3]
+    exit.o                        4
+    low_level_init.o              4
+    ----------------------------------------
+    Total:                        8
+
+rt7M_tl.a: [4]
+    cexit.o                      10
+    cmain.o                      26
+    cstartup_M.o                 12
+    ----------------------------------------
+    Total:                       48
+
+shb_l.a: [5]
+    exit.o                       20
+    ----------------------------------------
+    Total:                       20
+
+    Linker created                     1 024
+--------------------------------------------
+    Grand Total:                792    1 024
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                    Address  Size  Type      Object
+-----                    -------  ----  ----      ------
+?main                 0x080001f5        Code  Gb  cmain.o [4]
+BusFault_Handler      0x08000229   0x2  Code  Gb  stm32l1xx_it.o [1]
+CSTACK$$Base          0x20000000         --   Gb  - Linker created -
+CSTACK$$Limit         0x20000400         --   Gb  - Linker created -
+DebugMon_Handler      0x0800022f   0x2  Code  Gb  stm32l1xx_it.o [1]
+HardFault_Handler     0x08000225   0x2  Code  Gb  stm32l1xx_it.o [1]
+MemManage_Handler     0x08000227   0x2  Code  Gb  stm32l1xx_it.o [1]
+NMI_Handler           0x08000223   0x2  Code  Gb  stm32l1xx_it.o [1]
+PendSV_Handler        0x08000231   0x2  Code  Gb  stm32l1xx_it.o [1]
+Region$$Table$$Base   0x00000000         --   Gb  - Linker created -
+Region$$Table$$Limit  0x00000000         --   Gb  - Linker created -
+SVC_Handler           0x0800022d   0x2  Code  Gb  stm32l1xx_it.o [1]
+SysTick_Handler       0x08000233   0x2  Code  Gb  stm32l1xx_it.o [1]
+SystemInit            0x080000f5  0xe6  Code  Gb  system_stm32l1xx.o [1]
+UsageFault_Handler    0x0800022b   0x2  Code  Gb  stm32l1xx_it.o [1]
+__cmain               0x080001f5        Code  Gb  cmain.o [4]
+__exit                0x08000235  0x14  Code  Gb  exit.o [5]
+__iar_program_start   0x08000259        Code  Gb  cstartup_M.o [4]
+__low_level_init      0x0800020f   0x4  Code  Gb  low_level_init.o [3]
+__vector_table        0x08000000        Data  Gb  startup_stm32l1xx_md.o [1]
+_call_main            0x08000201        Code  Gb  cmain.o [4]
+_exit                 0x08000219        Code  Gb  cexit.o [4]
+_main                 0x0800020b        Code  Gb  cmain.o [4]
+exit                  0x08000215   0x4  Code  Gb  exit.o [3]
+main                  0x08000213   0x2  Code  Gb  main.o [1]
+
+
+[1] = F:\Manhole\program\STM32L151\Relay\Obj
+[2] = command line
+[3] = dl7M_tln.a
+[4] = rt7M_tl.a
+[5] = shb_l.a
+
+    792 bytes of readonly  code memory
+  1 024 bytes of readwrite data memory
+
+Errors: none
+Warnings: none
