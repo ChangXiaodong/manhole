@@ -1,4 +1,4 @@
-"F:\Manhole\program\STM32L151\Sources\stm32l1xx_it.c"
+"F:\Manhole\program\STM32L151\Sources\Schdule\stm32l1xx_it.c"
 -std=c99
 -ferror-limit=100
 -I
@@ -9,6 +9,10 @@ F:\Manhole\program\STM32L151\Sources\STM32L1xx_StdPeriph_Driver\CMSIS\Include
 F:\Manhole\program\STM32L151\Sources\STM32L1xx_StdPeriph_Driver\CMSIS\Device\ST\STM32L1xx\Include
 -I
 F:\Manhole\program\STM32L151\Sources
+-I
+F:\Manhole\program\STM32L151\Sources\Drivers
+-I
+F:\Manhole\program\STM32L151\Sources\Schdule
 -I
 D:\IAR Systems\ARM\arm\CMSIS\Include
 -I
@@ -24,9 +28,15 @@ F:\Manhole\program\STM32L151\Sources\STM32L1xx_StdPeriph_Driver\CMSIS\Device\ST\
 -I
 F:\Manhole\program\STM32L151\Sources
 -I
+F:\Manhole\program\STM32L151\Sources\Drivers
+-I
+F:\Manhole\program\STM32L151\Sources\Schdule
+-I
 D:\IAR Systems\ARM\arm\CMSIS\Include
 -DUSE_STDPERIPH_DRIVER=1
 -DSTM32L1XX_MD=1
+-DUSE_BAND_433=1
+-DGPRS_EN=1
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0
