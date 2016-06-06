@@ -258,10 +258,10 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler,4)
        it is recommended to set a breakpoint on the following instruction.
     */
     RTC_WakeUpCmd(DISABLE);
-    RTC_SetWakeUpCounter(500);
+    RTC_SetWakeUpCounter(150);
     RTC_WakeUpCmd(ENABLE);
     
-    SystemWake();
+    //SystemWake();
         
     TQStruct task;
     task.event = COLLECT_DATA;
