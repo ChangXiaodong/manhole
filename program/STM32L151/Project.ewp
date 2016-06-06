@@ -188,7 +188,6 @@
           <state>USE_STDPERIPH_DRIVER</state>
           <state>STM32L1XX_MD</state>
           <state>USE_BAND_433</state>
-          <state>GPRS_EN</state>
         </option>
         <option>
           <name>CCPreprocFile</name>

@@ -12,7 +12,7 @@ ByteLimit=50
 stlinkserialNo=A00A6C4D
 stlinkfoundProbes=19064320:A00A6C4D:
 [DebugChecksum]
-Checksum=1485606503
+Checksum=1466004448
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -41,6 +41,8 @@ ITMportsLogFile=0
 ITMlogFile=$PROJ_DIR$\ITM.log
 [JLinkDriver]
 CStepIntDis=_ 0
+[array_types]
+Fmt0=uint8_t[20]	4	0
 [watch_formats]
 Fmt0={W}42:send	3	0
 [Trace2]
