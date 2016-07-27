@@ -14,7 +14,7 @@
    <cursorShape>ArrowCursor</cursorShape>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>小虾米</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -27,7 +27,7 @@
       <x>10</x>
       <y>10</y>
       <width>271</width>
-      <height>231</height>
+      <height>261</height>
      </rect>
     </property>
     <property name="title">
@@ -39,7 +39,7 @@
        <x>10</x>
        <y>20</y>
        <width>241</width>
-       <height>201</height>
+       <height>231</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
@@ -64,6 +64,13 @@
       <property name="verticalSpacing">
        <number>15</number>
       </property>
+      <item row="1" column="0">
+       <widget class="QLabel" name="HOSI_IP_Label">
+        <property name="text">
+         <string>HOST IP:</string>
+        </property>
+       </widget>
+      </item>
       <item row="2" column="1">
        <widget class="QLineEdit" name="port_num_lineEdit">
         <property name="maximumSize">
@@ -71,6 +78,13 @@
           <width>110</width>
           <height>20</height>
          </size>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="port_num_label">
+        <property name="text">
+         <string>Port Num:</string>
         </property>
        </widget>
       </item>
@@ -120,6 +134,13 @@
         </item>
        </widget>
       </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="socket_type_label">
+        <property name="text">
+         <string>Socket Type:</string>
+        </property>
+       </widget>
+      </item>
       <item row="3" column="0">
        <widget class="QCheckBox" name="record_data_checkBox">
         <property name="text">
@@ -127,17 +148,36 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
-       <widget class="QPushButton" name="open_data_pushButton">
+      <item row="4" column="0">
+       <widget class="QPushButton" name="open_pushButton">
         <property name="minimumSize">
          <size>
-          <width>93</width>
+          <width>110</width>
           <height>28</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>93</width>
+          <width>110</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Socket Open</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QPushButton" name="open_data_pushButton">
+        <property name="minimumSize">
+         <size>
+          <width>110</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>110</width>
           <height>28</height>
          </size>
         </property>
@@ -150,58 +190,56 @@
        <widget class="QPushButton" name="stop_pushButton">
         <property name="minimumSize">
          <size>
-          <width>93</width>
+          <width>110</width>
           <height>28</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>93</width>
+          <width>110</width>
           <height>28</height>
          </size>
         </property>
         <property name="text">
-         <string>Stop</string>
+         <string>Socket Stop</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QPushButton" name="open_pushButton">
+      <item row="5" column="0">
+       <widget class="QPushButton" name="canvas_start_pushButton">
         <property name="minimumSize">
          <size>
-          <width>93</width>
+          <width>110</width>
           <height>28</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>93</width>
+          <width>110</width>
           <height>28</height>
          </size>
         </property>
         <property name="text">
-         <string>Open</string>
+         <string>Canvas Start</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="HOSI_IP_Label">
-        <property name="text">
-         <string>HOST IP:</string>
+      <item row="5" column="1">
+       <widget class="QPushButton" name="canvas_pause_pushButton">
+        <property name="minimumSize">
+         <size>
+          <width>110</width>
+          <height>28</height>
+         </size>
         </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="port_num_label">
-        <property name="text">
-         <string>Port Num:</string>
+        <property name="maximumSize">
+         <size>
+          <width>110</width>
+          <height>28</height>
+         </size>
         </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="socket_type_label">
         <property name="text">
-         <string>Socket Type:</string>
+         <string>Canvas Pause</string>
         </property>
        </widget>
       </item>
