@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8b0facb6-0d60-41fa-b032-b0c4e50ff8ea" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/thread_operations.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../program/STM32L151/Relay/Exe/STM32L152-EVAL.out" afterPath="$PROJECT_DIR$/../program/STM32L151/Relay/Exe/STM32L152-EVAL.out" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../program/STM32L151/Relay/Obj/ProcessEvent.o" afterPath="$PROJECT_DIR$/../program/STM32L151/Relay/Obj/ProcessEvent.o" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../program/STM32L151/Relay/Obj/ProcessEvent.pbi" afterPath="$PROJECT_DIR$/../program/STM32L151/Relay/Obj/ProcessEvent.pbi" />
@@ -145,7 +147,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../program/STM8L052/settings/manhole.wsdt" afterPath="$PROJECT_DIR$/../program/STM8L052/settings/manhole.wsdt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../program/STM8L052/settings/manhole.wspos" afterPath="$PROJECT_DIR$/../program/STM8L052/settings/manhole.wspos" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../program/STM8L052/stm8l15x_it.c" afterPath="$PROJECT_DIR$/../program/STM8L052/stm8l15x_it.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../python-post/relaypi-manhole.py" afterPath="$PROJECT_DIR$/../python-post/relaypi-manhole.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="socket-debuger.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -665,13 +667,21 @@
       <option name="presentableId" value="Default" />
       <updated>1469519434371</updated>
     </task>
+    <task id="LOCAL-00001" summary="update">
+      <created>1469600583410</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1469600583410</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1726" height="928" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26346603" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26346603" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21788414" sideWeight="0.50468385" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -702,6 +712,10 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <option name="time" value="1" />
@@ -713,9 +727,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="624">
           <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="e#26#51#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -747,9 +759,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="672">
           <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
-          <folding>
-            <element signature="e#26#51#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -789,9 +799,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="431">
           <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding>
-            <element signature="e#26#51#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
