@@ -134,7 +134,6 @@ class Relay:
                 return feedback
             except urllib2.HTTPError, err:
                 writeNetLog(net_log_filename, err)
-                flashLed()
                 print err
             except urllib2.URLError, err:
                 writeNetLog(net_log_filename, err)
@@ -155,10 +154,8 @@ class Relay:
                 with open(filename, "a") as f:
                     f.write(str(delay) + "\n")
 
-
         def isEmptyUploadbuf():
             return len(self.data.upload_data_quene)
-
 
         net_log_filename = "./Log/net_log.txt"
         initNetlogFile(net_log_filename)
