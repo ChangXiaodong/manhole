@@ -8,14 +8,15 @@ class MainWindow(QtGui.QMainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
         uic.loadUi('ui/mainwindow.ui', self)
-        # with open("comple.py", "w") as pyfile:
-        #     uic.compileUi('ui/mainwindow.ui', pyfile)
+        with open("comple.py", "w") as pyfile:
+            uic.compileUi('ui/mainwindow.ui', pyfile)
 
         self.initCnavas()
         self.initDefaultUI()
         self.initConnect()
 
     def initCnavas(self):
+        self.canvas_scale = 80
         self.acc_x = []
         self.acc_y = []
         self.acc_z = []
@@ -23,7 +24,8 @@ class MainWindow(QtGui.QMainWindow):
             self.groupBox_2,
             self.acc_x,
             self.acc_y,
-            self.acc_z
+            self.acc_z,
+            "ACC"
         )
         self.acc_canvas.setGeometry(QtCore.QRect(0, 20, 1241, 321))
         self.acc_canvas.startPlot()
@@ -35,7 +37,8 @@ class MainWindow(QtGui.QMainWindow):
             self.groupBox_3,
             self.gyo_x,
             self.gyo_y,
-            self.gyo_z
+            self.gyo_z,
+            "GYO"
         )
         self.gyo_canvas.setGeometry(QtCore.QRect(0, 19, 1251, 321))
         self.gyo_canvas.startPlot()
@@ -54,19 +57,32 @@ class MainWindow(QtGui.QMainWindow):
         self.stop_pushButton.clicked.connect(self.onCloseSocket)
         self.canvas_start_pushButton.clicked.connect(self.onStartCanvas)
         self.canvas_pause_pushButton.clicked.connect(self.onPauseCanvas)
+        self.horizontalSlider.setRange(30,130)
+        self.horizontalSlider.setValue(80)
+        QtCore.QObject.connect(
+            self.horizontalSlider,
+            QtCore.SIGNAL("valueChanged(int)"),
+            self.onScaleChanged
+        )
+
 
     def closeEvent(self, event):
         reply = QtGui.QMessageBox.question(self, 'Message',
                                            "Are you sure to quit?", QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
-
         if reply == QtGui.QMessageBox.Yes:
             try:
                 self.socket_link.close()
+                self.acc_canvas.releasePlot()
+                self.gyo_canvas.releasePlot()
             except AttributeError:
                 pass
             event.accept()
         else:
             event.ignore()
+
+    def onScaleChanged(self, value):
+        self.acc_canvas.setMaxArrayLength(value)
+        self.gyo_canvas.setMaxArrayLength(value)
 
     def onStartCanvas(self):
         self.acc_canvas.startPlot()
