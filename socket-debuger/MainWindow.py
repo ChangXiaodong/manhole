@@ -47,8 +47,9 @@ class MainWindow(QtGui.QMainWindow):
         self.record_data_checkBox.setChecked(True)
         self.stop_pushButton.setDisabled(True)
         self.open_data_pushButton.setDisabled(True)
-        self.HOST_IP_lineEdit.setText(socket.getIPAddress())
-        self.port_num_lineEdit.setText("60000")
+        self.HOST_IP_lineEdit.setText("10.10.100.254")
+        # self.HOST_IP_lineEdit.setText(socket.getIPAddress())
+        self.port_num_lineEdit.setText("8899")
         self.updateStatusBar("Socket Closed")
 
     def initConnect(self):
@@ -57,13 +58,24 @@ class MainWindow(QtGui.QMainWindow):
         self.stop_pushButton.clicked.connect(self.onCloseSocket)
         self.canvas_start_pushButton.clicked.connect(self.onStartCanvas)
         self.canvas_pause_pushButton.clicked.connect(self.onPauseCanvas)
-        self.horizontalSlider.setRange(30,130)
+        self.horizontalSlider.setRange(30, 130)
         self.horizontalSlider.setValue(80)
         QtCore.QObject.connect(
             self.horizontalSlider,
             QtCore.SIGNAL("valueChanged(int)"),
             self.onScaleChanged
         )
+        QtCore.QObject.connect(
+            self.socket_type_comboBox,
+            QtCore.SIGNAL("currentIndexChanged(int)"),
+            self.onSocketTypeChanged
+        )
+        QtCore.QObject.connect(
+            self.record_data_checkBox,
+            QtCore.SIGNAL("stateChanged(int)"),
+            self.onRecordDataStateChanged
+        )
+
 
 
     def closeEvent(self, event):
@@ -79,6 +91,12 @@ class MainWindow(QtGui.QMainWindow):
             event.accept()
         else:
             event.ignore()
+
+    def onSocketTypeChanged(self, index):
+        if index == 0:
+            self.HOST_IP_lineEdit.setText("10.10.100.254")
+        elif index == 1:
+            self.HOST_IP_lineEdit.setText(socket.getIPAddress())
 
     def onScaleChanged(self, value):
         self.acc_canvas.setMaxArrayLength(value)
@@ -101,7 +119,11 @@ class MainWindow(QtGui.QMainWindow):
             portnum,
             type,
             self.updateStatusBar,
-            self
+            self,
+            self.acc_canvas.generateData,
+            self.gyo_canvas.generateData,
+            self.updataACCLabel,
+            self.updataGYOLabel
         )
         try:
             self.socket_link.creat()
@@ -116,8 +138,30 @@ class MainWindow(QtGui.QMainWindow):
         self.stop_pushButton.setDisabled(True)
         self.updateStatusBar("Socket Closed")
 
+    def onRecordDataStateChanged(self, state):
+        if state == 2:
+            import time
+            path = time.strftime(
+                    '%Y-%m-%d_%H-%M-%S',
+                    time.localtime(time.time())
+                ) + '.txt'
+            self.socket_link.setDataPath(path)
+            self.socket_link.enableRecoedData(True)
+        else:
+            self.socket_link.enableRecoedData(False)
+
     def updateStatusBar(self, msg):
         self.statusBar.showMessage(msg)
+
+    def updataACCLabel(self, x, y, z):
+        self.acc_x_Label.setText(str(x))
+        self.acc_y_Label.setText(str(y))
+        self.acc_z_Label.setText(str(z))
+
+    def updataGYOLabel(self, x, y, z):
+        self.gyo_x_Label.setText(str(x))
+        self.gyo_y_Label.setText(str(y))
+        self.gyo_z_Label.setText(str(z))
 
 
 if __name__ == "__main__":

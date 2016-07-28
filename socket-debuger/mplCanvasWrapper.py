@@ -11,7 +11,7 @@ import threading
 X_MINUTES = 1
 Y_MAX = 65535
 Y_MIN = 1
-INTERVAL = 0.05
+INTERVAL = 0.001
 
 
 class MplCanvas(FigureCanvas):
@@ -64,35 +64,40 @@ class MplCanvasWrapper(QtGui.QWidget):
     def initDataGenerator(self):
         self.__generating = False
         self.__exit = False
-        self.tData = threading.Thread(name="dataGenerator", target=self.generateData)
+        self.tData = threading.Thread(
+            name="updateFigure",
+            target=self.updateFigure
+        )
+        self.tData.setDaemon(True)
         self.tData.start()
 
     def releasePlot(self):
         self.__exit = True
         self.tData.join()
 
-    def generateData(self):
+    def updateFigure(self):
         while (True):
             if self.__exit:
                 break
             if self.__generating:
-                self.frame_count += 1
-
-                self.x_line_array.append(random.randint(Y_MIN, Y_MAX))
-                self.y_line_array.append(random.randint(Y_MIN, Y_MAX))
-                self.z_line_array.append(random.randint(Y_MIN, Y_MAX))
-                self.frame_count_array.append(self.frame_count)
-
-                self.canvas.plot(
-                    self.x_line_array,
-                    self.y_line_array,
-                    self.z_line_array,
-                    self.frame_count_array
-                )
-                while len(self.x_line_array) >= self.max_array_length:
-                    self.x_line_array.pop(0)
-                    self.y_line_array.pop(0)
-                    self.z_line_array.pop(0)
-                    self.frame_count_array.pop(0)
+                while self.frame_count != len(self.frame_count_array):
+                    self.canvas.plot(
+                        self.x_line_array,
+                        self.y_line_array,
+                        self.z_line_array,
+                        self.frame_count_array
+                    )
+                    while len(self.x_line_array) >= self.max_array_length:
+                        self.x_line_array.pop(0)
+                        self.y_line_array.pop(0)
+                        self.z_line_array.pop(0)
+                        self.frame_count_array.pop(0)
+                    self.frame_count = len(self.frame_count_array)
 
             time.sleep(INTERVAL)
+
+    def generateData(self, x, y, z, count):
+        self.x_line_array.append(x)
+        self.y_line_array.append(y)
+        self.z_line_array.append(z)
+        self.frame_count_array.append(count)
