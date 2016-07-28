@@ -11,6 +11,8 @@ class MainWindow(QtGui.QMainWindow):
         with open("comple.py", "w") as pyfile:
             uic.compileUi('ui/mainwindow.ui', pyfile)
 
+        self.move(10, 10)
+
         self.initCnavas()
         self.initDefaultUI()
         self.initConnect()
@@ -27,7 +29,7 @@ class MainWindow(QtGui.QMainWindow):
             self.acc_z,
             "ACC"
         )
-        self.acc_canvas.setGeometry(QtCore.QRect(0, 20, 1241, 321))
+        self.acc_canvas.setGeometry(QtCore.QRect(0, 20, 991, 281))
         self.acc_canvas.startPlot()
 
         self.gyo_x = []
@@ -40,7 +42,7 @@ class MainWindow(QtGui.QMainWindow):
             self.gyo_z,
             "GYO"
         )
-        self.gyo_canvas.setGeometry(QtCore.QRect(0, 19, 1251, 321))
+        self.gyo_canvas.setGeometry(QtCore.QRect(0, 20, 991, 281))
         self.gyo_canvas.startPlot()
 
     def initDefaultUI(self):
@@ -75,8 +77,6 @@ class MainWindow(QtGui.QMainWindow):
             QtCore.SIGNAL("stateChanged(int)"),
             self.onRecordDataStateChanged
         )
-
-
 
     def closeEvent(self, event):
         reply = QtGui.QMessageBox.question(self, 'Message',
@@ -118,7 +118,6 @@ class MainWindow(QtGui.QMainWindow):
             ip,
             portnum,
             type,
-            self.updateStatusBar,
             self,
             self.acc_canvas.generateData,
             self.gyo_canvas.generateData,
@@ -134,17 +133,14 @@ class MainWindow(QtGui.QMainWindow):
 
     def onCloseSocket(self):
         self.socket_link.close()
-        self.open_pushButton.setEnabled(True)
-        self.stop_pushButton.setDisabled(True)
-        self.updateStatusBar("Socket Closed")
 
     def onRecordDataStateChanged(self, state):
         if state == 2:
             import time
             path = time.strftime(
-                    '%Y-%m-%d_%H-%M-%S',
-                    time.localtime(time.time())
-                ) + '.txt'
+                '%Y-%m-%d_%H-%M-%S',
+                time.localtime(time.time())
+            ) + '.txt'
             self.socket_link.setDataPath(path)
             self.socket_link.enableRecoedData(True)
         else:

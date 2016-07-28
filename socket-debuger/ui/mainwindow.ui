@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1566</width>
-    <height>800</height>
+    <width>1312</width>
+    <height>687</height>
    </rect>
   </property>
   <property name="cursor">
@@ -27,7 +27,7 @@
       <x>10</x>
       <y>10</y>
       <width>271</width>
-      <height>261</height>
+      <height>221</height>
      </rect>
     </property>
     <property name="title">
@@ -39,7 +39,7 @@
        <x>10</x>
        <y>20</y>
        <width>241</width>
-       <height>231</height>
+       <height>191</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
@@ -212,9 +212,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>380</y>
+      <y>330</y>
       <width>271</width>
-      <height>231</height>
+      <height>241</height>
      </rect>
     </property>
     <property name="title">
@@ -400,8 +400,8 @@
      <rect>
       <x>300</x>
       <y>20</y>
-      <width>1251</width>
-      <height>346</height>
+      <width>991</width>
+      <height>300</height>
      </rect>
     </property>
     <property name="title">
@@ -412,20 +412,36 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>380</y>
-      <width>1251</width>
-      <height>346</height>
+      <y>330</y>
+      <width>991</width>
+      <height>300</height>
      </rect>
     </property>
     <property name="title">
      <string>GYO</string>
     </property>
+    <widget class="QFrame" name="frame">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>991</width>
+       <height>281</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>270</y>
+      <y>220</y>
       <width>271</width>
       <height>111</height>
      </rect>
@@ -516,8 +532,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1566</width>
-     <height>26</height>
+     <width>1312</width>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

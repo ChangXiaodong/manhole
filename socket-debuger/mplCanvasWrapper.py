@@ -11,11 +11,12 @@ import threading
 X_MINUTES = 1
 Y_MAX = 65535
 Y_MIN = 1
-INTERVAL = 0.001
+INTERVAL = 0.01
 
 
 class MplCanvas(FigureCanvas):
-    def __init__(self,lengend=""):
+    def __init__(self,lengend="", clear_line=None):
+        self.clear_line = clear_line
         self.fig = Figure()
         self.ax = self.fig.add_subplot(111)
         FigureCanvas.__init__(self, self.fig)
@@ -33,13 +34,19 @@ class MplCanvas(FigureCanvas):
         self.y_line.set_data(count, y_value)
         self.z_line.set_data(count, z_value)
         self.ax.set_xlim(count[0], count[-1])
-        self.draw()
+        try:
+            self.draw()
+        except RuntimeError:
+            self.clear_line()
+            self.ax.set_xlim(0, 100)
+
+
 
 
 class MplCanvasWrapper(QtGui.QWidget):
     def __init__(self, parent=None,x_line_array=[],y_line_array=[],z_line_array=[],legend=""):
         QtGui.QWidget.__init__(self, parent)
-        self.canvas = MplCanvas(legend)
+        self.canvas = MplCanvas(legend, self.clearLineData)
         self.vbl = QtGui.QVBoxLayout()
         self.vbl.addWidget(self.canvas)
         self.setLayout(self.vbl)
@@ -101,3 +108,9 @@ class MplCanvasWrapper(QtGui.QWidget):
         self.y_line_array.append(y)
         self.z_line_array.append(z)
         self.frame_count_array.append(count)
+
+    def clearLineData(self):
+        self.x_line_array = []
+        self.y_line_array = []
+        self.z_line_array = []
+        self.frame_count_array = []

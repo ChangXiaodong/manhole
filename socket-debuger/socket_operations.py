@@ -3,10 +3,11 @@ import threading
 import os
 import time
 
+
 class myThread(threading.Thread):
     def __init__(
             self,
-            link,
+            socket,
             status_bar,
             main_form,
             socket_type,
@@ -17,7 +18,8 @@ class myThread(threading.Thread):
     ):
         super(myThread, self).__init__()
         self.status_bar = status_bar
-        self.link = link
+        self.link = socket.link
+        self.socket = socket
         self.main_form = main_form
         self.socket_type = socket_type
         self.acc_gen_data = acc_gen_data
@@ -42,46 +44,41 @@ class myThread(threading.Thread):
             self.status_bar('Connected by {add}'.format(add=addr))
         elif self.socket_type == "TCP/Client":
             conn = self.link
-            conn.settimeout(1000)
+            conn.settimeout(None)
             count = 0
 
             while 1:
+
                 try:
                     data = conn.recv(14)
-                    if not data:
-                        raise ConnectionResetError
-                except ConnectionResetError:
-                    self.status_bar("Connection closed by client")
-                    self.main_form.open_pushButton.setEnabled(True)
-                    self.main_form.stop_pushButton.setEnabled(False)
+                except ConnectionAbortedError:
                     self.link.close()
-                    return
+                    print("Connection closed")
+                    break
                 except OSError:
-                    self.status_bar("Connection closed by client")
-                    self.main_form.open_pushButton.setEnabled(True)
-                    self.main_form.stop_pushButton.setEnabled(False)
                     self.link.close()
-                    return
+                    print("Connection closed")
+                    break
 
-
-                if data[0] == 0x7D and data[1] == 0x7E:
-                        acc_x = data[2] << 8 | data[3]
-                        acc_y = data[4] << 8 | data[5]
-                        acc_z = data[6] << 8 | data[7]
-                        gyo_x = data[8] << 8 | data[9]
-                        gyo_y = data[10] << 8 | data[11]
-                        gyo_z = data[12] << 8 | data[13]
-                        count += 1
-                        self.acc_gen_data(acc_x, acc_y, acc_z, count)
-                        self.gyo_gen_data(gyo_x, gyo_y, gyo_z, count)
-                        self.acc_update_label(acc_x, acc_y, acc_z)
-                        self.gyo_update_lebal(gyo_x, gyo_y, gyo_z)
-                        with open(self.path,"a+") as file:
+                if len(data)>=14 and data[0] == 0x7D and data[1] == 0x7E:
+                    acc_x = data[2] << 8 | data[3]
+                    acc_y = data[4] << 8 | data[5]
+                    acc_z = data[6] << 8 | data[7]
+                    gyo_x = data[8] << 8 | data[9]
+                    gyo_y = data[10] << 8 | data[11]
+                    gyo_z = data[12] << 8 | data[13]
+                    count += 1
+                    self.acc_gen_data(acc_x, acc_y, acc_z, count)
+                    self.gyo_gen_data(gyo_x, gyo_y, gyo_z, count)
+                    self.acc_update_label(acc_x, acc_y, acc_z)
+                    self.gyo_update_lebal(gyo_x, gyo_y, gyo_z)
+                    if self.__enable_record_data:
+                        with open(self.path, "a+") as file:
                             file.write(
                                 time.strftime(
                                     '%Y-%m-%d %H:%M:%S ',
                                     time.localtime(time.time())
-                                )+
+                                ) +
                                 str(acc_x) + "|" +
                                 str(acc_y) + "|" +
                                 str(acc_z) + "|" +
@@ -90,6 +87,9 @@ class myThread(threading.Thread):
                                 str(gyo_z) + "|" +
                                 str(time.time()) + "\n"
                             )
+            self.main_form.open_pushButton.setEnabled(True)
+            self.main_form.stop_pushButton.setEnabled(False)
+
 
     def initDataPath(self):
         if not os.path.exists("Data/"):
@@ -104,13 +104,13 @@ class myThread(threading.Thread):
         else:
             self.__enable_record_data = False
 
+
 class Socket(object):
     def __init__(
             self,
             ip,
             port,
             type,
-            status,
             main_form,
             acc_gen_data,
             gyo_gen_data,
@@ -144,7 +144,7 @@ class Socket(object):
             )
         self.statusbar(status)
         self.receive_thread = myThread(
-            self.link,
+            self,
             self.statusbar,
             self.main_form,
             self.socket_type,
@@ -173,7 +173,7 @@ class Socket(object):
     def close(self):
         self.link.close()
 
-    def enableRecoedData(self,state):
+    def enableRecoedData(self, state):
         if state == True:
             self.receive_thread.enableRecordData(True)
         else:
@@ -181,6 +181,7 @@ class Socket(object):
 
     def setDataPath(self, path):
         self.receive_thread.setDataPath(path)
+
 
 def getIPAddress():
     return socket.gethostbyname(socket.getfqdn(socket.gethostname()))
