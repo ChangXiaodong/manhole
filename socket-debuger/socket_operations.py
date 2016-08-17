@@ -2,6 +2,7 @@ import socket
 import threading
 import os
 import time
+from collections import deque
 
 
 class myThread(threading.Thread):
@@ -32,6 +33,52 @@ class myThread(threading.Thread):
         ) + '.txt'
         self.__enable_record_data = True
         self.initDataPath()
+        self.get_packet_thread = threading.Thread(target=self.getPacket)
+        self.get_packet_thread.setDaemon(True)
+        self.data_quene = deque(maxlen=1000)
+
+    def getPacket(self):
+        count = 0
+        while 1:
+            time.sleep(0.001)
+            quene_length = len(self.data_quene)
+            if quene_length > 14:
+                for i, v in enumerate(self.data_quene):
+                    if self.data_quene[i] == 0x7D and self.data_quene[i+1] == 0x7E:
+                        data = []
+                        for j in range(12):
+                            data.append(self.data_quene[i+2+j])
+                        acc_x = data[0] << 8 | data[1]
+                        acc_y = data[2] << 8 | data[3]
+                        acc_z = data[4] << 8 | data[5]
+                        gyo_x = data[6] << 8 | data[7]
+                        gyo_y = data[8] << 8 | data[9]
+                        gyo_z = data[10] << 8 | data[11]
+                        count += 1
+                        self.acc_gen_data(acc_x, acc_y, acc_z, count)
+                        self.gyo_gen_data(gyo_x, gyo_y, gyo_z, count)
+                        if(count%100 == 0):
+                            self.acc_update_label(acc_x, acc_y, acc_z)
+                            self.gyo_update_lebal(gyo_x, gyo_y, gyo_z)
+                        if self.__enable_record_data:
+                            with open(self.path, "a+") as file:
+                                file.write(
+                                    time.strftime(
+                                        '%Y-%m-%d %H:%M:%S ',
+                                        time.localtime(time.time())
+                                    ) +
+                                    str(acc_x) + "|" +
+                                    str(acc_y) + "|" +
+                                    str(acc_z) + "|" +
+                                    str(gyo_x) + "|" +
+                                    str(gyo_y) + "|" +
+                                    str(gyo_z) + "|" +
+                                    str(time.time()) + "\n"
+                                )
+                        break
+                for j in range(i+2+12):
+                    self.data_quene.popleft()
+
 
     def run(self):
         if self.socket_type == "TCP/Server":
@@ -46,11 +93,11 @@ class myThread(threading.Thread):
             conn = self.link
             conn.settimeout(None)
             count = 0
+            self.get_packet_thread.start()
 
             while 1:
-
                 try:
-                    data = conn.recv(14)
+                    self.data_quene.extend(conn.recv(50))
                 except ConnectionAbortedError:
                     self.link.close()
                     print("Connection closed")
@@ -60,36 +107,8 @@ class myThread(threading.Thread):
                     print("Connection closed")
                     break
 
-                if len(data)>=14 and data[0] == 0x7D and data[1] == 0x7E:
-                    acc_x = data[2] << 8 | data[3]
-                    acc_y = data[4] << 8 | data[5]
-                    acc_z = data[6] << 8 | data[7]
-                    gyo_x = data[8] << 8 | data[9]
-                    gyo_y = data[10] << 8 | data[11]
-                    gyo_z = data[12] << 8 | data[13]
-                    count += 1
-                    self.acc_gen_data(acc_x, acc_y, acc_z, count)
-                    self.gyo_gen_data(gyo_x, gyo_y, gyo_z, count)
-                    self.acc_update_label(acc_x, acc_y, acc_z)
-                    self.gyo_update_lebal(gyo_x, gyo_y, gyo_z)
-                    if self.__enable_record_data:
-                        with open(self.path, "a+") as file:
-                            file.write(
-                                time.strftime(
-                                    '%Y-%m-%d %H:%M:%S ',
-                                    time.localtime(time.time())
-                                ) +
-                                str(acc_x) + "|" +
-                                str(acc_y) + "|" +
-                                str(acc_z) + "|" +
-                                str(gyo_x) + "|" +
-                                str(gyo_y) + "|" +
-                                str(gyo_z) + "|" +
-                                str(time.time()) + "\n"
-                            )
             self.main_form.open_pushButton.setEnabled(True)
             self.main_form.stop_pushButton.setEnabled(False)
-
 
     def initDataPath(self):
         if not os.path.exists("Data/"):

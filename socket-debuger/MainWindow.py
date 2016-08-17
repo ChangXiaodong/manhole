@@ -18,7 +18,7 @@ class MainWindow(QtGui.QMainWindow):
         self.initConnect()
 
     def initCnavas(self):
-        self.canvas_scale = 80
+        self.canvas_scale = 1000
         self.acc_x = []
         self.acc_y = []
         self.acc_z = []
@@ -60,8 +60,8 @@ class MainWindow(QtGui.QMainWindow):
         self.stop_pushButton.clicked.connect(self.onCloseSocket)
         self.canvas_start_pushButton.clicked.connect(self.onStartCanvas)
         self.canvas_pause_pushButton.clicked.connect(self.onPauseCanvas)
-        self.horizontalSlider.setRange(30, 130)
-        self.horizontalSlider.setValue(80)
+        self.horizontalSlider.setRange(500, 1500)
+        self.horizontalSlider.setValue(1000)
         QtCore.QObject.connect(
             self.horizontalSlider,
             QtCore.SIGNAL("valueChanged(int)"),
