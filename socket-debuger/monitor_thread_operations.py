@@ -51,19 +51,28 @@ class myThread(threading.Thread):
         self.count = 0
         self.creat_serial()
         while self.alive.isSet():
-            line = self.uart.readline()
-            data = []
-            for s in line:
-                data.append(ord(s))
-            data = data[:-1]
-            if len(data) == 12:
-                self.count += 1
-                acc = self.get_MSB(data[:6])
-                gyo = self.get_MSB(data[6:])
-                timestamp = time.time()
-                self.data_q.put(([acc['x'], acc['y'], acc['z'],
-                                  gyo['x'], gyo['y'], gyo['z']],
-                                 timestamp, self.count))
+            head = self.uart.read(1)
+            if head and ord(head)==0x7D:
+                head = self.uart.read(1)
+                if head and ord(head) == 0x7E:
+                    line = self.uart.read(12)
+                    data = []
+                    for s in line:
+                        data.append(ord(s))
+                    if len(data) == 12:
+                        self.count += 1
+                        acc = self.get_MSB(data[:6])
+                        gyo = self.get_MSB(data[6:])
+                        timestamp = time.time()
+                        self.data_q.put(([acc['x'], acc['y'], acc['z'],
+                                          gyo['x'], gyo['y'], gyo['z']],
+                                         timestamp, self.count))
+            #         else:
+            #             print len(data)
+            #     else:
+            #         print "not 7E"
+            # else:
+            #     print "not 7D"
 
         if self.uart:
             self.uart.close()

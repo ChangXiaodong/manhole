@@ -1,12 +1,14 @@
+# coding=utf-8
 import sys
 from PyQt4 import QtGui, QtCore, uic
 import monitor_thread_operations as socket
-import PyQt4.Qwt5     as Qwt
+import PyQt4.Qwt5 as Qwt
 import globals
 import Queue
 import os
 import time
 import xlwt
+import algorithm
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -41,7 +43,11 @@ class MainWindow(QtGui.QMainWindow):
         self.excel_data = []
         self.update_statusbar_count = 0
         self.__enableRecoedData = True
-        self.__enablecanvas = True
+        self.__enablecanvas = False
+        self.__enable_identify = False
+        self.tab_index = 0
+        self.__calibrate_once = False
+        self.identify_result_memory = 0
 
     def plot_factory(self, parent_object):
         plot = Qwt.QwtPlot(parent_object)
@@ -71,17 +77,22 @@ class MainWindow(QtGui.QMainWindow):
         self.gyo_plot, self.gyo_curve = self.plot_factory(self.gyo_groupBox)
 
     def init_defaultUI(self):
+        self.groupBox_3.setVisible(False)
         self.record_data_checkBox.setChecked(True)
         self.stop_pushButton.setDisabled(True)
         self.open_data_pushButton.setDisabled(True)
         self.canvas_start_pushButton.setDisabled(True)
         self.canvas_pause_pushButton.setDisabled(True)
+        self.algorithm_pushButton.setDisabled(True)
+        self.calibrate_pushButton.setDisabled(True)
         self.BaudRate_lineEdit.setText("115200")
         # self.HOST_IP_lineEdit.setText(socket.getIPAddress())
         self.updateStatusBar("UART Closed")
         self.settings = {}
-        for port in globals.enumerate_serial_ports():
-            self.Port_num_comboBox.addItem(port)
+        avaliable_serial_port = globals.enumerate_serial_ports()
+        if avaliable_serial_port:
+            for port in avaliable_serial_port:
+                self.Port_num_comboBox.addItem(port)
         green = QtGui.QPalette()
         green.setColor(QtGui.QPalette.Foreground, QtGui.QColor('limegreen'))
         self.x_legend_label.setPalette(green)
@@ -92,13 +103,15 @@ class MainWindow(QtGui.QMainWindow):
         yellow.setColor(QtGui.QPalette.Foreground, QtGui.QColor('yellow'))
         self.z_legend_label.setPalette(yellow)
 
-
     def init_connect(self):
         self.actionExit.triggered.connect(self.close)
         self.open_pushButton.clicked.connect(self.on_open_serial)
         self.stop_pushButton.clicked.connect(self.on_close_serial)
         self.canvas_start_pushButton.clicked.connect(self.on_start_canvas)
         self.canvas_pause_pushButton.clicked.connect(self.on_pause_canvas)
+        self.algorithm_pushButton.clicked.connect(self.on_identify_state_changed)
+        self.calibrate_pushButton.clicked.connect(self.on_calibrate)
+
         self.horizontalSlider.setRange(0, 1000)
         self.horizontalSlider.setValue(500)
         QtCore.QObject.connect(
@@ -121,6 +134,20 @@ class MainWindow(QtGui.QMainWindow):
             QtCore.SIGNAL("timeout()"),
             self.on_timer
         )
+        QtCore.QObject.connect(
+            self.tabWidget,
+            QtCore.SIGNAL("currentChanged(int)"),
+            self.on_tab_changed
+        )
+
+    def on_tab_changed(self,index):
+        self.tab_index = index
+        if index==0:
+            self.groupBox_2.setVisible(True)
+            self.groupBox_3.setVisible(False)
+        else:
+            self.groupBox_2.setVisible(False)
+            self.groupBox_3.setVisible(True)
 
     def closeEvent(self, event):
         reply = QtGui.QMessageBox.question(self, 'Message',
@@ -169,71 +196,69 @@ class MainWindow(QtGui.QMainWindow):
                         )
         return None
 
-    def update_plot(self):
-        if self.livefeed.has_new_data:
-            data = self.livefeed.read_data()
-            if(self.__enableRecoedData == True):
-                timestamp = str(time.strftime(
-                                    '%Y-%m-%d %H:%M:%S ',
-                                    time.localtime(data['timestamp'])
-                                ))
-                self.excel_data.append([timestamp,
-                                     data['acc_x'], data['acc_y'], data['acc_z'],
-                                     data['gyo_x'], data['gyo_y'], data['gyo_z']
-                                     ])
-                if len(self.excel_data) > 1000:
-                    for item in self.excel_data:
-                        self.worksheet.write(self.excel_row, 0, label=item[0])
-                        self.worksheet.write(self.excel_row, 1, label=item[1])
-                        self.worksheet.write(self.excel_row, 2, label=item[2])
-                        self.worksheet.write(self.excel_row, 3, label=item[3])
-                        self.worksheet.write(self.excel_row, 4, label=item[4])
-                        self.worksheet.write(self.excel_row, 5, label=item[5])
-                        self.worksheet.write(self.excel_row, 6, label=item[6])
-                        self.excel_row += 1
+    def update_plot(self, data):
+        if(self.__enableRecoedData == True):
+            timestamp = str(time.strftime(
+                                '%Y-%m-%d %H:%M:%S ',
+                                time.localtime(data['timestamp'])
+                            ))
+            self.excel_data.append([timestamp,
+                                 data['acc_x'], data['acc_y'], data['acc_z'],
+                                 data['gyo_x'], data['gyo_y'], data['gyo_z']
+                                 ])
+            if len(self.excel_data) > 1000:
+                for item in self.excel_data:
+                    self.worksheet.write(self.excel_row, 0, label=item[0])
+                    self.worksheet.write(self.excel_row, 1, label=item[1])
+                    self.worksheet.write(self.excel_row, 2, label=item[2])
+                    self.worksheet.write(self.excel_row, 3, label=item[3])
+                    self.worksheet.write(self.excel_row, 4, label=item[4])
+                    self.worksheet.write(self.excel_row, 5, label=item[5])
+                    self.worksheet.write(self.excel_row, 6, label=item[6])
+                    self.excel_row += 1
 
-                    self.excel.save(self.data_path)
-                    self.updateStatusBar('transfert data to excel after 1000 samples')
-                    self.excel_data = []
+                self.excel.save(self.data_path)
+                self.updateStatusBar('transfert data to excel after 1000 samples')
+                self.excel_data = []
 
-            self.acc_samples[0].append((data['frame_count'], data['acc_x']))
-            if len(self.acc_samples[0]) > max(100,self.scale_value):
-                self.acc_samples[0].pop(0)
+        self.acc_samples[0].append((data['frame_count'], data['acc_x']))
+        if len(self.acc_samples[0]) > max(100,self.scale_value):
+            self.acc_samples[0].pop(0)
 
-            self.acc_samples[1].append((data['frame_count'], data['acc_y']))
-            if len(self.acc_samples[1]) > max(100,self.scale_value):
-                self.acc_samples[1].pop(0)
+        self.acc_samples[1].append((data['frame_count'], data['acc_y']))
+        if len(self.acc_samples[1]) > max(100,self.scale_value):
+            self.acc_samples[1].pop(0)
 
-            self.acc_samples[2].append((data['frame_count'], data['acc_z']))
-            if len(self.acc_samples[2]) > max(100,self.scale_value):
-                self.acc_samples[2].pop(0)
+        self.acc_samples[2].append((data['frame_count'], data['acc_z']))
+        if len(self.acc_samples[2]) > max(100,self.scale_value):
+            self.acc_samples[2].pop(0)
 
-            self.gyo_samples[0].append((data['frame_count'], data['gyo_x']))
-            if len(self.gyo_samples[0]) > max(100, self.scale_value):
-                self.gyo_samples[0].pop(0)
+        self.gyo_samples[0].append((data['frame_count'], data['gyo_x']))
+        if len(self.gyo_samples[0]) > max(100, self.scale_value):
+            self.gyo_samples[0].pop(0)
 
-            self.gyo_samples[1].append((data['frame_count'], data['gyo_y']))
-            if len(self.gyo_samples[1]) > max(100, self.scale_value):
-                self.gyo_samples[1].pop(0)
+        self.gyo_samples[1].append((data['frame_count'], data['gyo_y']))
+        if len(self.gyo_samples[1]) > max(100, self.scale_value):
+            self.gyo_samples[1].pop(0)
 
-            self.gyo_samples[2].append((data['frame_count'], data['gyo_z']))
-            if len(self.gyo_samples[2]) > max(100, self.scale_value):
-                self.gyo_samples[2].pop(0)
+        self.gyo_samples[2].append((data['frame_count'], data['gyo_z']))
+        if len(self.gyo_samples[2]) > max(100, self.scale_value):
+            self.gyo_samples[2].pop(0)
 
-            tdata = [s[0] for s in self.acc_samples[2]]
+        tdata = [s[0] for s in self.acc_samples[2]]
 
-            for i in range(3):
-                data[i] = [s[1] for s in self.acc_samples[i]]
-                self.acc_curve[i].setData(tdata, data[i])
-            for i in range(3):
-                data[i] = [s[1] for s in self.gyo_samples[i]]
-                self.gyo_curve[i].setData(tdata, data[i])
+        for i in range(3):
+            data[i] = [s[1] for s in self.acc_samples[i]]
+            self.acc_curve[i].setData(tdata, data[i])
+        for i in range(3):
+            data[i] = [s[1] for s in self.gyo_samples[i]]
+            self.gyo_curve[i].setData(tdata, data[i])
 
-            self.acc_plot.setAxisScale(Qwt.QwtPlot.xBottom, tdata[-1]-self.scale_value, max(1, tdata[-1]))
-            self.acc_plot.replot()
+        self.acc_plot.setAxisScale(Qwt.QwtPlot.xBottom, tdata[-1]-self.scale_value, max(1, tdata[-1]))
+        self.acc_plot.replot()
 
-            self.gyo_plot.setAxisScale(Qwt.QwtPlot.xBottom, tdata[-1] - self.scale_value, max(1, tdata[-1]))
-            self.gyo_plot.replot()
+        self.gyo_plot.setAxisScale(Qwt.QwtPlot.xBottom, tdata[-1] - self.scale_value, max(1, tdata[-1]))
+        self.gyo_plot.replot()
 
     def update_label(self, data_dict):
         def update(data):
@@ -256,16 +281,56 @@ class MainWindow(QtGui.QMainWindow):
 
     def on_timer(self):
         data_dict = self.read_serial_data()
-        if(self.__enablecanvas == True):
-            self.update_plot()
         if data_dict:
             self.update_label(data_dict)
 
+            if self.__enable_identify is True and self.tab_index == 1 and self.identify:
+                self.on_identify(data_dict)
+
+            if self.__calibrate_once is True:
+                self.__calibrate_once = False
+                self.identify.on_calibrate(data_dict)
+        if self.livefeed.has_new_data:
+            data = self.livefeed.read_data()
+            if self.__enablecanvas is True and self.tab_index == 0:
+                self.update_plot(data)
+
     def on_start_canvas(self):
         self.__enablecanvas = True
+        self.canvas_pause_pushButton.setEnabled(True)
+        self.canvas_start_pushButton.setDisabled(True)
 
     def on_pause_canvas(self):
         self.__enablecanvas = False
+        self.canvas_pause_pushButton.setDisabled(True)
+        self.canvas_start_pushButton.setEnabled(True)
+
+    def on_identify_state_changed(self):
+        if self.__enable_identify is False:     #identify running
+            self.__enable_identify = True
+            self.algorithm_pushButton.setText("Stop Monitor")
+
+            self.identify = algorithm.ManholeAlgorithm()
+        else:
+            self.__enable_identify = False
+            self.algorithm_pushButton.setText("Start Monitor")
+
+            self.identify = None
+
+    def on_calibrate(self):
+        self.__calibrate_once = True
+
+    def on_identify(self, data_dict):
+        if self.identify:
+            result = self.identify.variance_identify(data_dict)
+            if result != self.identify_result_memory:
+                self.identify_result_memory = result
+                if result == 1:
+                    self.result_label.setText(u"井盖开启")
+                elif result == 2:
+                    self.result_label.setText(u"井盖沉降")
+                else:
+                    self.result_label.setText(u"井盖正常")
 
     def on_open_serial(self):
         self.data_path += str(time.strftime(
@@ -311,6 +376,8 @@ class MainWindow(QtGui.QMainWindow):
         self.open_pushButton.setDisabled(True)
         self.canvas_start_pushButton.setEnabled(True)
         self.canvas_pause_pushButton.setEnabled(True)
+        self.algorithm_pushButton.setEnabled(True)
+        self.calibrate_pushButton.setEnabled(True)
         self.updateStatusBar("UART Opened")
         update_freq = self.horizontalSlider.value()
         if update_freq > 0:
@@ -327,6 +394,10 @@ class MainWindow(QtGui.QMainWindow):
         self.stop_pushButton.setDisabled(True)
         self.open_pushButton.setEnabled(True)
         self.Port_num_comboBox.setEnabled(True)
+        self.canvas_start_pushButton.setDisabled(True)
+        self.canvas_pause_pushButton.setDisabled(True)
+        self.algorithm_pushButton.setDisabled(True)
+        self.calibrate_pushButton.setDisabled(True)
         self.updateStatusBar("monitor stoped")
 
     def on_record_data_state_changed(self, state):
