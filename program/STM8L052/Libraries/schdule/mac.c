@@ -89,17 +89,11 @@ static bool isChannelFree(int16_t threshold)
     return Radio.getRssi() < threshold;
 }
 
-//unfinished
-static void systemSleep()
-{
-
-}
-
 void sendByCSMA()
 {
     uint8 packet_data[DATA_PACKET_LENGTH];
     uint16 time_out = 0;
-    LED1_ON;
+    //LED1_ON;
     papredDataPacket(packet_data);
     for(uint8 i=0;i<BACKOFF_TIMES;i++)
     {
@@ -116,8 +110,8 @@ void sendByCSMA()
                 }
             }
             Radio.setRxState(RX_TIMEOUT_VALUE);
-//            if(!receivedACK())
-//            {
+            if(!receivedACK())
+            {
 //                TQStruct task;
 //                RTC_WakeUpCmd(DISABLE);
 //                task.event = SEND_DATA;
@@ -130,12 +124,12 @@ void sendByCSMA()
 //                {
 //                    RadioEvents.ResendFailed();
 //                }
-//            }
-//            else
-//            {
-//                RTC_WakeUpCmd(ENABLE);
-//                SystemSleep();
-//            }
+            }
+            else
+            {
+                RTC_WakeUpCmd(ENABLE);
+                //SystemSleep();
+            }
             break;
         }
         else

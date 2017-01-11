@@ -9,8 +9,10 @@
 #include "delay.h"
 #include "SX1276.h"
 #include "sx1276Regs-LoRa.h"
+#include "sx1272Regs-Fsk.h"
 #include "interface.h"
 #include "ProcessEvent.h"
 #include "schdule.h"
 #include "mac.h"
+#include "mpu6050.h"
 #endif

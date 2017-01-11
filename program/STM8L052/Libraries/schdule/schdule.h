@@ -28,4 +28,8 @@ extern bool ifStatusChanged();
 extern uint8 getStatus();
 extern void SystemSleep();
 extern void SystemWake();
+
+extern void Deinit_UART();
+extern void Deinit_ADC();
+extern void Deinit_TIMER();
 #endif

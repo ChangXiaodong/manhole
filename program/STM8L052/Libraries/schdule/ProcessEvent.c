@@ -90,7 +90,7 @@ static uint8 Process_Event()
         }
         else
         {
-            SystemSleep();
+            //SystemSleep();
         }
         break;
     case EXECUTE_CMD:

@@ -21,11 +21,11 @@
 
 @echo off 
 
-if not "%1" == "" goto debugFile 
+if not "%~1" == "" goto debugFile 
 
 @echo on 
 
-"D:\IAR Systems\ARM\common\bin\cspybat" -f "F:\Manhole\program\STM32L151\settings\Project.Relay.general.xcl" --backend -f "F:\Manhole\program\STM32L151\settings\Project.Relay.driver.xcl" 
+"D:\IAR Systems\ARM\common\bin\cspybat" -f "E:\Manhole\program\STM32L151\settings\Project.Relay.general.xcl" --backend -f "E:\Manhole\program\STM32L151\settings\Project.Relay.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"D:\IAR Systems\ARM\common\bin\cspybat" -f "F:\Manhole\program\STM32L151\settings\Project.Relay.general.xcl" "--debug_file=%1" --backend -f "F:\Manhole\program\STM32L151\settings\Project.Relay.driver.xcl" 
+"D:\IAR Systems\ARM\common\bin\cspybat" -f "E:\Manhole\program\STM32L151\settings\Project.Relay.general.xcl" "--debug_file=%~1" --backend -f "E:\Manhole\program\STM32L151\settings\Project.Relay.driver.xcl" 
 
 @echo off 
 :end
