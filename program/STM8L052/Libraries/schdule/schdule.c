@@ -5,11 +5,12 @@ Sensor_s Sensor;
 void getSensorData()
 {
     EN_SAMPLE_SET;
-    delay_ms(150);
+    /*delay_ms(200);
     ADC_SoftwareStartConv(ADC1);
     while(ADC_GetFlagStatus(ADC1,ADC_FLAG_EOC) != SET);  
-    Sensor.Data.TMR = ADC_GetConversionValue(ADC1);
-    Sensor.Data.reed = REED_GET;
+    Sensor.Data.TMR = ADC_GetConversionValue(ADC1);*/
+    //Sensor.Data.reed = REED_GET;
+    LED1_TOGGLE;
     EN_SAMPLE_RESET;
 }
 
@@ -34,35 +35,20 @@ uint8 getStatus()
     return Sensor.Status;
 }
 
-static void Deinit_UART()
+void Deinit_UART()
 {
-    CLK_PeripheralClockConfig(CLK_Peripheral_USART1,DISABLE);
     USART_DeInit(USART1);
+    CLK_PeripheralClockConfig(CLK_Peripheral_USART1,DISABLE);
 }
 
-static void Deinit_ADC()
+void Deinit_ADC()
 {
-    CLK_PeripheralClockConfig(CLK_Peripheral_ADC1, DISABLE);
     ADC_DeInit(ADC1);
+    CLK_PeripheralClockConfig(CLK_Peripheral_ADC1, DISABLE);
 }
 
-static void Deinit_GPIO()
-{
-    GPIO_Init(GPIOA,GPIO_Pin_All,GPIO_Mode_In_PU_No_IT); 
-    GPIO_Init(GPIOB,GPIO_Pin_All,GPIO_Mode_In_PU_No_IT);
-    GPIO_Init(GPIOC,GPIO_Pin_All,GPIO_Mode_In_PU_No_IT); 
-    GPIO_Init(GPIOD,GPIO_Pin_All,GPIO_Mode_In_PU_No_IT); 
-    GPIO_Init(GPIOE,GPIO_Pin_All,GPIO_Mode_In_PU_No_IT); 
-    GPIO_Init(GPIOF,GPIO_Pin_All,GPIO_Mode_In_PU_No_IT); 
-    GPIO_Init(GPIOG,GPIO_Pin_All,GPIO_Mode_In_PU_No_IT); 
-    
-    GPIO_Init(LED1_PORT,LED1_BIT,GPIO_Mode_Out_PP_Low_Fast); 
-    GPIO_Init(LED2_PORT,LED2_BIT,GPIO_Mode_Out_PP_Low_Fast);
-    LED1_OFF;
-    LED2_OFF;
-}
 
-static void Deinit_TIMER()
+void Deinit_TIMER()
 {
     CLK_PeripheralClockConfig(CLK_Peripheral_TIM2, DISABLE);
     TIM2_DeInit();
@@ -76,11 +62,15 @@ static void Deinit_TIMER()
 
 void SystemSleep()
 {
+    LED1_OFF;
+    LED2_OFF;
     Radio.setSleepState();
-    Deinit_UART();
     Deinit_ADC();
-    Deinit_GPIO();
-    Deinit_TIMER();
+    
+    All_PULL_UP();
+    CLK_LSICmd(DISABLE);
+    while ((CLK->ICKCR & 0x04) != 0x00);
+    sim();	
     halt();
 }
 void reboot()
@@ -97,7 +87,7 @@ void SystemWake()
     Init_TIMER();
     Init_USART();
     Init_Radio();
-    Init_Sensor();
+    //Init_Sensor();
 }
 
 

@@ -147,7 +147,7 @@
         </option>
         <option>
           <name>IccOptLevel</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>IccOptStrategy</name>
@@ -156,7 +156,7 @@
         </option>
         <option>
           <name>IccOptLevelSlave</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>IccOptAllowList</name>
@@ -191,6 +191,7 @@
           <name>CCDefines</name>
           <state>STM8L05X_LD_VL</state>
           <state>USE_BAND_433</state>
+          <state>USE_MODEM_FSK</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -1686,6 +1687,12 @@
     </file>
     <file>
       <name>$PROJ_DIR$\Libraries\hardware\delay.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Libraries\hardware\mpu6050.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Libraries\hardware\mpu6050.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\Libraries\hardware\SX1276.C</name>

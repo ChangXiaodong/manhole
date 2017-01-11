@@ -54,6 +54,7 @@ uint8_t creatXbeePacket(uint32_t src_address,uint8_t data_type,uint16_t data)
     xbee_packet[index++] = data_type;
     xbee_packet[index++] = data>>8;
     xbee_packet[index++] = data;
+     
     
     for(uint8_t i=3;i<index;i++)
     {

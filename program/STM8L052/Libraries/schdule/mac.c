@@ -89,43 +89,46 @@ static bool isChannelFree(int16_t threshold)
     return Radio.getRssi() < threshold;
 }
 
-//unfinished
-static void systemSleep()
-{
-
-}
-
 void sendByCSMA()
 {
     uint8 packet_data[DATA_PACKET_LENGTH];
-    LED1_ON;
+    uint16 time_out = 0;
+    //LED1_ON;
     papredDataPacket(packet_data);
     for(uint8 i=0;i<BACKOFF_TIMES;i++)
     {
         if(isChannelFree(-30))
         {
             Radio.Send(packet_data,sizeof(DataPacket)-1);
-            while(Radio.sendNotDone());
+            while(Radio.sendNotDone())
+            {
+                delay_1ms;
+                time_out++;
+                if(time_out>5000)
+                {
+                    return;
+                }
+            }
             Radio.setRxState(RX_TIMEOUT_VALUE);
             if(!receivedACK())
             {
-                TQStruct task;
-                RTC_WakeUpCmd(DISABLE);
-                task.event = SEND_DATA;
-                if(Protocol.resend_times<MAX_RESEND_TIMES)
-                {
-                    OS.postTask(task);
-                    LED2_TOGGLE;
-                }
-                else
-                {
-                    RadioEvents.ResendFailed();
-                }
+//                TQStruct task;
+//                RTC_WakeUpCmd(DISABLE);
+//                task.event = SEND_DATA;
+//                if(Protocol.resend_times<MAX_RESEND_TIMES)
+//                {
+//                    OS.postTask(task);
+//                    LED2_TOGGLE;
+//                }
+//                else
+//                {
+//                    RadioEvents.ResendFailed();
+//                }
             }
             else
             {
                 RTC_WakeUpCmd(ENABLE);
-                SystemSleep();
+                //SystemSleep();
             }
             break;
         }
@@ -134,6 +137,6 @@ void sendByCSMA()
             CSMABackOff();
         }
     }
-    systemSleep();
+    //systemSleep();
 }
 

@@ -80,7 +80,9 @@ struct Radio_interface
                              uint16_t symbTimeout, bool fixLen,
                              uint8_t payloadLen,
                              bool crcOn, bool FreqHopOn, uint8_t HopPeriod,
-                             bool iqInverted, bool rxContinuous );
+                             bool iqInverted, bool rxContinuous,
+                            uint32_t bandwidthAfc );
+   
     
     /*!
     * \brief Sets the transmission parameters
@@ -117,11 +119,13 @@ struct Radio_interface
     *                          LoRa: [0: not inverted, 1: inverted]
     * \param [IN] timeout      Transmission timeout [us]
     */
-    void    ( *setTxConfig )( RadioModems_t modem, int8_t power, uint8_t PA_enable, 
+    void    ( *setTxConfig )( RadioModems_t modem, int8_t power, 
+                             uint8_t PA_enable, 
                              uint32_t bandwidth, uint32_t datarate,
                              uint8_t coderate, uint16_t preambleLen,
                              bool fixLen, bool crcOn, bool FreqHopOn,
-                             uint8_t HopPeriod, bool iqInverted, uint32_t timeout );
+                             uint8_t HopPeriod, bool iqInverted, uint32_t timeout,
+                               uint32_t fdev);
     
     /*!
     * \brief Computes the packet time on air in us for the given payload

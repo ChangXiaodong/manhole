@@ -1,5 +1,3 @@
- -B 
-
 "--endian=little" 
 
 "--cpu=Cortex-M3" 
@@ -8,13 +6,13 @@
 
 "-p" 
 
-"D:\IAR Systems\ARM\arm\CONFIG\debugger\ST\STM32L151x8.ddf" 
+"D:\IAR Systems\ARM\arm\CONFIG\debugger\ST\STM32L151V8.ddf" 
 
 "--drv_verify_download" 
 
 "--semihosting" 
 
-"--device=STM32L151x8" 
+"--device=STM32L151V8" 
 
 "--drv_communication=USB0" 
 

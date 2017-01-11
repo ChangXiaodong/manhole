@@ -252,22 +252,55 @@ INTERRUPT_HANDLER(DMA1_CHANNEL2_3_IRQHandler,3)
   * @param  None
   * @retval None
   */
+
+uint16 time = 0;
 INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler,4)
 {
     /* In order to detect unexpected events during development,
        it is recommended to set a breakpoint on the following instruction.
     */
     RTC_WakeUpCmd(DISABLE);
-    RTC_SetWakeUpCounter(500);
-    RTC_WakeUpCmd(ENABLE);
     
-    SystemWake();
         
     TQStruct task;
-    task.event = COLLECT_DATA;
-    OS.postTask(task);
+    //task.event = COLLECT_DATA;
+    //OS.postTask(task);
     
     RTC_ClearITPendingBit(RTC_IT_WUT);
+    RTC_SetWakeUpCounter(90);
+    RTC_WakeUpCmd(ENABLE);
+
+    
+    RESET_TIME3;
+    
+    MpuGetData();
+    
+    TEST1_HIGH;
+    UART_Send_Data(0x7D);
+    UART_Send_Data(0x7E);
+    UART_Send_Data(accelStruct.accelX>>8);
+    UART_Send_Data(accelStruct.accelX);
+    UART_Send_Data(accelStruct.accelY>>8);
+    UART_Send_Data(accelStruct.accelY);
+    UART_Send_Data(accelStruct.accelZ>>8);
+    UART_Send_Data(accelStruct.accelZ);
+    UART_Send_Data(gyroStruct.gyroX>>8);
+    UART_Send_Data(gyroStruct.gyroX);
+    UART_Send_Data(gyroStruct.gyroY>>8);
+    UART_Send_Data(gyroStruct.gyroY);
+    UART_Send_Data(gyroStruct.gyroZ>>8);
+    UART_Send_Data(gyroStruct.gyroZ);
+    TEST1_LOW;
+//    UART_Send_Data(0x0A);
+    time = GET_TIME3;
+    
+    
+    
+   
+    //SystemWake();
+    //delay_ms(50);
+    //getSensorData();
+    //SystemSleep();
 }
 /**
   * @brief External IT PORTE/F and PVD Interrupt routine.

@@ -1,8 +1,8 @@
 "D:\IAR Systems\ARM\arm\bin\armproc.dll" 
 
-"D:\IAR Systems\ARM\arm\bin\armjlink.dll" 
+"D:\IAR Systems\ARM\arm\bin\armjlink2.dll" 
 
-"F:\Manhole\program\STM32L151\Relay\Exe\STM32L152-EVAL.out" 
+"E:\Manhole\program\STM32L151\Relay\Exe\STM32L152-EVAL.out" 
 
 --plugin "D:\IAR Systems\ARM\arm\bin\armbat.dll" 
 
