@@ -7,7 +7,8 @@ import time
 def write(data, path="test_csv"):
     if os.path.exists("./data/") != True:
         os.makedirs("./data/")
-    os.makedirs("./data/" + path)
+    if os.path.exists("./data/" + path) != True:
+        os.makedirs("./data/" + path)
 
     csv_path = "./data/" + path + "/" + path + ".csv"
     with open(csv_path, 'wb') as csvfile:

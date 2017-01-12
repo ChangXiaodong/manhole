@@ -1,4 +1,5 @@
 import xlrd
+import csv
 
 
 def get_acc_data_by_excelpath(path=""):
@@ -14,6 +15,7 @@ def get_acc_data_by_excelpath(path=""):
         z.append(table.cell(rows, 2).value)
     return x, y, z
 
+
 def get_gyo_data_by_excelpath(path=""):
     data = xlrd.open_workbook(path)
     table = data.sheets()[0]
@@ -27,5 +29,26 @@ def get_gyo_data_by_excelpath(path=""):
         z.append(table.cell(rows, 5).value)
     return x, y, z
 
+
+def get_data_by_csvpath(path=""):
+    acc_x = []
+    acc_y = []
+    acc_z = []
+    gyo_x = []
+    gyo_y = []
+    gyo_z = []
+    with open(path) as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            acc_x.append(int(row["acc_x"]))
+            acc_y.append(int(row["acc_y"]))
+            acc_z.append(int(row["acc_z"]))
+            gyo_x.append(int(row["gyo_x"]))
+            gyo_y.append(int(row["gyo_y"]))
+            gyo_z.append(int(row["gyo_z"]))
+    return acc_x, acc_y, acc_z, gyo_x, gyo_y, gyo_z
+
+
 if __name__ == "__main__":
-    print get_acc_data_by_excelpath("E:/Manhole/test data/middle_slow/2/data.xlsx")[0]
+
+    print get_data_by_csvpath("E:\Manhole\\test data\middle_fast\\2\middle_fast_2.csv")

@@ -281,9 +281,6 @@ class MainWindow(QtGui.QMainWindow):
                     self.result_label.setText(u"井盖正常")
 
     def on_open_serial(self):
-        self.excel = xlwt.Workbook(encoding='ascii')
-        self.worksheet = self.excel.add_sheet('Data')
-        self.excel_row = 0
         self.data_q = Queue.Queue()
         self.error_q = Queue.Queue()
         self.msg_q = Queue.Queue()
@@ -327,6 +324,7 @@ class MainWindow(QtGui.QMainWindow):
         self.calibrate_pushButton.setEnabled(True)
         self.updateStatusBar("UART Opened")
         self.timer.start(15)
+        self.on_start_canvas()
 
     def on_close_serial(self):
         if self.receive_thread is not None:
@@ -343,12 +341,6 @@ class MainWindow(QtGui.QMainWindow):
         self.algorithm_pushButton.setDisabled(True)
         self.calibrate_pushButton.setDisabled(True)
         self.updateStatusBar("monitor stoped")
-
-    def on_record_data_state_changed(self, state):
-        if state == 2:
-            self.__enableRecoedData = True
-        else:
-            self.__enableRecoedData = False
 
     def updateStatusBar(self, msg):
         self.statusBar.showMessage(msg)

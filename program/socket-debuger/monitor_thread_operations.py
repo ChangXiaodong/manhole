@@ -6,6 +6,7 @@ import serial
 import datetime
 import get_parameters
 import csv_writer
+import camera_capture
 
 
 class myThread(threading.Thread):
@@ -47,6 +48,8 @@ class myThread(threading.Thread):
         self.gyoy_data_quene = deque(maxlen=50000)
         self.gyoz_data_quene = deque(maxlen=50000)
         self.time_stamp_quene = deque(maxlen=50000)
+        self.camera = camera_capture.Camera(self.msg_q)
+        self.camera.start()
 
         self.uart = None
 
@@ -88,7 +91,7 @@ class myThread(threading.Thread):
                         self.frame_count += 1
                         acc_x, acc_y, acc_z = self.get_MSB(data[:6])
                         gyo_x, gyo_y, gyo_z = self.get_MSB(data[6:])
-                        timestamp = str(datetime.datetime.now()).replace(" ", "_")
+                        timestamp = str(datetime.datetime.now())[:-3].replace(" ", "_")
                         self.display_data_q.put(([acc_x, acc_y, acc_z,
                                                   gyo_x, gyo_y, gyo_z],
                                                  timestamp, self.frame_count))
@@ -109,6 +112,7 @@ class myThread(threading.Thread):
                                 self.count = 0
                                 stable_count = 0
                                 csv_path = str(time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime(time.time())))
+                                self.camera.save(csv_path)
                         else:
                             if self.count > 500:
                                 pulse = get_parameters.pulse_max(
