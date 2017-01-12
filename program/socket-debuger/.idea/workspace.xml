@@ -2,7 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8b0facb6-0d60-41fa-b032-b0c4e50ff8ea" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/camera_capture.py" afterPath="$PROJECT_DIR$/camera_capture.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainWindow.py" afterPath="$PROJECT_DIR$/MainWindow.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/camera_capture.py" afterPath="$PROJECT_DIR$/camera_capture.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csv_writer.py" afterPath="$PROJECT_DIR$/csv_writer.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data_reader.py" afterPath="$PROJECT_DIR$/data_reader.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/get_parameters.py" afterPath="$PROJECT_DIR$/get_parameters.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monitor_thread_operations.py" afterPath="$PROJECT_DIR$/monitor_thread_operations.py" />
+<<<<<<< HEAD
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/camera_capture.py" afterPath="$PROJECT_DIR$/camera_capture.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainWindow.py" afterPath="$PROJECT_DIR$/MainWindow.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/camera_capture.py" afterPath="$PROJECT_DIR$/camera_capture.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csv_writer.py" afterPath="$PROJECT_DIR$/csv_writer.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data_reader.py" afterPath="$PROJECT_DIR$/data_reader.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/get_parameters.py" afterPath="$PROJECT_DIR$/get_parameters.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monitor_thread_operations.py" afterPath="$PROJECT_DIR$/monitor_thread_operations.py" />
+>>>>>>> lora
     </list>
     <list id="b37b273e-c2c8-4ea3-b368-0ee2a917fdc2" name="socket" comment="" />
     <ignored path="socket-debuger.iws" />
@@ -87,10 +104,16 @@
                 <element signature="e#9559#9932#0" expanded="false" />
                 <element signature="e#9970#9998#0" expanded="false" />
                 <element signature="e#10046#10487#0" expanded="false" />
+<<<<<<< HEAD
                 <element signature="e#13355#13427#0" expanded="false" />
                 <element signature="e#13476#13590#0" expanded="false" />
                 <element signature="e#13639#13753#0" expanded="false" />
                 <marker date="1484190932136" expanded="true" signature="10518:10532" ph="..." />
+=======
+                <element signature="e#12422#13030#0" expanded="false" />
+                <element signature="e#13076#13148#0" expanded="false" />
+                <element signature="e#13197#13311#0" expanded="false" />
+                <element signature="e#13360#13474#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -99,8 +122,26 @@
       <file leaf-file-name="get_parameters.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/get_parameters.py">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="351">
+              <caret line="13" column="30" lean-forward="false" selection-start-line="13" selection-start-column="29" selection-end-line="13" selection-end-column="30" />
+              <folding>
+                <marker date="1484142459444" expanded="true" signature="3766:3767" ph="..." />
+>>>>>>> lora
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/.PyCharm2016.3/system/python_stubs/-223353804/cv2/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="243">
               <caret line="9" column="30" lean-forward="false" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
+=======
+            <state relative-caret-position="363">
+              <caret line="1285" column="11" lean-forward="false" selection-start-line="1285" selection-start-column="0" selection-end-line="1285" selection-end-column="11" />
+>>>>>>> lora
               <folding />
             </state>
           </provider>
@@ -109,6 +150,7 @@
       <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/.PyCharm2016.3/system/python_stubs/-223353804/cv2/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="363">
               <caret line="1285" column="11" lean-forward="false" selection-start-line="1285" selection-start-column="0" selection-end-line="1285" selection-end-column="11" />
               <folding />
@@ -121,6 +163,10 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="9">
               <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+=======
+            <state relative-caret-position="63">
+              <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+>>>>>>> lora
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -131,10 +177,16 @@
       <file leaf-file-name="monitor_thread_operations.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/monitor_thread_operations.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="738">
               <caret line="89" column="38" lean-forward="false" selection-start-line="89" selection-start-column="38" selection-end-line="89" selection-end-column="38" />
+=======
+            <state relative-caret-position="441">
+              <caret line="92" column="38" lean-forward="false" selection-start-line="92" selection-start-column="38" selection-end-line="92" selection-end-column="38" />
+>>>>>>> lora
               <folding>
                 <element signature="e#15#31#0" expanded="true" />
+                <element signature="e#1881#2202#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -189,9 +241,17 @@
       <file leaf-file-name="camera_capture.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/camera_capture.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="351">
               <caret line="13" column="30" lean-forward="true" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
               <folding />
+=======
+            <state relative-caret-position="471">
+              <caret line="46" column="36" lean-forward="false" selection-start-line="46" selection-start-column="36" selection-end-line="46" selection-end-column="36" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+>>>>>>> lora
             </state>
           </provider>
         </entry>
@@ -825,11 +885,19 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="0" />
+<<<<<<< HEAD
     <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09791667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33717278" sideWeight="0.52708334" order="7" side_tool="true" content_ui="tabs" />
+=======
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09791667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20635632" sideWeight="0.52518517" order="7" side_tool="true" content_ui="tabs" />
+>>>>>>> lora
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1019,6 +1087,7 @@
       </provider>
     </entry>
     <entry file="file://D:/Python/Python27/Lib/os.py">
+<<<<<<< HEAD
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="201">
           <caret line="156" column="0" lean-forward="false" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
@@ -1030,6 +1099,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9">
           <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+=======
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="156" column="0" lean-forward="false" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data_reader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+>>>>>>> lora
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -1038,9 +1120,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/get_parameters.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="243">
           <caret line="9" column="30" lean-forward="false" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
           <folding />
+=======
+        <state relative-caret-position="351">
+          <caret line="13" column="30" lean-forward="false" selection-start-line="13" selection-start-column="29" selection-end-line="13" selection-end-column="30" />
+          <folding>
+            <marker date="1484142459444" expanded="true" signature="3766:3767" ph="..." />
+          </folding>
+>>>>>>> lora
         </state>
       </provider>
     </entry>
@@ -1058,20 +1148,31 @@
           <caret line="8" column="30" lean-forward="false" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
           <folding>
             <element signature="e#15#25#0" expanded="true" />
+<<<<<<< HEAD
             <marker date="1484190932138" expanded="true" signature="83:811" ph="..." />
             <marker date="1484190932138" expanded="true" signature="287:811" ph="..." />
             <marker date="1484190932138" expanded="true" signature="499:811" ph="..." />
             <marker date="1484190932138" expanded="true" signature="546:809" ph="..." />
+=======
+>>>>>>> lora
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/monitor_thread_operations.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="738">
           <caret line="89" column="38" lean-forward="false" selection-start-line="89" selection-start-column="38" selection-end-line="89" selection-end-column="38" />
           <folding>
             <element signature="e#15#31#0" expanded="true" />
+=======
+        <state relative-caret-position="441">
+          <caret line="92" column="38" lean-forward="false" selection-start-line="92" selection-start-column="38" selection-end-line="92" selection-end-column="38" />
+          <folding>
+            <element signature="e#15#31#0" expanded="true" />
+            <element signature="e#1881#2202#0" expanded="false" />
+>>>>>>> lora
           </folding>
         </state>
       </provider>
@@ -1099,19 +1200,34 @@
             <element signature="e#9559#9932#0" expanded="false" />
             <element signature="e#9970#9998#0" expanded="false" />
             <element signature="e#10046#10487#0" expanded="false" />
+<<<<<<< HEAD
             <element signature="e#13355#13427#0" expanded="false" />
             <element signature="e#13476#13590#0" expanded="false" />
             <element signature="e#13639#13753#0" expanded="false" />
             <marker date="1484190932136" expanded="true" signature="10518:10532" ph="..." />
+=======
+            <element signature="e#12422#13030#0" expanded="false" />
+            <element signature="e#13076#13148#0" expanded="false" />
+            <element signature="e#13197#13311#0" expanded="false" />
+            <element signature="e#13360#13474#0" expanded="false" />
+>>>>>>> lora
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/camera_capture.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="351">
           <caret line="13" column="30" lean-forward="true" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
           <folding />
+=======
+        <state relative-caret-position="471">
+          <caret line="46" column="36" lean-forward="false" selection-start-line="46" selection-start-column="36" selection-end-line="46" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+>>>>>>> lora
         </state>
       </provider>
     </entry>
