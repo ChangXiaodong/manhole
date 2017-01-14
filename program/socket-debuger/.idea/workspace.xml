@@ -1,38 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8b0facb6-0d60-41fa-b032-b0c4e50ff8ea" name="Default" comment="add force record&#10;">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/3d_plot.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/print_parameters.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/Flash/Flash.dep" afterPath="$PROJECT_DIR$/../STM8L052/Flash/Flash.dep" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/Libraries/hardware/SX1276.C" afterPath="$PROJECT_DIR$/../STM8L052/Libraries/hardware/SX1276.C" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/Libraries/hardware/SX1276.H" afterPath="$PROJECT_DIR$/../STM8L052/Libraries/hardware/SX1276.H" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/Libraries/hardware/delay.c" afterPath="$PROJECT_DIR$/../STM8L052/Libraries/hardware/delay.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/Libraries/hardware/delay.h" afterPath="$PROJECT_DIR$/../STM8L052/Libraries/hardware/delay.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/Libraries/hardware/system.c" afterPath="$PROJECT_DIR$/../STM8L052/Libraries/hardware/system.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/Libraries/hardware/system.h" afterPath="$PROJECT_DIR$/../STM8L052/Libraries/hardware/system.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/Libraries/schdule/mac.c" afterPath="$PROJECT_DIR$/../STM8L052/Libraries/schdule/mac.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/Libraries/schdule/schdule.c" afterPath="$PROJECT_DIR$/../STM8L052/Libraries/schdule/schdule.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/common.h" afterPath="$PROJECT_DIR$/../STM8L052/common.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/interface.h" afterPath="$PROJECT_DIR$/../STM8L052/interface.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/main.c" afterPath="$PROJECT_DIR$/../STM8L052/main.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/manhole.dep" afterPath="$PROJECT_DIR$/../STM8L052/manhole.dep" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/manhole.ewp" afterPath="$PROJECT_DIR$/../STM8L052/manhole.ewp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/settings/manhole.Debug.cspy.bat" afterPath="$PROJECT_DIR$/../STM8L052/settings/manhole.Debug.cspy.bat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/settings/manhole.Debug.general.xcl" afterPath="$PROJECT_DIR$/../STM8L052/settings/manhole.Debug.general.xcl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/settings/manhole.dbgdt" afterPath="$PROJECT_DIR$/../STM8L052/settings/manhole.dbgdt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/settings/manhole.dni" afterPath="$PROJECT_DIR$/../STM8L052/settings/manhole.dni" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/settings/manhole.wsdt" afterPath="$PROJECT_DIR$/../STM8L052/settings/manhole.wsdt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/settings/manhole.wspos" afterPath="$PROJECT_DIR$/../STM8L052/settings/manhole.wspos" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../STM8L052/stm8l15x_it.c" afterPath="$PROJECT_DIR$/../STM8L052/stm8l15x_it.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/socket-debuger.iml" afterPath="$PROJECT_DIR$/.idea/socket-debuger.iml" />
+    <list default="true" id="8b0facb6-0d60-41fa-b032-b0c4e50ff8ea" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainWindow.py" afterPath="$PROJECT_DIR$/MainWindow.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/camera_capture.py" afterPath="$PROJECT_DIR$/camera_capture.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comple.py" afterPath="$PROJECT_DIR$/comple.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/get_parameters.py" afterPath="$PROJECT_DIR$/get_parameters.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monitor_thread_operations.py" afterPath="$PROJECT_DIR$/monitor_thread_operations.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/mainwindow.ui" afterPath="$PROJECT_DIR$/ui/mainwindow.ui" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/print_parameters.py" afterPath="$PROJECT_DIR$/print_parameters.py" />
     </list>
     <list id="b37b273e-c2c8-4ea3-b368-0ee2a917fdc2" name="socket" comment="" />
     <ignored path="socket-debuger.iws" />
@@ -58,6 +29,7 @@
     <SUITE FILE_PATH="coverage/socket-debuger$socket_test.coverage" NAME="socket_test Coverage Results" MODIFIED="1469686923302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/socket-debuger$sender_sim.coverage" NAME="sender_sim Coverage Results" MODIFIED="1473229223085" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/新建文件夹/SerialPort-RealTime-Data-Plotter-master" />
     <SUITE FILE_PATH="coverage/socket-debuger$live_monitor__1_.coverage" NAME="live_monitor (1) Coverage Results" MODIFIED="1473231890206" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/serial/SerialPort-RealTime-Data-Plotter-master" />
+    <SUITE FILE_PATH="coverage/socket-debuger$print_parameters.coverage" NAME="print_parameters Coverage Results" MODIFIED="1484404172153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/socket-debuger$setup.coverage" NAME="setup Coverage Results" MODIFIED="1473264843398" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/socket-debuger$sender_sim__1_.coverage" NAME="sender_sim (1) Coverage Results" MODIFIED="1473230900979" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/serial/SerialPort-RealTime-Data-Plotter-master" />
     <SUITE FILE_PATH="coverage/socket-debuger$StartWithVideos.coverage" NAME="StartWithVideos Coverage Results" MODIFIED="1483671646692" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="D:/搜狗高速下载" />
@@ -97,7 +69,7 @@
       <file leaf-file-name="MainWindow.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MainWindow.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4698">
+            <state relative-caret-position="553">
               <caret line="326" column="0" lean-forward="false" selection-start-line="326" selection-start-column="0" selection-end-line="326" selection-end-column="0" />
               <folding>
                 <element signature="e#720#817#0" expanded="false" />
@@ -137,8 +109,8 @@
       <file leaf-file-name="get_parameters.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/get_parameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="864">
-              <caret line="32" column="47" lean-forward="false" selection-start-line="32" selection-start-column="47" selection-end-line="32" selection-end-column="47" />
+            <state relative-caret-position="0">
+              <caret line="0" column="18" lean-forward="true" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -147,8 +119,8 @@
       <file leaf-file-name="print_parameters.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/print_parameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+            <state relative-caret-position="337">
+              <caret line="42" column="21" lean-forward="true" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -171,8 +143,8 @@
       <file leaf-file-name="data_reader.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data_reader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="837">
-              <caret line="32" column="18" lean-forward="false" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="18" />
+            <state relative-caret-position="472">
+              <caret line="48" column="34" lean-forward="true" selection-start-line="48" selection-start-column="34" selection-end-line="48" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -390,7 +362,7 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="js.eslint.eslintPackage" value="" />
   </component>
-  <component name="RunManager" selected="Python.3d_plot">
+  <component name="RunManager" selected="Python.print_parameters">
     <configuration default="false" name="MainWindow" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -427,24 +399,6 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="socket-debuger" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
     <configuration default="false" name="camera_capture" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -477,6 +431,24 @@
       <module name="socket-debuger" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/3d_plot.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="print_parameters" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="socket-debuger" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/print_parameters.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -698,17 +670,17 @@
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.MainWindow" />
       <item index="1" class="java.lang.String" itemvalue="Python.get_parameters" />
-      <item index="2" class="java.lang.String" itemvalue="Python.test" />
-      <item index="3" class="java.lang.String" itemvalue="Python.camera_capture" />
-      <item index="4" class="java.lang.String" itemvalue="Python.3d_plot" />
+      <item index="2" class="java.lang.String" itemvalue="Python.camera_capture" />
+      <item index="3" class="java.lang.String" itemvalue="Python.3d_plot" />
+      <item index="4" class="java.lang.String" itemvalue="Python.print_parameters" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.3d_plot" />
-        <item index="1" class="java.lang.String" itemvalue="Python.get_parameters" />
-        <item index="2" class="java.lang.String" itemvalue="Python.MainWindow" />
-        <item index="3" class="java.lang.String" itemvalue="Python.camera_capture" />
-        <item index="4" class="java.lang.String" itemvalue="Python.test" />
+        <item index="0" class="java.lang.String" itemvalue="Python.print_parameters" />
+        <item index="1" class="java.lang.String" itemvalue="Python.3d_plot" />
+        <item index="2" class="java.lang.String" itemvalue="Python.get_parameters" />
+        <item index="3" class="java.lang.String" itemvalue="Python.MainWindow" />
+        <item index="4" class="java.lang.String" itemvalue="Python.camera_capture" />
       </list>
     </recent_temporary>
   </component>
@@ -825,7 +797,14 @@
       <option name="project" value="LOCAL" />
       <updated>1484201966191</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="after checkout&#10;">
+      <created>1484400400239</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1484400400239</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -855,19 +834,19 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3340314" sideWeight="0.4748148" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25235602" sideWeight="0.4948148" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="91" y="91" width="1738" height="848" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3340314" sideWeight="0.4748148" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932264" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25235602" sideWeight="0.4948148" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -897,11 +876,12 @@
     <MESSAGE value="STM32&amp;STM8 Backup" />
     <MESSAGE value="Merge branch 'lora'&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;" />
     <MESSAGE value="add force record&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="add force record&#10;" />
+    <MESSAGE value="after checkout&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="after checkout&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="11" />
+      <option name="time" value="12" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -993,6 +973,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="201">
           <caret line="455" column="4" lean-forward="false" selection-start-line="455" selection-start-column="4" selection-end-line="455" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1043,9 +1024,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/camera_capture.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="23" column="37" lean-forward="false" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/monitor_thread_operations.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4671">
+          <caret line="180" column="64" lean-forward="false" selection-start-line="180" selection-start-column="64" selection-end-line="180" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/comple.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6318">
+          <caret line="234" column="25" lean-forward="false" selection-start-line="234" selection-start-column="25" selection-end-line="234" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3d_plot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="5" column="57" lean-forward="true" selection-start-line="5" selection-start-column="57" selection-end-line="5" selection-end-column="57" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/MainWindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4698">
+        <state relative-caret-position="553">
           <caret line="326" column="0" lean-forward="false" selection-start-line="326" selection-start-column="0" selection-end-line="326" selection-end-column="0" />
           <folding>
             <element signature="e#720#817#0" expanded="false" />
@@ -1071,60 +1086,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/camera_capture.py">
+    <entry file="file://$PROJECT_DIR$/get_parameters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="23" column="37" lean-forward="false" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/monitor_thread_operations.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4671">
-          <caret line="180" column="64" lean-forward="false" selection-start-line="180" selection-start-column="64" selection-end-line="180" selection-end-column="64" />
+        <state relative-caret-position="0">
+          <caret line="0" column="18" lean-forward="true" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data_reader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="837">
-          <caret line="32" column="18" lean-forward="false" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="18" />
+        <state relative-caret-position="472">
+          <caret line="48" column="34" lean-forward="true" selection-start-line="48" selection-start-column="34" selection-end-line="48" selection-end-column="34" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/comple.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6318">
-          <caret line="234" column="25" lean-forward="false" selection-start-line="234" selection-start-column="25" selection-end-line="234" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/get_parameters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="864">
-          <caret line="32" column="47" lean-forward="false" selection-start-line="32" selection-start-column="47" selection-end-line="32" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/3d_plot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="5" column="57" lean-forward="true" selection-start-line="5" selection-start-column="57" selection-end-line="5" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/print_parameters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+        <state relative-caret-position="337">
+          <caret line="42" column="21" lean-forward="true" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
