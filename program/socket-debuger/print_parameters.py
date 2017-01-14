@@ -1,6 +1,7 @@
 import get_parameters
 import data_reader
 import os
+import plot_3d
 
 
 def get_data_in_all_dir(dir_path=""):
@@ -37,11 +38,90 @@ def get_data_in_all_dir(dir_path=""):
 
 
 if __name__ == "__main__":
-    data_dic = get_data_in_all_dir("E:/Manhole/test data/1-13")
+    data_dic = get_data_in_all_dir("/Users/xiaoxiami/Manhole/test data/1-13/")
+
+    acc_x_peak_width = []
+    acc_x_peak_value = []
+    acc_x_pulse_max = []
+    acc_y_peak_width = []
+    acc_y_peak_value = []
+    acc_y_pulse_max = []
+    acc_z_peak_width = []
+    acc_z_peak_value = []
+    acc_z_pulse_max = []
+
+    gyo_x_peak_width = []
+    gyo_x_peak_value = []
+    gyo_x_pulse_max = []
+    gyo_y_peak_width = []
+    gyo_y_peak_value = []
+    gyo_y_pulse_max = []
+    gyo_z_peak_width = []
+    gyo_z_peak_value = []
+    gyo_z_pulse_max = []
+
     for filename, data in data_dic.items():
-        print "{}->peak width:{} peak value:{} pulse max:{}".format(
+        print "file name                     peak width  peak value   pulse max"
+        acc_x_peak_width.append(get_parameters.peak_width(data["acc_x"], 1000))
+        acc_x_peak_value.append(get_parameters.peak_value(data["acc_x"]))
+        acc_x_pulse_max.append(get_parameters.pulse_max(data["acc_x"]))
+        print "{}  acc_x->     {}        {}       {}".format(
             filename,
-            get_parameters.peak_width(data[0],1000),
-            get_parameters.peak_value(data[0]),
-            get_parameters.pulse_max(data[0])
+            acc_x_peak_width[-1],
+            acc_x_peak_value[-1],
+            acc_x_pulse_max[-1]
         )
+        acc_y_peak_width.append(get_parameters.peak_width(data["acc_y"], 1000))
+        acc_y_peak_value.append(get_parameters.peak_value(data["acc_y"]))
+        acc_y_pulse_max.append(get_parameters.pulse_max(data["acc_y"]))
+        print "{}  acc_y->     {}        {}       {}".format(
+            filename,
+            acc_y_peak_width[-1],
+            acc_y_peak_value[-1],
+            acc_y_pulse_max[-1]
+        )
+        acc_z_peak_width.append(get_parameters.peak_width(data["acc_z"], 1000))
+        acc_z_peak_value.append(get_parameters.peak_value(data["acc_z"]))
+        acc_z_pulse_max.append(get_parameters.pulse_max(data["acc_z"]))
+        print "{}  acc_z->     {}        {}       {}".format(
+            filename,
+            acc_z_peak_width[-1],
+            acc_z_peak_value[-1],
+            acc_z_pulse_max[-1]
+        )
+
+        gyo_x_peak_width.append(get_parameters.peak_width(data["gyo_x"], 1000))
+        gyo_x_peak_value.append(get_parameters.peak_value(data["gyo_x"]))
+        gyo_x_pulse_max.append(get_parameters.pulse_max(data["gyo_x"]))
+        print "{}  gyo_x->     {}        {}       {}".format(
+            filename,
+            gyo_x_peak_width[-1],
+            gyo_x_peak_value[-1],
+            gyo_x_pulse_max[-1]
+        )
+        gyo_y_peak_width.append(get_parameters.peak_width(data["gyo_y"], 1000))
+        gyo_y_peak_value.append(get_parameters.peak_value(data["gyo_y"]))
+        gyo_y_pulse_max.append(get_parameters.pulse_max(data["gyo_y"]))
+        print "{}  gyo_y->     {}        {}       {}".format(
+            filename,
+            gyo_y_peak_width[-1],
+            gyo_y_peak_value[-1],
+            gyo_y_pulse_max[-1]
+        )
+        gyo_z_peak_width.append(get_parameters.peak_width(data["gyo_z"], 1000))
+        gyo_z_peak_value.append(get_parameters.peak_value(data["gyo_z"]))
+        gyo_z_pulse_max.append(get_parameters.pulse_max(data["gyo_z"]))
+        print "{}  gyo_z->     {}        {}       {}".format(
+            filename,
+            gyo_z_peak_width[-1],
+            gyo_z_peak_value[-1],
+            gyo_z_pulse_max[-1]
+        )
+    plot_3d.plot_3d(acc_x_peak_value, acc_y_peak_value, acc_z_peak_value)
+    plot_3d.plot_3d(acc_x_pulse_max, acc_y_pulse_max, acc_z_pulse_max, color='r', marker='*')
+    plot_3d.plot_3d(acc_x_peak_width, acc_y_peak_width, acc_z_peak_width, color='y',marker='+')
+
+    plot_3d.plot_3d(gyo_x_peak_value, gyo_y_peak_value, gyo_z_peak_value)
+    plot_3d.plot_3d(gyo_x_pulse_max, gyo_y_pulse_max, gyo_z_pulse_max, color='r', marker='*')
+    plot_3d.plot_3d(gyo_x_peak_width, gyo_y_peak_width, gyo_z_peak_width, color='y', marker='+')
+

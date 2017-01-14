@@ -7,6 +7,8 @@ def peak_width(data, threshold):
     for i in xrange(length - 1):
         if abs(data[i] - data[i + 1]) > threshold:
             index.append(i)
+    if not index:
+        return 0
     return index[-1] - index[0]
 
 

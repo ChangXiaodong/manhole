@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8b0facb6-0d60-41fa-b032-b0c4e50ff8ea" name="Default" comment="">
+    <list default="true" id="8b0facb6-0d60-41fa-b032-b0c4e50ff8ea" name="Default" comment="print parameters and plot">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/3d_plot.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/socket-debuger.iml" afterPath="$PROJECT_DIR$/.idea/socket-debuger.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/get_parameters.py" afterPath="$PROJECT_DIR$/get_parameters.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/print_parameters.py" afterPath="$PROJECT_DIR$/print_parameters.py" />
     </list>
     <list id="b37b273e-c2c8-4ea3-b368-0ee2a917fdc2" name="socket" comment="" />
@@ -17,37 +21,37 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/socket-debuger$test__1_.coverage" NAME="test (1) Coverage Results" MODIFIED="1469550181406" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="E:/Program Files (x86)/Miniconda3/Scripts" />
-    <SUITE FILE_PATH="coverage/socket-debuger$camera_capture.coverage" NAME="camera_capture Coverage Results" MODIFIED="1484188301062" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/socket-debuger$mysetup.coverage" NAME="mysetup Coverage Results" MODIFIED="1473258438348" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/socket-debuger$3d_plot.coverage" NAME="3d_plot Coverage Results" MODIFIED="1484399730584" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/socket-debuger$Code_MplMainWindow.coverage" NAME="Code_MplMainWindow Coverage Results" MODIFIED="1469629607749" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/socket-debuger$com_monitor.coverage" NAME="com_monitor Coverage Results" MODIFIED="1473227962597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/新建文件夹/SerialPort-RealTime-Data-Plotter-master" />
-    <SUITE FILE_PATH="coverage/socket-debuger$algorithm.coverage" NAME="algorithm Coverage Results" MODIFIED="1474177019748" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/socket-debuger$Serial_KL25Z.coverage" NAME="Serial_KL25Z Coverage Results" MODIFIED="1473227640185" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/新建文件夹/PyUart_RealTimePlot-master" />
-    <SUITE FILE_PATH="coverage/socket-debuger$csv_writer.coverage" NAME="csv_writer Coverage Results" MODIFIED="1484100728567" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/socket-debuger$socket_test.coverage" NAME="socket_test Coverage Results" MODIFIED="1469686923302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/socket-debuger$sender_sim.coverage" NAME="sender_sim Coverage Results" MODIFIED="1473229223085" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/新建文件夹/SerialPort-RealTime-Data-Plotter-master" />
+    <SUITE FILE_PATH="coverage/socket-debuger$Unittests_in_setup.coverage" NAME="Unittests in setup Coverage Results" MODIFIED="1473264816534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/socket-debuger$live_monitor__1_.coverage" NAME="live_monitor (1) Coverage Results" MODIFIED="1473231890206" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/serial/SerialPort-RealTime-Data-Plotter-master" />
-    <SUITE FILE_PATH="coverage/socket-debuger$print_parameters.coverage" NAME="print_parameters Coverage Results" MODIFIED="1484404172153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$print_parameters.coverage" NAME="print_parameters Coverage Results" MODIFIED="1484414792535" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$Serial_KL25Z.coverage" NAME="Serial_KL25Z Coverage Results" MODIFIED="1473227640185" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/新建文件夹/PyUart_RealTimePlot-master" />
+    <SUITE FILE_PATH="coverage/socket-debuger$data_process.coverage" NAME="data_process Coverage Results" MODIFIED="1484057513289" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$ui__1_.coverage" NAME="ui (1) Coverage Results" MODIFIED="1469587667147" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$camera_capture.coverage" NAME="camera_capture Coverage Results" MODIFIED="1484188301062" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$data_reader.coverage" NAME="data_reader Coverage Results" MODIFIED="1484139747072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/socket-debuger$setup.coverage" NAME="setup Coverage Results" MODIFIED="1473264843398" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/socket-debuger$sender_sim__1_.coverage" NAME="sender_sim (1) Coverage Results" MODIFIED="1473230900979" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/serial/SerialPort-RealTime-Data-Plotter-master" />
-    <SUITE FILE_PATH="coverage/socket-debuger$StartWithVideos.coverage" NAME="StartWithVideos Coverage Results" MODIFIED="1483671646692" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="D:/搜狗高速下载" />
-    <SUITE FILE_PATH="coverage/socket-debuger$data_process.coverage" NAME="data_process Coverage Results" MODIFIED="1484057513289" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/socket-debuger$RealTimePlot.coverage" NAME="RealTimePlot Coverage Results" MODIFIED="1473227776422" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/新建文件夹/PyUart_RealTimePlot-master" />
-    <SUITE FILE_PATH="coverage/socket-debuger$ui__2_.coverage" NAME="ui (2) Coverage Results" MODIFIED="1469587894259" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/socket-debuger$MainWindow.coverage" NAME="MainWindow Coverage Results" MODIFIED="1484399229670" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$guiqwt_realtime.coverage" NAME="guiqwt_realtime Coverage Results" MODIFIED="1473218860883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop" />
     <SUITE FILE_PATH="coverage/socket-debuger$pyqtt4.coverage" NAME="pyqtt4 Coverage Results" MODIFIED="1469618540453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$csv_writer.coverage" NAME="csv_writer Coverage Results" MODIFIED="1484100728567" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$RealTimePlot.coverage" NAME="RealTimePlot Coverage Results" MODIFIED="1473227776422" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/新建文件夹/PyUart_RealTimePlot-master" />
+    <SUITE FILE_PATH="coverage/socket-debuger$sender_sim.coverage" NAME="sender_sim Coverage Results" MODIFIED="1473229223085" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/新建文件夹/SerialPort-RealTime-Data-Plotter-master" />
+    <SUITE FILE_PATH="coverage/socket-debuger$test__1_.coverage" NAME="test (1) Coverage Results" MODIFIED="1469550181406" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="E:/Program Files (x86)/Miniconda3/Scripts" />
+    <SUITE FILE_PATH="coverage/socket-debuger$com_monitor.coverage" NAME="com_monitor Coverage Results" MODIFIED="1473227962597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/新建文件夹/SerialPort-RealTime-Data-Plotter-master" />
+    <SUITE FILE_PATH="coverage/socket-debuger$pyuic.coverage" NAME="pyuic Coverage Results" MODIFIED="1469548933975" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop" />
     <SUITE FILE_PATH="coverage/socket-debuger$ui.coverage" NAME="ui Coverage Results" MODIFIED="1469586668593" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/socket-debuger$data_reader.coverage" NAME="data_reader Coverage Results" MODIFIED="1484139747072" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/socket-debuger$test.coverage" NAME="test Coverage Results" MODIFIED="1484188083644" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/socket-debuger$ui__1_.coverage" NAME="ui (1) Coverage Results" MODIFIED="1469587667147" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/socket-debuger$get_parameters.coverage" NAME="get_parameters Coverage Results" MODIFIED="1484399239767" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$socket_test.coverage" NAME="socket_test Coverage Results" MODIFIED="1469686923302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$Code_MplMainWindow.coverage" NAME="Code_MplMainWindow Coverage Results" MODIFIED="1469629607749" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$ui__2_.coverage" NAME="ui (2) Coverage Results" MODIFIED="1469587894259" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/socket-debuger$live_monitor.coverage" NAME="live_monitor Coverage Results" MODIFIED="1473229421981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/新建文件夹/SerialPort-RealTime-Data-Plotter-master" />
     <SUITE FILE_PATH="coverage/socket-debuger$ui1.coverage" NAME="ui1 Coverage Results" MODIFIED="1469590632705" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/socket-debuger$guiqwt_realtime.coverage" NAME="guiqwt_realtime Coverage Results" MODIFIED="1473218860883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop" />
-    <SUITE FILE_PATH="coverage/socket-debuger$Unittests_in_setup.coverage" NAME="Unittests in setup Coverage Results" MODIFIED="1473264816534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/socket-debuger$pyuic.coverage" NAME="pyuic Coverage Results" MODIFIED="1469548933975" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop" />
+    <SUITE FILE_PATH="coverage/socket-debuger$mysetup.coverage" NAME="mysetup Coverage Results" MODIFIED="1473258438348" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$get_parameters.coverage" NAME="get_parameters Coverage Results" MODIFIED="1484399239767" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$test.coverage" NAME="test Coverage Results" MODIFIED="1484188083644" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$MainWindow.coverage" NAME="MainWindow Coverage Results" MODIFIED="1484399229670" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$3d_plot.coverage" NAME="3d_plot Coverage Results" MODIFIED="1484413362908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$algorithm.coverage" NAME="algorithm Coverage Results" MODIFIED="1474177019748" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/socket-debuger$StartWithVideos.coverage" NAME="StartWithVideos Coverage Results" MODIFIED="1483671646692" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="D:/搜狗高速下载" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -69,7 +73,7 @@
       <file leaf-file-name="MainWindow.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MainWindow.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="553">
+            <state relative-caret-position="2958">
               <caret line="326" column="0" lean-forward="false" selection-start-line="326" selection-start-column="0" selection-end-line="326" selection-end-column="0" />
               <folding>
                 <element signature="e#720#817#0" expanded="false" />
@@ -99,7 +103,7 @@
       <file leaf-file-name="comple.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/comple.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6318">
+            <state relative-caret-position="3978">
               <caret line="234" column="25" lean-forward="false" selection-start-line="234" selection-start-column="25" selection-end-line="234" selection-end-column="25" />
               <folding />
             </state>
@@ -109,18 +113,18 @@
       <file leaf-file-name="get_parameters.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/get_parameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="18" lean-forward="true" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
+            <state relative-caret-position="189">
+              <caret line="24" column="15" lean-forward="true" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="15" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="print_parameters.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="print_parameters.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/print_parameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="42" column="21" lean-forward="true" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
+            <state relative-caret-position="223">
+              <caret line="71" column="31" lean-forward="true" selection-start-line="71" selection-start-column="31" selection-end-line="71" selection-end-column="31" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -128,11 +132,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="3d_plot.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/3d_plot.py">
+      <file leaf-file-name="plot_3d.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/plot_3d.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="5" column="57" lean-forward="true" selection-start-line="5" selection-start-column="57" selection-end-line="5" selection-end-column="57" />
+            <state relative-caret-position="323">
+              <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -143,9 +147,11 @@
       <file leaf-file-name="data_reader.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data_reader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="472">
-              <caret line="48" column="34" lean-forward="true" selection-start-line="48" selection-start-column="34" selection-end-line="48" selection-end-column="34" />
-              <folding />
+            <state relative-caret-position="170">
+              <caret line="10" column="10" lean-forward="false" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -153,7 +159,7 @@
       <file leaf-file-name="monitor_thread_operations.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/monitor_thread_operations.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4671">
+            <state relative-caret-position="2941">
               <caret line="180" column="64" lean-forward="false" selection-start-line="180" selection-start-column="64" selection-end-line="180" selection-end-column="64" />
               <folding />
             </state>
@@ -163,7 +169,7 @@
       <file leaf-file-name="csv_writer.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/csv_writer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
+            <state relative-caret-position="136">
               <caret line="8" column="30" lean-forward="false" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
               <folding>
                 <element signature="e#15#25#0" expanded="true" />
@@ -175,7 +181,7 @@
       <file leaf-file-name="algorithm.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/algorithm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1566">
+            <state relative-caret-position="986">
               <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
               <folding />
             </state>
@@ -185,7 +191,7 @@
       <file leaf-file-name="camera_capture.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/camera_capture.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
+            <state relative-caret-position="306">
               <caret line="23" column="37" lean-forward="false" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
               <folding />
             </state>
@@ -205,7 +211,6 @@
     <findStrings>
       <find>xlwt</find>
       <find>self.value</find>
-      <find>acc</find>
       <find>%Y-%m-%d</find>
       <find>self.data_path</find>
       <find>update_plot</find>
@@ -216,8 +221,11 @@
       <find>self.excel</find>
       <find>self.Port_num_comboBox</find>
       <find>comming_flag</find>
+      <find>E:/Manhole/</find>
+      <find>acc</find>
     </findStrings>
     <replaceStrings>
+      <replace>$PROJECT_DIR$/../../</replace>
       <replace>gyo</replace>
     </replaceStrings>
   </component>
@@ -263,8 +271,9 @@
         <option value="$PROJECT_DIR$/monitor_thread_operations.py" />
         <option value="$PROJECT_DIR$/MainWindow.py" />
         <option value="$PROJECT_DIR$/camera_capture.py" />
-        <option value="$PROJECT_DIR$/3d_plot.py" />
         <option value="$PROJECT_DIR$/get_parameters.py" />
+        <option value="$PROJECT_DIR$/3d_plot.py" />
+        <option value="$PROJECT_DIR$/plot_3d.py" />
         <option value="$PROJECT_DIR$/print_parameters.py" />
       </list>
     </option>
@@ -276,10 +285,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1066" />
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="810" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -352,12 +360,12 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/socket-debuger" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="js.eslint.eslintPackage" value="" />
@@ -430,7 +438,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="socket-debuger" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/3d_plot.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/plot_3d.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -825,20 +833,20 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="810" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09739583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.097222224" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20635632" sideWeight="0.52518517" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3340314" sideWeight="0.4748148" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23211876" sideWeight="0.4748148" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25235602" sideWeight="0.4948148" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25132978" sideWeight="0.4948148" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -877,11 +885,12 @@
     <MESSAGE value="Merge branch 'lora'&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;" />
     <MESSAGE value="add force record&#10;" />
     <MESSAGE value="after checkout&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="after checkout&#10;" />
+    <MESSAGE value="print parameters and plot" />
+    <option name="LAST_COMMIT_MESSAGE" value="print parameters and plot" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="12" />
+      <option name="time" value="13" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -934,20 +943,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/搜狗高速下载/StartWithVideos.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-405">
-          <caret line="15" column="30" lean-forward="true" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python/Python27/Lib/site-packages/xlrd/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1917">
-          <caret line="394" column="0" lean-forward="false" selection-start-line="394" selection-start-column="0" selection-end-line="394" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://D:/搜狗高速下载/StartWithVideos.py" />
+    <entry file="file://D:/Python/Python27/Lib/site-packages/xlrd/__init__.py" />
     <entry file="file://$PROJECT_DIR$/filter.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="243">
@@ -969,21 +966,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2016.3/system/python_stubs/-223353804/__builtin__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="455" column="4" lean-forward="false" selection-start-line="455" selection-start-column="4" selection-end-line="455" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2016.3/system/python_stubs/-223353804/PyQt4/Qwt5/Qwt/QwtPlot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="291" column="8" lean-forward="false" selection-start-line="291" selection-start-column="8" selection-end-line="291" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2016.3/system/python_stubs/-223353804/__builtin__.py" />
+    <entry file="file://$USER_HOME$/.PyCharm2016.3/system/python_stubs/-223353804/PyQt4/Qwt5/Qwt/QwtPlot.py" />
     <entry file="file://$PROJECT_DIR$/globals.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="351">
@@ -993,30 +977,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/algorithm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1566">
+        <state relative-caret-position="986">
           <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test.py" />
-    <entry file="file://D:/Python/Python27/Lib/os.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4212">
-          <caret line="156" column="0" lean-forward="false" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2016.3/system/python_stubs/-223353804/cv2/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34452">
-          <caret line="1285" column="11" lean-forward="false" selection-start-line="1285" selection-start-column="0" selection-end-line="1285" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://D:/Python/Python27/Lib/os.py" />
+    <entry file="file://$USER_HOME$/.PyCharm2016.3/system/python_stubs/-223353804/cv2/__init__.py" />
     <entry file="file://$PROJECT_DIR$/csv_writer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
+        <state relative-caret-position="136">
           <caret line="8" column="30" lean-forward="false" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
           <folding>
             <element signature="e#15#25#0" expanded="true" />
@@ -1026,7 +998,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/camera_capture.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
+        <state relative-caret-position="306">
           <caret line="23" column="37" lean-forward="false" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
           <folding />
         </state>
@@ -1034,7 +1006,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/monitor_thread_operations.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4671">
+        <state relative-caret-position="2941">
           <caret line="180" column="64" lean-forward="false" selection-start-line="180" selection-start-column="64" selection-end-line="180" selection-end-column="64" />
           <folding />
         </state>
@@ -1042,25 +1014,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/comple.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6318">
+        <state relative-caret-position="3978">
           <caret line="234" column="25" lean-forward="false" selection-start-line="234" selection-start-column="25" selection-end-line="234" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/3d_plot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="5" column="57" lean-forward="true" selection-start-line="5" selection-start-column="57" selection-end-line="5" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MainWindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="553">
+        <state relative-caret-position="2958">
           <caret line="326" column="0" lean-forward="false" selection-start-line="326" selection-start-column="0" selection-end-line="326" selection-end-column="0" />
           <folding>
             <element signature="e#720#817#0" expanded="false" />
@@ -1086,28 +1048,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/get_parameters.py">
+    <entry file="file://$PROJECT_DIR$/data_reader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="18" lean-forward="true" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
-          <folding />
+        <state relative-caret-position="170">
+          <caret line="10" column="10" lean-forward="false" selection-start-line="10" selection-start-column="10" selection-end-line="10" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data_reader.py">
+    <entry file="file://$PROJECT_DIR$/get_parameters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="472">
-          <caret line="48" column="34" lean-forward="true" selection-start-line="48" selection-start-column="34" selection-end-line="48" selection-end-column="34" />
+        <state relative-caret-position="189">
+          <caret line="24" column="15" lean-forward="true" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="15" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/print_parameters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="42" column="21" lean-forward="true" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
+        <state relative-caret-position="223">
+          <caret line="71" column="31" lean-forward="true" selection-start-line="71" selection-start-column="31" selection-end-line="71" selection-end-column="31" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plot_3d.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
