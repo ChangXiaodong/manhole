@@ -50,6 +50,7 @@ class myThread(threading.Thread):
         self.time_stamp_quene = deque(maxlen=50000)
         self.camera = camera_capture.Camera(self.msg_q)
         self.camera.start()
+        self.force_record_flag = 0
 
         self.uart = None
 
@@ -96,7 +97,8 @@ class myThread(threading.Thread):
                                                   gyo_x, gyo_y, gyo_z],
                                                  timestamp, self.frame_count))
                         if comming_flag == 0:
-                            if (self.count < 200) or get_parameters.pulse_max(list(self.accx_prepare_quene)) < 500:
+                            if self.count < 200 or get_parameters.pulse_max(
+                                    list(self.accx_prepare_quene)) < 500 and self.force_record_flag == 0:
                                 self.accx_prepare_quene.append(acc_x)
                                 self.accy_prepare_quene.append(acc_y)
                                 self.accz_prepare_quene.append(acc_z)
@@ -179,6 +181,7 @@ class myThread(threading.Thread):
                                 self.time_stamp_prepare_quene.clear()
                                 self.uart.open()
                                 self.uart.read(self.uart.in_waiting)
+                                self.force_record_flag = 0
 
                             self.accx_data_quene.append(acc_x)
                             self.accy_data_quene.append(acc_y)
@@ -199,6 +202,9 @@ class myThread(threading.Thread):
 
         except serial.SerialException, e:
             self.error_q.put(e.message)
+
+    def force_record(self):
+        self.force_record_flag = 1
 
     def join(self, timeout=None):
         self.alive.clear()

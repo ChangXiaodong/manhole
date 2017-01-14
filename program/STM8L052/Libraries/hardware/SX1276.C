@@ -423,6 +423,15 @@ void Reset_RxTx()
     GPIO_ResetBits(SX1276.RxTx.port, SX1276.RxTx.pin);
 }
 
+void Set_Enable()
+{
+    GPIO_SetBits(SX1276.Enable.port, SX1276.Enable.pin);
+}
+void Reset_Enable()
+{
+    GPIO_ResetBits(SX1276.Enable.port, SX1276.Enable.pin);
+}
+
 static void Init_LORA_SPI()
 {
     SX1276.DIO0.pin = GPIO_Pin_1;
@@ -447,13 +456,13 @@ static void Init_LORA_SPI()
     SX1276.NSS.reset = Reset_NSS;
     GPIO_Init(SX1276.NSS.port,SX1276.NSS.pin,GPIO_Mode_Out_PP_Low_Fast);
     
-    SX1276.MOSI.pin = GPIO_Pin_6;
+    SX1276.MOSI.pin = GPIO_Pin_7;
     SX1276.MOSI.port = GPIOB;
     SX1276.MOSI.set=Set_MOSI;
     SX1276.MOSI.reset = Reset_MOSI;
     GPIO_Init(SX1276.MOSI.port,SX1276.MOSI.pin,GPIO_Mode_Out_PP_Low_Fast);
     
-    SX1276.MISO.pin = GPIO_Pin_7;
+    SX1276.MISO.pin = GPIO_Pin_6;
     SX1276.MISO.port = GPIOB;
     SX1276.MISO.set=Set_MISO;
     SX1276.MISO.reset = Reset_MISO;
@@ -470,12 +479,19 @@ static void Init_LORA_SPI()
     SX1276.RxTx.port = GPIOB;
     SX1276.RxTx.set=Set_RxTx;
     SX1276.RxTx.reset = Reset_RxTx;
-    GPIO_Init(SX1276.RxTx.port,SX1276.RxTx.pin,GPIO_Mode_Out_PP_Low_Fast); 
+    GPIO_Init(SX1276.RxTx.port,SX1276.RxTx.pin,GPIO_Mode_Out_PP_Low_Fast);
+    
+    SX1276.Enable.pin = GPIO_Pin_2;
+    SX1276.Enable.port = GPIOA;
+    SX1276.Enable.set=Set_Enable;
+    SX1276.Enable.reset = Reset_Enable;
+    GPIO_Init(SX1276.Enable.port,SX1276.Enable.pin,GPIO_Mode_Out_PP_Low_Fast); 
     
     
     RF_CKL_L;
     RF_CE_H;
     RF_SDI_H;
+    SX1276.Enable.set();
 
 }
 

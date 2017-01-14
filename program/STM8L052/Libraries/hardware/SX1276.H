@@ -246,6 +246,7 @@ typedef struct SX1276_s
     Gpio_t        MISO;
     Gpio_t        SCK;
     Gpio_t        RxTx;
+    Gpio_t        Enable;
     RadioSettings_t Settings;
     RadioLoRaPacketHandler_t PacketInfo;
 }SX1276_t;

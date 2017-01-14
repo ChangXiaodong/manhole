@@ -9,7 +9,7 @@ void getSensorData()
     ADC_SoftwareStartConv(ADC1);
     while(ADC_GetFlagStatus(ADC1,ADC_FLAG_EOC) != SET);  
     Sensor.Data.TMR = ADC_GetConversionValue(ADC1);*/
-    //Sensor.Data.reed = REED_GET;
+    Sensor.Data.reed = REED_GET;
     LED1_TOGGLE;
     EN_SAMPLE_RESET;
 }

@@ -23,12 +23,12 @@ static void Init_Delay()
 {
     CLK_PeripheralClockConfig(CLK_Peripheral_TIM2, ENABLE);
     TIM2_DeInit();
-    TIM2_TimeBaseInit(TIM2_Prescaler_1,TIM2_CounterMode_Up,0xFFFF);
+    TIM2_TimeBaseInit(TIM2_Prescaler_16,TIM2_CounterMode_Up,0xFFFF);
     TIM2_Cmd(DISABLE);
     
     CLK_PeripheralClockConfig(CLK_Peripheral_TIM5, ENABLE);
     TIM5_DeInit();
-    TIM5_TimeBaseInit(TIM5_Prescaler_1,TIM5_CounterMode_Up,0xFFFF);
+    TIM5_TimeBaseInit(TIM5_Prescaler_16,TIM5_CounterMode_Up,0xFFFF);
     TIM5_Cmd(DISABLE);
 }
 
@@ -36,12 +36,12 @@ static void Init_Time()
 {
     CLK_PeripheralClockConfig(CLK_Peripheral_TIM3, ENABLE);
     TIM3_DeInit();
-    TIM3_TimeBaseInit(TIM3_Prescaler_1,TIM3_CounterMode_Up,0xFFFF);
+    TIM3_TimeBaseInit(TIM3_Prescaler_16,TIM3_CounterMode_Up,0xFFFF);
     TIM3_Cmd(DISABLE);
 }
 
 
-static void Init_CLK()
+void Init_CLK()
 {
     CLK_DeInit();
     CLK_SYSCLKSourceSwitchCmd(ENABLE);
@@ -50,7 +50,7 @@ static void Init_CLK()
     CLK_HSEConfig(CLK_HSE_OFF);
     CLK_LSEConfig(CLK_LSE_OFF);
     CLK_SYSCLKSourceConfig(CLK_SYSCLKSource_HSI);
-    CLK_SYSCLKDivConfig(CLK_SYSCLKDiv_16);
+    CLK_SYSCLKDivConfig(CLK_SYSCLKDiv_1);
     CLK_ClockSecuritySystemEnable();
     delay_100us;
 }
@@ -59,6 +59,69 @@ void Init_GPIO()
 {
     Deinit_All_GPIO();
     Init_LED();
+    GPIO_Init(TEST1_PORT,TEST1_BIT,GPIO_Mode_Out_PP_Low_Fast); 
+}
+
+void All_PULL_UP()
+{
+    GPIO_Init(GPIOA,GPIO_Pin_3,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOA,GPIO_Pin_4,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOA,GPIO_Pin_5,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOA,GPIO_Pin_6,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOA,GPIO_Pin_7,GPIO_Mode_In_PU_No_IT); 
+    
+    GPIO_Init(GPIOB,GPIO_Pin_0,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOB,GPIO_Pin_1,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOB,GPIO_Pin_2,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOB,GPIO_Pin_3,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOB,GPIO_Pin_4,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOB,GPIO_Pin_5,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOB,GPIO_Pin_6,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOB,GPIO_Pin_7,GPIO_Mode_In_PU_No_IT); 
+    
+    GPIO_Init(GPIOC,GPIO_Pin_0,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOC,GPIO_Pin_1,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOC,GPIO_Pin_2,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOC,GPIO_Pin_3,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOC,GPIO_Pin_4,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOC,GPIO_Pin_5,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOC,GPIO_Pin_6,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOC,GPIO_Pin_7,GPIO_Mode_In_PU_No_IT); 
+    
+    GPIO_Init(GPIOD,GPIO_Pin_0,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOD,GPIO_Pin_1,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOD,GPIO_Pin_2,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOD,GPIO_Pin_3,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOD,GPIO_Pin_4,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOD,GPIO_Pin_5,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOD,GPIO_Pin_6,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOD,GPIO_Pin_7,GPIO_Mode_In_PU_No_IT); 
+    
+    GPIO_Init(GPIOE,GPIO_Pin_0,GPIO_Mode_In_PU_No_IT); 
+    //GPIO_Init(GPIOE,GPIO_Pin_1,GPIO_Mode_In_PU_No_IT); 
+    EN_SAMPLE_RESET;
+    GPIO_Init(GPIOE,GPIO_Pin_2,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOE,GPIO_Pin_3,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOE,GPIO_Pin_4,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOE,GPIO_Pin_5,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOE,GPIO_Pin_6,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOE,GPIO_Pin_7,GPIO_Mode_In_PU_No_IT); 
+    
+    GPIO_Init(GPIOF,GPIO_Pin_0,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOF,GPIO_Pin_1,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOF,GPIO_Pin_4,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOF,GPIO_Pin_5,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOF,GPIO_Pin_6,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOF,GPIO_Pin_7,GPIO_Mode_In_PU_No_IT);
+    
+    GPIO_Init(GPIOG,GPIO_Pin_0,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOG,GPIO_Pin_1,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOG,GPIO_Pin_2,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOG,GPIO_Pin_3,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOG,GPIO_Pin_4,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOG,GPIO_Pin_5,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOG,GPIO_Pin_6,GPIO_Mode_In_PU_No_IT); 
+    GPIO_Init(GPIOG,GPIO_Pin_7,GPIO_Mode_In_PU_No_IT); 
 }
 
 void Init_TIMER()
@@ -74,7 +137,7 @@ void Init_USART()
     USART_DeInit(USART1);
     GPIO_ExternalPullUpConfig(GPIOC,GPIO_Pin_2|GPIO_Pin_3,ENABLE);
     USART_Init(USART1,
-               9600,
+               115200,
                USART_WordLength_8b,
                USART_StopBits_1,
                USART_Parity_No,
@@ -84,15 +147,15 @@ void Init_USART()
     USART_Cmd(USART1,ENABLE);
 }
 
-static void Init_RTC()
+void Init_RTC()
 {
-    CLK_RTCClockConfig(CLK_RTCCLKSource_LSI, CLK_RTCCLKDiv_64);
+    CLK_RTCClockConfig(CLK_RTCCLKSource_LSI, CLK_RTCCLKDiv_1);
     while (CLK_GetFlagStatus(CLK_FLAG_LSIRDY) == RESET);
     
     CLK_PeripheralClockConfig(CLK_Peripheral_RTC, ENABLE);
-    RTC_WakeUpClockConfig(RTC_WakeUpClock_RTCCLK_Div16);
+    RTC_WakeUpClockConfig(RTC_WakeUpClock_RTCCLK_Div2);
     RTC_ITConfig(RTC_IT_WUT, ENABLE);
-    RTC_SetWakeUpCounter(3);
+    RTC_SetWakeUpCounter(1);
     RTC_WakeUpCmd(ENABLE);
 }
 
@@ -137,7 +200,7 @@ static void initSensor()
 {
     GPIO_Init(REED_PORT,REED_BIT,GPIO_Mode_In_FL_No_IT); 
     GPIO_Init(EN_SAMPLE_PORT,EN_SAMPLE_BIT,GPIO_Mode_Out_PP_Low_Fast); 
-    Init_ADC();
+    //Init_ADC();
 }
 
 
@@ -147,14 +210,18 @@ void Init_Sensor()
     Sensor.ifStatusChanged = ifStatusChanged;
     Sensor.InitSensor = initSensor;
     
-    Sensor.InitSensor();
+    //Sensor.InitSensor();
 }   
 
 void Init_System()
 {
     Init_CLK();
-    Init_GPIO();
     Init_TIMER();
+    Init_GPIO();
+   
+    Init_MPU6050();
+    delay_ms(100);
+    //LED1_ON;
     Init_USART();
     Init_RTC();
     Init_Radio();

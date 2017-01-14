@@ -128,7 +128,7 @@ void sendByCSMA()
             else
             {
                 RTC_WakeUpCmd(ENABLE);
-                //SystemSleep();
+                SystemSleep();
             }
             break;
         }

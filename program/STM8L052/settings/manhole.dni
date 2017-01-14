@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=450921132
+Checksum=-1492874507
 [CodeCoverage]
 Enabled=_ 0
 [DriverProfiling]
@@ -97,7 +97,7 @@ Category=_ 0
 LoggingEnabled=_ 0
 LogFile=_ ""
 [Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\Libraries\schdule\ProcessEvent.c}.88.13" 1 0 0 0 "" 0 ""
+Bp0=_ "STD_CODE" "{E:\Manhole\program\backup}.88.13" 0 0 0 0 "" 0 ""
 Count=1
 [Aliases]
 Count=0

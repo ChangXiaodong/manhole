@@ -3,34 +3,20 @@
 
 extern inline void delay_ms(uint16 time);
 extern inline void delay_ms_T5(uint16 time);
-#define RESET_TIM3 TIM3->CNTRH = 0;TIM3->CNTRL = 0;TIM3->CR1 |= TIM_CR1_CEN;
+extern inline void delay_us(uint16 n);
+extern inline void delay_us_T5(uint16 n);
+#define RESET_TIME3 TIM3->CNTRH = 0;TIM3->CNTRL = 0;TIM3->CR1 |= TIM_CR1_CEN;
 #define GET_TIME3 (TIM3->CNTRH << 8|TIM3->CNTRL)  //(n us)less than 65 ms
 
-#define RESET_TIM2 TIM2->CNTRH = 0;TIM2->CNTRL = 0
-#define GET_TIME2 (TIM2->CNTRH << 8|TIM2->CNTRL)
-#define delay_us(n) {RESET_TIM2;\
-                       TIM2_Cmd(ENABLE);\
-                       while(GET_TIME2<n);\
-                       TIM2_Cmd(DISABLE);\
-                      }
-
-#define RESET_TIM5 TIM5->CNTRH = 0;TIM5->CNTRL = 0
-#define GET_TIME5 (TIM5->CNTRH << 8|TIM5->CNTRL)
-#define delay_us_T5(n) {RESET_TIM5;\
-                       TIM5_Cmd(ENABLE);\
-                       while(GET_TIME5<n);\
-                       TIM5_Cmd(DISABLE);\
-                      }
-
-
-#define delay_1us nop()
-#define delay_5us nop();nop();nop();nop();nop();
-#define delay_10us delay_5us;delay_5us;
-#define delay_20us delay_10us;delay_10us;
-#define delay_50us delay_20us;delay_20us;delay_10us;
-#define delay_100us delay_50us;delay_50us;
-#define delay_200us delay_100us;delay_100us;
-#define delay_500us delay_200us;delay_200us;delay_100us;
-#define delay_1ms delay_500us;delay_500us;
+#define delay_1us nop();
+//#define delay_1us nop();nop();nop();nop();nop();nop();nop();nop();nop();nop();nop()
+#define delay_5us   {for(uint16 i=0;i<10;i++);}
+#define delay_10us  {for(uint16 i=0;i<20;i++);}
+#define delay_20us  {for(uint16 i=0;i<40;i++);}
+#define delay_50us  {for(uint16 i=0;i<110;i++);}
+#define delay_100us {for(uint16 i=0;i<220;i++);}
+#define delay_200us {for(uint16 i=0;i<440;i++);}
+#define delay_500us {for(uint16 i=0;i<1000;i++);}
+#define delay_1ms   {{for(uint16 i=0;i<2300;i++);}}
 
 #endif

@@ -29,6 +29,7 @@ class MainWindow(QtGui.QMainWindow):
         self.init_connect()
         self.init_data_path()
 
+
     def init_data_path(self):
         if not os.path.exists("Data/"):
             os.makedirs("Data/")
@@ -79,14 +80,11 @@ class MainWindow(QtGui.QMainWindow):
         self.gyo_plot, self.gyo_curve = self.plot_factory(self.gyo_groupBox)
 
     def init_defaultUI(self):
-        self.groupBox_3.setVisible(False)
         self.stop_pushButton.setDisabled(True)
         self.canvas_start_pushButton.setDisabled(True)
         self.canvas_pause_pushButton.setDisabled(True)
-        self.algorithm_pushButton.setDisabled(True)
-        self.calibrate_pushButton.setDisabled(True)
+        self.recordButton.setDisabled(True)
         self.BaudRate_lineEdit.setText("115200")
-        # self.HOST_IP_lineEdit.setText(socket.getIPAddress())
         self.updateStatusBar("UART Closed")
         self.settings = {}
         avaliable_serial_port = globals.enumerate_serial_ports()
@@ -102,6 +100,7 @@ class MainWindow(QtGui.QMainWindow):
         yellow = QtGui.QPalette()
         yellow.setColor(QtGui.QPalette.Foreground, QtGui.QColor('yellow'))
         self.z_legend_label.setPalette(yellow)
+        self.on_timer_count = 0
 
     def init_connect(self):
         self.actionExit.triggered.connect(self.close)
@@ -109,8 +108,7 @@ class MainWindow(QtGui.QMainWindow):
         self.stop_pushButton.clicked.connect(self.on_close_serial)
         self.canvas_start_pushButton.clicked.connect(self.on_start_canvas)
         self.canvas_pause_pushButton.clicked.connect(self.on_pause_canvas)
-        self.algorithm_pushButton.clicked.connect(self.on_identify_state_changed)
-        self.calibrate_pushButton.clicked.connect(self.on_calibrate)
+        self.recordButton.clicked.connect(self.on_record)
 
         QtCore.QObject.connect(
             self.Port_num_comboBox,
@@ -128,14 +126,17 @@ class MainWindow(QtGui.QMainWindow):
             self.on_tab_changed
         )
 
+    def on_record(self):
+        self.receive_thread.force_record()
+        self.updateStatusBar("Force Record")
+
+
     def on_tab_changed(self,index):
         self.tab_index = index
         if index==0:
             self.groupBox_2.setVisible(True)
-            self.groupBox_3.setVisible(False)
         else:
             self.groupBox_2.setVisible(False)
-            self.groupBox_3.setVisible(True)
 
     def closeEvent(self, event):
         reply = QtGui.QMessageBox.question(self, 'Message',
@@ -232,9 +233,12 @@ class MainWindow(QtGui.QMainWindow):
             update(data_dict)
 
     def on_timer(self):
-        msg = globals.get_item_from_queue(self.msg_q)
-        if msg:
-            self.updateStatusBar(msg)
+        self.on_timer_count += 1
+        if self.on_timer_count == 50:
+            self.on_timer_count = 0
+            msg = globals.get_item_from_queue(self.msg_q)
+            if msg:
+                self.updateStatusBar(msg)
         data_dict = self.read_serial_data()
         if data_dict:
             self.update_label(data_dict)
@@ -320,8 +324,8 @@ class MainWindow(QtGui.QMainWindow):
         self.open_pushButton.setDisabled(True)
         self.canvas_start_pushButton.setEnabled(True)
         self.canvas_pause_pushButton.setEnabled(True)
-        self.algorithm_pushButton.setEnabled(True)
-        self.calibrate_pushButton.setEnabled(True)
+        self.BaudRate_lineEdit.setDisabled(True)
+        self.recordButton.setEnabled(True)
         self.updateStatusBar("UART Opened")
         self.timer.start(15)
         self.on_start_canvas()

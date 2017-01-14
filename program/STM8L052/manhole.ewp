@@ -191,7 +191,6 @@
           <name>CCDefines</name>
           <state>STM8L05X_LD_VL</state>
           <state>USE_BAND_433</state>
-          <state>USE_MODEM_FSK</state>
         </option>
         <option>
           <name>CCPreprocFile</name>

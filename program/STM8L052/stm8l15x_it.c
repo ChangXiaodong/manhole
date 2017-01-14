@@ -252,7 +252,7 @@ INTERRUPT_HANDLER(DMA1_CHANNEL2_3_IRQHandler,3)
   * @param  None
   * @retval None
   */
-
+uint8 send_t[]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
 uint16 time = 0;
 INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler,4)
 {
@@ -267,15 +267,12 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler,4)
     //OS.postTask(task);
     
     RTC_ClearITPendingBit(RTC_IT_WUT);
-    RTC_SetWakeUpCounter(90);
+    RTC_SetWakeUpCounter(80);
     RTC_WakeUpCmd(ENABLE);
-
+    TEST1_TOGGLE;
     
-    RESET_TIME3;
     
     MpuGetData();
-    
-    TEST1_HIGH;
     UART_Send_Data(0x7D);
     UART_Send_Data(0x7E);
     UART_Send_Data(accelStruct.accelX>>8);
@@ -290,14 +287,11 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler,4)
     UART_Send_Data(gyroStruct.gyroY);
     UART_Send_Data(gyroStruct.gyroZ>>8);
     UART_Send_Data(gyroStruct.gyroZ);
-    TEST1_LOW;
-//    UART_Send_Data(0x0A);
+    
     time = GET_TIME3;
-    
-    
-    
-   
+    RESET_TIME3;
     //SystemWake();
+    //LED2_TOGGLE;
     //delay_ms(50);
     //getSensorData();
     //SystemSleep();
