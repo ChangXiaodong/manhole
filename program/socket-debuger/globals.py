@@ -1,9 +1,14 @@
 import Queue
-
+import platform
 YMAX = 10000.000
 YMIN = -10000.000
 
 DEFAULT_SCALE = 500
+if platform.system() == "Darwin":
+    data_file_path = "/Users/xiaoxiami/Manhole/test data/1-13/"
+else:
+    data_file_path = "E:/Manhole/test data/sorted data/bad manhole1/"
+
 
 
 class LiveDataFeed(object):

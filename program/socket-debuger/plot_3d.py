@@ -3,6 +3,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import os
 import pyperclip
+import globals
 
 
 class PlotTools(object):
@@ -131,11 +132,20 @@ class PlotTools(object):
                 self.data_base["{}_gyo_pulse_max".format(filename)][2]
             )
 
-
-
-            pyperclip.copy(str(filename_dic[name]).split("/")[-1])
+            final_dir_name = str(filename_dic[name]).split("/")[-1]
+            pyperclip.copy(final_dir_name)
+            dir_list = []
             if event.mouseevent.button == 3:
-                os.startfile(filename_dic[name])
+                dir_list.append(globals.data_file_path)
+                while dir_list:
+                    current_dir = dir_list.pop()
+                    for dir in os.listdir(current_dir):
+                        if dir == final_dir_name:
+                            os.startfile(current_dir + filename_dic[name])
+                            break
+                        else:
+                            if os.path.isdir(current_dir + dir + "/"):
+                                dir_list.append(current_dir + dir + "/")
 
         self.fig[title] = plt.figure()
         self.ax[title] = self.fig[title].add_subplot(111, projection='3d')

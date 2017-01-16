@@ -2,6 +2,7 @@ import get_parameters
 import data_reader
 import os
 import plot_3d
+import globals
 
 
 def get_data_in_all_dir(dir_path=""):
@@ -38,12 +39,8 @@ def get_data_in_all_dir(dir_path=""):
 
 
 if __name__ == "__main__":
-    import platform
 
-    if platform.system() == "Darwin":
-        data_path = "/Users/xiaoxiami/Manhole/test data/1-13/"
-    else:
-        data_path = "E:/Manhole/test data/1-13/"
+    data_path = globals.data_file_path
     data_dic = get_data_in_all_dir(data_path)
 
     acc_x_peak_width = []
@@ -127,18 +124,18 @@ if __name__ == "__main__":
         #     gyo_z_pulse_max[-1]
         # )
         name = "{}{}{}".format(gyo_x_peak_width[-1], gyo_y_peak_width[-1], gyo_z_peak_width[-1])
-        filename_dic[name] = "{}{}".format(data_path, filename)
+        filename_dic[name] = filename
         name = "{}{}{}".format(gyo_x_peak_value[-1], gyo_y_peak_value[-1], gyo_z_peak_value[-1])
-        filename_dic[name] = "{}{}".format(data_path, filename)
+        filename_dic[name] = filename
         name = "{}{}{}".format(gyo_x_pulse_max[-1], gyo_y_pulse_max[-1], gyo_z_pulse_max[-1])
-        filename_dic[name] = "{}{}".format(data_path, filename)
+        filename_dic[name] = filename
 
         name = "{}{}{}".format(acc_x_peak_width[-1], acc_y_peak_width[-1], acc_z_peak_width[-1])
-        filename_dic[name] = "{}{}".format(data_path, filename)
+        filename_dic[name] = filename
         name = "{}{}{}".format(acc_x_peak_value[-1], acc_y_peak_value[-1], acc_z_peak_value[-1])
-        filename_dic[name] = "{}{}".format(data_path, filename)
+        filename_dic[name] = filename
         name = "{}{}{}".format(acc_x_pulse_max[-1], acc_y_pulse_max[-1], acc_z_pulse_max[-1])
-        filename_dic[name] = "{}{}".format(data_path, filename)
+        filename_dic[name] = filename
 
         filename_data_base["{}_acc_peak_value".format(filename)] = [acc_x_peak_value[-1], acc_y_peak_value[-1],
                                                                     acc_z_peak_value[-1]]
