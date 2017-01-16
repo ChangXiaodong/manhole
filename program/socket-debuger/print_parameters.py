@@ -38,7 +38,11 @@ def get_data_in_all_dir(dir_path=""):
 
 
 if __name__ == "__main__":
-    data_dic = get_data_in_all_dir("/Users/xiaoxiami/Manhole/test data/1-13/")
+    import platform
+    if platform.system() == "Darwin":
+        data_dic = get_data_in_all_dir("/Users/xiaoxiami/Manhole/test data/1-13/")
+    else:
+        data_dic = get_data_in_all_dir("E:/Manhole/test data/1-13/")
 
     acc_x_peak_width = []
     acc_x_peak_value = []
