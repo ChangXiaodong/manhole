@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8b0facb6-0d60-41fa-b032-b0c4e50ff8ea" name="Default" comment="print parameters and plot">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/creat_position.py" />
+    <list default="true" id="8b0facb6-0d60-41fa-b032-b0c4e50ff8ea" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/print_parameters.py" afterPath="$PROJECT_DIR$/print_parameters.py" />
     </list>
     <list id="b37b273e-c2c8-4ea3-b368-0ee2a917fdc2" name="socket" comment="" />
     <ignored path="socket-debuger.iws" />
@@ -826,7 +824,14 @@
       <option name="project" value="LOCAL" />
       <updated>1484414987621</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="posiotions">
+      <created>1484535806883</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1484535806883</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -900,7 +905,8 @@
     <MESSAGE value="add force record&#10;" />
     <MESSAGE value="after checkout&#10;" />
     <MESSAGE value="print parameters and plot" />
-    <option name="LAST_COMMIT_MESSAGE" value="print parameters and plot" />
+    <MESSAGE value="posiotions" />
+    <option name="LAST_COMMIT_MESSAGE" value="posiotions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
