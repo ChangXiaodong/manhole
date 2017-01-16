@@ -38,7 +38,13 @@ def get_data_in_all_dir(dir_path=""):
 
 
 if __name__ == "__main__":
-    data_dic = get_data_in_all_dir("E:/Manhole/test data/1-13/")
+    import platform
+
+    if platform.system() == "Darwin":
+        data_path = "/Users/xiaoxiami/Manhole/test data/1-13/"
+    else:
+        data_path = "E:/Manhole/test data/1-13/"
+    data_dic = get_data_in_all_dir(data_path)
 
     acc_x_peak_width = []
     acc_x_peak_value = []
@@ -59,12 +65,14 @@ if __name__ == "__main__":
     gyo_z_peak_width = []
     gyo_z_peak_value = []
     gyo_z_pulse_max = []
+    filename_dic = {}
 
     for filename, data in data_dic.items():
         print "file name                     peak width  peak value   pulse max"
         acc_x_peak_width.append(get_parameters.peak_width(data["acc_x"], 1000))
         acc_x_peak_value.append(get_parameters.peak_value(data["acc_x"]))
         acc_x_pulse_max.append(get_parameters.pulse_max(data["acc_x"]))
+
         print "{}  acc_x->     {}        {}       {}".format(
             filename,
             acc_x_peak_width[-1],
@@ -100,7 +108,7 @@ if __name__ == "__main__":
             gyo_x_pulse_max[-1]
         )
         gyo_y_peak_width.append(get_parameters.peak_width(data["gyo_y"], 1000))
-        gyo_y_peak_value.append(get_parameters.peak_value(   data["gyo_y"]))
+        gyo_y_peak_value.append(get_parameters.peak_value(data["gyo_y"]))
         gyo_y_pulse_max.append(get_parameters.pulse_max(data["gyo_y"]))
         print "{}  gyo_y->     {}        {}       {}".format(
             filename,
@@ -117,11 +125,32 @@ if __name__ == "__main__":
             gyo_z_peak_value[-1],
             gyo_z_pulse_max[-1]
         )
-    plot_3d.plot_3d(acc_x_peak_value, acc_y_peak_value, acc_z_peak_value)
-    plot_3d.plot_3d(acc_x_pulse_max, acc_y_pulse_max, acc_z_pulse_max, color='r', marker='*')
-    plot_3d.plot_3d(acc_x_peak_width, acc_y_peak_width, acc_z_peak_width, color='y',marker='+')
+        name = "{}{}{}".format(gyo_x_peak_width[-1], gyo_y_peak_width[-1], gyo_z_peak_width[-1])
+        filename_dic[name] = "{}{}".format(data_path, filename)
+        name = "{}{}{}".format(gyo_x_peak_value[-1], gyo_y_peak_value[-1], gyo_z_peak_value[-1])
+        filename_dic[name] = "{}{}".format(data_path, filename)
+        name = "{}{}{}".format(gyo_x_pulse_max[-1], gyo_y_pulse_max[-1], gyo_z_pulse_max[-1])
+        filename_dic[name] = "{}{}".format(data_path, filename)
 
-    plot_3d.plot_3d(gyo_x_peak_value, gyo_y_peak_value, gyo_z_peak_value)
-    plot_3d.plot_3d(gyo_x_pulse_max, gyo_y_pulse_max, gyo_z_pulse_max, color='r', marker='*')
-    plot_3d.plot_3d(gyo_x_peak_width, gyo_y_peak_width, gyo_z_peak_width, color='y', marker='+')
+        name = "{}{}{}".format(acc_x_peak_width[-1], acc_y_peak_width[-1], acc_z_peak_width[-1])
+        filename_dic[name] = "{}{}".format(data_path, filename)
+        name = "{}{}{}".format(acc_x_peak_value[-1], acc_y_peak_value[-1], acc_z_peak_value[-1])
+        filename_dic[name] = "{}{}".format(data_path, filename)
+        name = "{}{}{}".format(acc_x_pulse_max[-1], acc_y_pulse_max[-1], acc_z_pulse_max[-1])
+        filename_dic[name] = "{}{}".format(data_path, filename)
+    plot_browser = plot_3d.PlotTools()
+    plot_browser.plot_3d_browser(acc_x_peak_value, acc_y_peak_value, acc_z_peak_value, filename_dic, "ACC Peak Value")
+    plot_browser.plot_3d_browser(acc_x_pulse_max, acc_y_pulse_max, acc_z_pulse_max, filename_dic, "ACC Pulse Max",
+                                 color='r',
+                                 marker='*')
+    plot_browser.plot_3d_browser(acc_x_peak_width, acc_y_peak_width, acc_z_peak_width, filename_dic, "ACC Peak Width",
+                                 color='y', marker='^')
 
+    plot_browser.plot_3d_browser(gyo_x_peak_value, gyo_y_peak_value, gyo_z_peak_value, filename_dic, "GYO Peak Value")
+    plot_browser.plot_3d_browser(gyo_x_pulse_max, gyo_y_pulse_max, gyo_z_pulse_max, filename_dic, "GYO Pulse Max",
+                                 color='r',
+                                 marker='*')
+    plot_browser.plot_3d_browser(gyo_x_peak_width, gyo_y_peak_width, gyo_z_peak_width, filename_dic,
+                                 "GYO Peak Width(Vehicle velocity)",
+                                 color='y', marker='^')
+    plot_browser.plot_show()

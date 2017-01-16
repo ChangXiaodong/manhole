@@ -6,3 +6,4 @@ backup/
 Debug/
 *.txt
 *.docx
+program/socket-debuger/.idea/

@@ -1,23 +1,52 @@
 from get_parameters import *
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
-import threading
+import os
+import pyperclip
+import tkMessageBox as msg
+import time
 
-def plot_3d(x, y, z, color='b', marker='o'):
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
+class PlotTools(object):
+    def __init__(self):
+        self.fig = []
 
-    for i, item in enumerate(x):
-        xs = x[i]
-        ys = y[i]
-        zs = z[i]
-        ax.scatter(xs, ys, zs, c=color, marker=marker)
+    def plot_3d(self, x, y, z, color='b', marker='o'):
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        ax.set_xlabel('X Label')
+        ax.set_ylabel('Y Label')
+        ax.set_zlabel('Z Label')
+        for i, item in enumerate(x):
+            xs = x[i]
+            ys = y[i]
+            zs = z[i]
+            ax.scatter(xs, ys, zs, c=color, marker=marker)
+        plt.show()
 
-    ax.set_xlabel('X Label')
-    ax.set_ylabel('Y Label')
-    ax.set_zlabel('Z Label')
+    def plot_3d_browser(self, x, y, z, filename_dic, title, color='b', marker='o'):
+        def onpick(event):
+            if event.artist != line:
+                return True
+            N = len(event.ind)
+            if not N:
+                return True
+            # the click locations
+            dataind = event.ind[0]
+            name = "{}{}{}".format(x[dataind], y[dataind], z[dataind])
+            pyperclip.copy(str(filename_dic[name]).split("/")[-1])
+            if msg.askyesno("open file directory?",
+                            "open file directory ?\nx:{}\ny:{}\nz:{}".format(x[dataind], y[dataind], z[dataind])):
+                os.startfile(filename_dic[name])
 
-    plt.show()
+
+        self.fig.append(plt.figure())
+        ax = self.fig[-1].add_subplot(111, projection='3d')
+        ax.set_title(title)
+        line, = ax.plot(x, y, z, marker, c=color, picker=5)  # 5 points tolerance
+        self.fig[-1].canvas.mpl_connect('pick_event', onpick)
+
+    def plot_show(self):
+        plt.show()
 
 
 if __name__ == "__main__":
