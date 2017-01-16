@@ -66,65 +66,66 @@ if __name__ == "__main__":
     gyo_z_peak_value = []
     gyo_z_pulse_max = []
     filename_dic = {}
+    filename_data_base = {}
 
     for filename, data in data_dic.items():
-        print "file name                     peak width  peak value   pulse max"
+        # print "file name                     peak width  peak value   pulse max"
         acc_x_peak_width.append(get_parameters.peak_width(data["acc_x"], 1000))
         acc_x_peak_value.append(get_parameters.peak_value(data["acc_x"]))
         acc_x_pulse_max.append(get_parameters.pulse_max(data["acc_x"]))
 
-        print "{}  acc_x->     {}        {}       {}".format(
-            filename,
-            acc_x_peak_width[-1],
-            acc_x_peak_value[-1],
-            acc_x_pulse_max[-1]
-        )
+        # print "{}  acc_x->     {}        {}       {}".format(
+        #     filename,
+        #     acc_x_peak_width[-1],
+        #     acc_x_peak_value[-1],
+        #     acc_x_pulse_max[-1]
+        # )
         acc_y_peak_width.append(get_parameters.peak_width(data["acc_y"], 1000))
         acc_y_peak_value.append(get_parameters.peak_value(data["acc_y"]))
         acc_y_pulse_max.append(get_parameters.pulse_max(data["acc_y"]))
-        print "{}  acc_y->     {}        {}       {}".format(
-            filename,
-            acc_y_peak_width[-1],
-            acc_y_peak_value[-1],
-            acc_y_pulse_max[-1]
-        )
+        # print "{}  acc_y->     {}        {}       {}".format(
+        #     filename,
+        #     acc_y_peak_width[-1],
+        #     acc_y_peak_value[-1],
+        #     acc_y_pulse_max[-1]
+        # )
         acc_z_peak_width.append(get_parameters.peak_width(data["acc_z"], 1000))
         acc_z_peak_value.append(get_parameters.peak_value(data["acc_z"]))
         acc_z_pulse_max.append(get_parameters.pulse_max(data["acc_z"]))
-        print "{}  acc_z->     {}        {}       {}".format(
-            filename,
-            acc_z_peak_width[-1],
-            acc_z_peak_value[-1],
-            acc_z_pulse_max[-1]
-        )
+        # print "{}  acc_z->     {}        {}       {}".format(
+        #     filename,
+        #     acc_z_peak_width[-1],
+        #     acc_z_peak_value[-1],
+        #     acc_z_pulse_max[-1]
+        # )
 
         gyo_x_peak_width.append(get_parameters.peak_width(data["gyo_x"], 1000))
         gyo_x_peak_value.append(get_parameters.peak_value(data["gyo_x"]))
         gyo_x_pulse_max.append(get_parameters.pulse_max(data["gyo_x"]))
-        print "{}  gyo_x->     {}        {}       {}".format(
-            filename,
-            gyo_x_peak_width[-1],
-            gyo_x_peak_value[-1],
-            gyo_x_pulse_max[-1]
-        )
+        # print "{}  gyo_x->     {}        {}       {}".format(
+        #     filename,
+        #     gyo_x_peak_width[-1],
+        #     gyo_x_peak_value[-1],
+        #     gyo_x_pulse_max[-1]
+        # )
         gyo_y_peak_width.append(get_parameters.peak_width(data["gyo_y"], 1000))
         gyo_y_peak_value.append(get_parameters.peak_value(data["gyo_y"]))
         gyo_y_pulse_max.append(get_parameters.pulse_max(data["gyo_y"]))
-        print "{}  gyo_y->     {}        {}       {}".format(
-            filename,
-            gyo_y_peak_width[-1],
-            gyo_y_peak_value[-1],
-            gyo_y_pulse_max[-1]
-        )
+        # print "{}  gyo_y->     {}        {}       {}".format(
+        #     filename,
+        #     gyo_y_peak_width[-1],
+        #     gyo_y_peak_value[-1],
+        #     gyo_y_pulse_max[-1]
+        # )
         gyo_z_peak_width.append(get_parameters.peak_width(data["gyo_z"], 1000))
         gyo_z_peak_value.append(get_parameters.peak_value(data["gyo_z"]))
         gyo_z_pulse_max.append(get_parameters.pulse_max(data["gyo_z"]))
-        print "{}  gyo_z->     {}        {}       {}".format(
-            filename,
-            gyo_z_peak_width[-1],
-            gyo_z_peak_value[-1],
-            gyo_z_pulse_max[-1]
-        )
+        # print "{}  gyo_z->     {}        {}       {}".format(
+        #     filename,
+        #     gyo_z_peak_width[-1],
+        #     gyo_z_peak_value[-1],
+        #     gyo_z_pulse_max[-1]
+        # )
         name = "{}{}{}".format(gyo_x_peak_width[-1], gyo_y_peak_width[-1], gyo_z_peak_width[-1])
         filename_dic[name] = "{}{}".format(data_path, filename)
         name = "{}{}{}".format(gyo_x_peak_value[-1], gyo_y_peak_value[-1], gyo_z_peak_value[-1])
@@ -139,8 +140,20 @@ if __name__ == "__main__":
         name = "{}{}{}".format(acc_x_pulse_max[-1], acc_y_pulse_max[-1], acc_z_pulse_max[-1])
         filename_dic[name] = "{}{}".format(data_path, filename)
 
+        filename_data_base["{}_acc_peak_value".format(filename)] = [acc_x_peak_value[-1], acc_y_peak_value[-1],
+                                                                    acc_z_peak_value[-1]]
+        filename_data_base["{}_acc_peak_width".format(filename)] = [acc_x_peak_width[-1], acc_y_peak_width[-1],
+                                                                    acc_z_peak_width[-1]]
+        filename_data_base["{}_acc_pulse_max".format(filename)] = [acc_x_pulse_max[-1], acc_y_pulse_max[-1],
+                                                                   acc_z_pulse_max[-1]]
+        filename_data_base["{}_gyo_peak_value".format(filename)] = [gyo_x_peak_value[-1], gyo_y_peak_value[-1],
+                                                                    gyo_z_peak_value[-1]]
+        filename_data_base["{}_gyo_peak_width".format(filename)] = [gyo_x_peak_width[-1], gyo_y_peak_width[-1],
+                                                                    gyo_z_peak_width[-1]]
+        filename_data_base["{}_gyo_pulse_max".format(filename)] = [gyo_x_pulse_max[-1], gyo_y_pulse_max[-1],
+                                                                   gyo_z_pulse_max[-1]]
 
-    plot_browser = plot_3d.PlotTools()
+    plot_browser = plot_3d.PlotTools(filename_data_base)
     plot_browser.plot_3d_browser(acc_x_peak_value, acc_y_peak_value, acc_z_peak_value, filename_dic, "ACC Peak Value")
     plot_browser.plot_3d_browser(acc_x_pulse_max, acc_y_pulse_max, acc_z_pulse_max, filename_dic, "ACC Pulse Max",
                                  color='r',

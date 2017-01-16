@@ -3,12 +3,14 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import os
 import pyperclip
-import tkMessageBox as msg
-import platform
+
 
 class PlotTools(object):
-    def __init__(self):
-        self.fig = []
+    def __init__(self, data_base):
+        self.fig = {}
+        self.data_base = data_base
+        self.selected = []
+        self.ax = {}
 
     def plot_3d(self, x, y, z, color='b', marker='o'):
         fig = plt.figure()
@@ -33,22 +35,113 @@ class PlotTools(object):
             # the click locations
             dataind = event.ind[0]
             name = "{}{}{}".format(x[dataind], y[dataind], z[dataind])
+            for s in self.selected:
+                s[0].set_visible(False)
+            print "file name                     peak width  peak value   pulse max"
+            filename = str(filename_dic[name]).split("/")[-1]
+            self.selected.append(
+                self.ax["ACC Peak Value"].plot(
+                    [self.data_base["{}_acc_peak_value".format(filename)][0]],
+                    [self.data_base["{}_acc_peak_value".format(filename)][1]],
+                    [self.data_base["{}_acc_peak_value".format(filename)][2]],
+                    'o', ms=12, alpha=0.4, color='red', visible=True)
+            )
+            self.fig["ACC Peak Value"].show()
+
+            self.selected.append(
+                self.ax["ACC Pulse Max"].plot(
+                    [self.data_base["{}_acc_pulse_max".format(filename)][0]],
+                    [self.data_base["{}_acc_pulse_max".format(filename)][1]],
+                    [self.data_base["{}_acc_pulse_max".format(filename)][2]],
+                    'o', ms=12, alpha=0.4, color='red', visible=True)
+            )
+            self.fig["ACC Pulse Max"].show()
+
+            self.selected.append(
+                self.ax["ACC Peak Width"].plot(
+                    [self.data_base["{}_acc_peak_width".format(filename)][0]],
+                    [self.data_base["{}_acc_peak_width".format(filename)][1]],
+                    [self.data_base["{}_acc_peak_width".format(filename)][2]],
+                    'o', ms=12, alpha=0.4, color='red', visible=True)
+            )
+            self.fig["ACC Peak Width"].show()
+
+            print "{}  acc_x->     {}        {}       {}".format(
+                filename,
+                self.data_base["{}_acc_peak_width".format(filename)][0],
+                self.data_base["{}_acc_peak_value".format(filename)][0],
+                self.data_base["{}_acc_pulse_max".format(filename)][0]
+            )
+            print "{}  acc_y->     {}        {}       {}".format(
+                filename,
+                self.data_base["{}_acc_peak_width".format(filename)][1],
+                self.data_base["{}_acc_peak_value".format(filename)][1],
+                self.data_base["{}_acc_pulse_max".format(filename)][1]
+            )
+            print "{}  acc_z->     {}        {}       {}".format(
+                filename,
+                self.data_base["{}_acc_peak_width".format(filename)][2],
+                self.data_base["{}_acc_peak_value".format(filename)][2],
+                self.data_base["{}_acc_pulse_max".format(filename)][2]
+            )
+
+            self.selected.append(
+                self.ax["GYO Peak Value"].plot(
+                    [self.data_base["{}_gyo_peak_value".format(filename)][0]],
+                    [self.data_base["{}_gyo_peak_value".format(filename)][1]],
+                    [self.data_base["{}_gyo_peak_value".format(filename)][2]],
+                    'o', ms=12, alpha=0.4, color='red', visible=True)
+            )
+            self.fig["GYO Peak Value"].show()
+
+            self.selected.append(
+                self.ax["GYO Pulse Max"].plot(
+                    [self.data_base["{}_gyo_pulse_max".format(filename)][0]],
+                    [self.data_base["{}_gyo_pulse_max".format(filename)][1]],
+                    [self.data_base["{}_gyo_pulse_max".format(filename)][2]],
+                    'o', ms=12, alpha=0.4, color='red', visible=True)
+            )
+            self.fig["GYO Pulse Max"].show()
+
+            self.selected.append(
+                self.ax["GYO Peak Width(Vehicle velocity)"].plot(
+                    [self.data_base["{}_gyo_peak_width".format(filename)][0]],
+                    [self.data_base["{}_gyo_peak_width".format(filename)][1]],
+                    [self.data_base["{}_gyo_peak_width".format(filename)][2]],
+                    'o', ms=12, alpha=0.4, color='red', visible=True)
+            )
+            self.fig["GYO Peak Width(Vehicle velocity)"].show()
+
+            print "{}  gyo_x->     {}        {}       {}".format(
+                filename,
+                self.data_base["{}_gyo_peak_width".format(filename)][0],
+                self.data_base["{}_gyo_peak_value".format(filename)][0],
+                self.data_base["{}_gyo_pulse_max".format(filename)][0]
+            )
+            print "{}  gyo_y->     {}        {}       {}".format(
+                filename,
+                self.data_base["{}_gyo_peak_width".format(filename)][1],
+                self.data_base["{}_gyo_peak_value".format(filename)][1],
+                self.data_base["{}_gyo_pulse_max".format(filename)][1]
+            )
+            print "{}  gyo_z->     {}        {}       {}".format(
+                filename,
+                self.data_base["{}_gyo_peak_width".format(filename)][2],
+                self.data_base["{}_gyo_peak_value".format(filename)][2],
+                self.data_base["{}_gyo_pulse_max".format(filename)][2]
+            )
+
+
+
             pyperclip.copy(str(filename_dic[name]).split("/")[-1])
+            if event.mouseevent.button == 3:
+                os.startfile(filename_dic[name])
 
-            if platform.system() != "Darwin":
-                if msg.askyesno("open file directory?",
-                                "open file directory ?\nx:{}\ny:{}\nz:{}".format(x[dataind], y[dataind], z[dataind])):
-                    os.startfile(filename_dic[name])
-            else:
-                print "x:{}\ny:{}\nz:{}\n".format(x[dataind], y[dataind], z[dataind])
-
-
-
-        self.fig.append(plt.figure())
-        ax = self.fig[-1].add_subplot(111, projection='3d')
-        ax.set_title(title)
-        line, = ax.plot(x, y, z, marker, c=color, picker=5)  # 5 points tolerance
-        self.fig[-1].canvas.mpl_connect('pick_event', onpick)
+        self.fig[title] = plt.figure()
+        self.ax[title] = self.fig[title].add_subplot(111, projection='3d')
+        self.ax[title].set_title(title)
+        line, = self.ax[title].plot(x, y, z, marker, c=color, picker=5)  # 5 points tolerance
+        self.fig[title].canvas.mpl_connect('pick_event', onpick)
 
     def plot_show(self):
         plt.show()
