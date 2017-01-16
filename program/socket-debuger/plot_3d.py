@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 import pyperclip
 import tkMessageBox as msg
-import time
+import platform
 
 class PlotTools(object):
     def __init__(self):
@@ -34,9 +34,12 @@ class PlotTools(object):
             dataind = event.ind[0]
             name = "{}{}{}".format(x[dataind], y[dataind], z[dataind])
             pyperclip.copy(str(filename_dic[name]).split("/")[-1])
-            if msg.askyesno("open file directory?",
-                            "open file directory ?\nx:{}\ny:{}\nz:{}".format(x[dataind], y[dataind], z[dataind])):
-                os.startfile(filename_dic[name])
+
+            if platform.system() != "Darwin":
+                if msg.askyesno("open file directory?",
+                                "open file directory ?\nx:{}\ny:{}\nz:{}".format(x[dataind], y[dataind], z[dataind])):
+                    os.startfile(filename_dic[name])
+
 
 
         self.fig.append(plt.figure())
