@@ -38,7 +38,7 @@ def get_data_in_all_dir(dir_path=""):
 
 
 if __name__ == "__main__":
-    data_dic = get_data_in_all_dir("/Users/xiaoxiami/Manhole/test data/1-13/")
+    data_dic = get_data_in_all_dir("E:/Manhole/test data/1-13/")
 
     acc_x_peak_width = []
     acc_x_peak_value = []
@@ -100,7 +100,7 @@ if __name__ == "__main__":
             gyo_x_pulse_max[-1]
         )
         gyo_y_peak_width.append(get_parameters.peak_width(data["gyo_y"], 1000))
-        gyo_y_peak_value.append(get_parameters.peak_value(data["gyo_y"]))
+        gyo_y_peak_value.append(get_parameters.peak_value(   data["gyo_y"]))
         gyo_y_pulse_max.append(get_parameters.pulse_max(data["gyo_y"]))
         print "{}  gyo_y->     {}        {}       {}".format(
             filename,
