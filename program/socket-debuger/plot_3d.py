@@ -39,6 +39,8 @@ class PlotTools(object):
                 if msg.askyesno("open file directory?",
                                 "open file directory ?\nx:{}\ny:{}\nz:{}".format(x[dataind], y[dataind], z[dataind])):
                     os.startfile(filename_dic[name])
+            else:
+                print "x:{}\ny:{}\nz:{}\n".format(x[dataind], y[dataind], z[dataind])
 
 
 

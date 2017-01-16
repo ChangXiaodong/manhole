@@ -140,19 +140,19 @@ if __name__ == "__main__":
         filename_dic[name] = "{}{}".format(data_path, filename)
 
 
-    # plot_browser = plot_3d.PlotTools()
-    # plot_browser.plot_3d_browser(acc_x_peak_value, acc_y_peak_value, acc_z_peak_value, filename_dic, "ACC Peak Value")
-    # plot_browser.plot_3d_browser(acc_x_pulse_max, acc_y_pulse_max, acc_z_pulse_max, filename_dic, "ACC Pulse Max",
-    #                              color='r',
-    #                              marker='*')
-    # plot_browser.plot_3d_browser(acc_x_peak_width, acc_y_peak_width, acc_z_peak_width, filename_dic, "ACC Peak Width",
-    #                              color='y', marker='^')
-    #
-    # plot_browser.plot_3d_browser(gyo_x_peak_value, gyo_y_peak_value, gyo_z_peak_value, filename_dic, "GYO Peak Value")
-    # plot_browser.plot_3d_browser(gyo_x_pulse_max, gyo_y_pulse_max, gyo_z_pulse_max, filename_dic, "GYO Pulse Max",
-    #                              color='r',
-    #                              marker='*')
-    # plot_browser.plot_3d_browser(gyo_x_peak_width, gyo_y_peak_width, gyo_z_peak_width, filename_dic,
-    #                              "GYO Peak Width(Vehicle velocity)",
-    #                              color='y', marker='^')
-    # plot_browser.plot_show()
+    plot_browser = plot_3d.PlotTools()
+    plot_browser.plot_3d_browser(acc_x_peak_value, acc_y_peak_value, acc_z_peak_value, filename_dic, "ACC Peak Value")
+    plot_browser.plot_3d_browser(acc_x_pulse_max, acc_y_pulse_max, acc_z_pulse_max, filename_dic, "ACC Pulse Max",
+                                 color='r',
+                                 marker='*')
+    plot_browser.plot_3d_browser(acc_x_peak_width, acc_y_peak_width, acc_z_peak_width, filename_dic, "ACC Peak Width",
+                                 color='y', marker='^')
+
+    plot_browser.plot_3d_browser(gyo_x_peak_value, gyo_y_peak_value, gyo_z_peak_value, filename_dic, "GYO Peak Value")
+    plot_browser.plot_3d_browser(gyo_x_pulse_max, gyo_y_pulse_max, gyo_z_pulse_max, filename_dic, "GYO Pulse Max",
+                                 color='r',
+                                 marker='*')
+    plot_browser.plot_3d_browser(gyo_x_peak_width, gyo_y_peak_width, gyo_z_peak_width, filename_dic,
+                                 "GYO Peak Width(Vehicle velocity)",
+                                 color='y', marker='^')
+    plot_browser.plot_show()
