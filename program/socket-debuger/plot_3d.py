@@ -132,6 +132,22 @@ class PlotTools(object):
                 self.data_base["{}_gyo_pulse_max".format(filename)][2]
             )
 
+            self.selected.append(
+                self.ax["ACC Peak Value/Width"].plot(
+                    [self.data_base["{}_acc_peak_value_divide_by_gyo_peak_width".format(filename)][0]],
+                    [self.data_base["{}_acc_peak_value_divide_by_gyo_peak_width".format(filename)][1]],
+                    [self.data_base["{}_acc_peak_value_divide_by_gyo_peak_width".format(filename)][2]],
+                    'o', ms=12, alpha=0.4, color='red', visible=True)
+            )
+            self.fig["ACC Peak Value/Width"].show()
+
+            print "{}-> x:{} y:{} z:{}".format(
+                filename,
+                self.data_base["{}_acc_peak_value_divide_by_gyo_peak_width".format(filename)][0],
+                self.data_base["{}_acc_peak_value_divide_by_gyo_peak_width".format(filename)][1],
+                self.data_base["{}_acc_peak_value_divide_by_gyo_peak_width".format(filename)][2]
+            )
+
             final_dir_name = str(filename_dic[name]).split("/")[-1]
             pyperclip.copy(final_dir_name)
             dir_list = []

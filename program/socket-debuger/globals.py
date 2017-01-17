@@ -7,7 +7,7 @@ DEFAULT_SCALE = 500
 if platform.system() == "Darwin":
     data_file_path = "/Users/xiaoxiami/Manhole/test data/1-13/"
 else:
-    data_file_path = "E:/Manhole/test data/sorted data/bad manhole1/"
+    data_file_path = "E:/Manhole/test data/sorted data/normal/"
 
 
 

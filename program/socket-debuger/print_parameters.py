@@ -64,6 +64,9 @@ if __name__ == "__main__":
     gyo_z_pulse_max = []
     filename_dic = {}
     filename_data_base = {}
+    acc_x_peak_value_divide_by_gyo_peak_width = []
+    acc_y_peak_value_divide_by_gyo_peak_width = []
+    acc_z_peak_value_divide_by_gyo_peak_width = []
 
     for filename, data in data_dic.items():
         # print "file name                     peak width  peak value   pulse max"
@@ -123,6 +126,11 @@ if __name__ == "__main__":
         #     gyo_z_peak_value[-1],
         #     gyo_z_pulse_max[-1]
         # )
+        peak_width = max(gyo_x_peak_width[-1], gyo_y_peak_width[-1], gyo_z_peak_width[-1],
+                         acc_x_peak_width[-1], acc_y_peak_width[-1], acc_z_peak_width[-1])/3 + 1
+        acc_x_peak_value_divide_by_gyo_peak_width.append(acc_x_peak_value[-1] / peak_width)
+        acc_y_peak_value_divide_by_gyo_peak_width.append(acc_y_peak_value[-1] / peak_width)
+        acc_z_peak_value_divide_by_gyo_peak_width.append(acc_z_peak_value[-1] / peak_width)
         name = "{}{}{}".format(gyo_x_peak_width[-1], gyo_y_peak_width[-1], gyo_z_peak_width[-1])
         filename_dic[name] = filename
         name = "{}{}{}".format(gyo_x_peak_value[-1], gyo_y_peak_value[-1], gyo_z_peak_value[-1])
@@ -135,6 +143,10 @@ if __name__ == "__main__":
         name = "{}{}{}".format(acc_x_peak_value[-1], acc_y_peak_value[-1], acc_z_peak_value[-1])
         filename_dic[name] = filename
         name = "{}{}{}".format(acc_x_pulse_max[-1], acc_y_pulse_max[-1], acc_z_pulse_max[-1])
+        filename_dic[name] = filename
+        name = "{}{}{}".format(acc_x_peak_value_divide_by_gyo_peak_width[-1],
+                               acc_y_peak_value_divide_by_gyo_peak_width[-1],
+                               acc_z_peak_value_divide_by_gyo_peak_width[-1])
         filename_dic[name] = filename
 
         filename_data_base["{}_acc_peak_value".format(filename)] = [acc_x_peak_value[-1], acc_y_peak_value[-1],
@@ -150,6 +162,13 @@ if __name__ == "__main__":
         filename_data_base["{}_gyo_pulse_max".format(filename)] = [gyo_x_pulse_max[-1], gyo_y_pulse_max[-1],
                                                                    gyo_z_pulse_max[-1]]
 
+
+
+        filename_data_base["{}_acc_peak_value_divide_by_gyo_peak_width".format(filename)] = [
+            acc_x_peak_value_divide_by_gyo_peak_width[-1],
+            acc_y_peak_value_divide_by_gyo_peak_width[-1],
+            acc_z_peak_value_divide_by_gyo_peak_width[-1]
+        ]
     plot_browser = plot_3d.PlotTools(filename_data_base)
     plot_browser.plot_3d_browser(acc_x_peak_value, acc_y_peak_value, acc_z_peak_value, filename_dic, "ACC Peak Value")
     plot_browser.plot_3d_browser(acc_x_pulse_max, acc_y_pulse_max, acc_z_pulse_max, filename_dic, "ACC Pulse Max",
@@ -165,4 +184,10 @@ if __name__ == "__main__":
     plot_browser.plot_3d_browser(gyo_x_peak_width, gyo_y_peak_width, gyo_z_peak_width, filename_dic,
                                  "GYO Peak Width(Vehicle velocity)",
                                  color='y', marker='^')
+
+    plot_browser.plot_3d_browser(acc_x_peak_value_divide_by_gyo_peak_width,
+                                 acc_y_peak_value_divide_by_gyo_peak_width,
+                                 acc_z_peak_value_divide_by_gyo_peak_width, filename_dic,
+                                 "ACC Peak Value/Width",
+                                 color='g', marker='o')
     plot_browser.plot_show()
