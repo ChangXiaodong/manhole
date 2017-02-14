@@ -1,10 +1,10 @@
 /hardware/
 reference/
 document/
-program/STM8-V0.0.0/
 backup/
 Debug/
 *.txt
 *.docx
 program/socket-debuger/.idea/
 program/socket-debuger/Data/
+program/socket-debuger/reference/
