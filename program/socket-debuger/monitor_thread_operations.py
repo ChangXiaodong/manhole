@@ -209,3 +209,7 @@ class myThread(threading.Thread):
     def join(self, timeout=None):
         self.alive.clear()
         threading.Thread.join(self, timeout)
+
+    def send(self, data):
+        for v in data:
+            self.uart.write(chr(v).encode("ISO-8859-1"))

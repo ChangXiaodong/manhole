@@ -1,7 +1,8 @@
 # coding=utf-8
 import sys
+
 reload(sys)
-sys.setdefaultencoding( "utf-8" )
+sys.setdefaultencoding("utf-8")
 from PyQt4 import QtGui, QtCore, uic
 import monitor_thread_operations as socket
 import PyQt4.Qwt5 as Qwt
@@ -9,7 +10,6 @@ import globals
 import Queue
 import os
 import time
-import xlwt
 import algorithm
 
 
@@ -28,7 +28,6 @@ class MainWindow(QtGui.QMainWindow):
 
         self.init_connect()
         self.init_data_path()
-
 
     def init_data_path(self):
         if not os.path.exists("Data/"):
@@ -83,6 +82,7 @@ class MainWindow(QtGui.QMainWindow):
         self.stop_pushButton.setDisabled(True)
         self.canvas_start_pushButton.setDisabled(True)
         self.canvas_pause_pushButton.setDisabled(True)
+        self.calibrateButton.setDisabled(True)
         self.recordButton.setDisabled(True)
         self.BaudRate_lineEdit.setText("115200")
         self.updateStatusBar("UART Closed")
@@ -109,6 +109,8 @@ class MainWindow(QtGui.QMainWindow):
         self.canvas_start_pushButton.clicked.connect(self.on_start_canvas)
         self.canvas_pause_pushButton.clicked.connect(self.on_pause_canvas)
         self.recordButton.clicked.connect(self.on_record)
+        self.calibrateButton.clicked.connect(self.on_calibrate)
+        self.actionUpdate_uart_port.triggered.connect(self.on_update_uart_port)
 
         QtCore.QObject.connect(
             self.Port_num_comboBox,
@@ -126,14 +128,24 @@ class MainWindow(QtGui.QMainWindow):
             self.on_tab_changed
         )
 
+    def on_calibrate(self):
+        self.receive_thread.send([0x01])
+        self.__calibrate_once = True
+
+    def on_update_uart_port(self):
+        self.Port_num_comboBox.clear()
+        avaliable_serial_port = globals.enumerate_serial_ports()
+        if avaliable_serial_port:
+            for port in avaliable_serial_port:
+                self.Port_num_comboBox.addItem(port)
+
     def on_record(self):
         self.receive_thread.force_record()
         self.updateStatusBar("Force Record")
 
-
-    def on_tab_changed(self,index):
+    def on_tab_changed(self, index):
         self.tab_index = index
-        if index==0:
+        if index == 0:
             self.groupBox_2.setVisible(True)
         else:
             self.groupBox_2.setVisible(False)
@@ -180,15 +192,15 @@ class MainWindow(QtGui.QMainWindow):
     def update_plot(self, data):
 
         self.acc_samples[0].append((data['frame_count'], data['acc_x']))
-        if len(self.acc_samples[0]) > max(100,self.scale_value):
+        if len(self.acc_samples[0]) > max(100, self.scale_value):
             self.acc_samples[0].pop(0)
 
         self.acc_samples[1].append((data['frame_count'], data['acc_y']))
-        if len(self.acc_samples[1]) > max(100,self.scale_value):
+        if len(self.acc_samples[1]) > max(100, self.scale_value):
             self.acc_samples[1].pop(0)
 
         self.acc_samples[2].append((data['frame_count'], data['acc_z']))
-        if len(self.acc_samples[2]) > max(100,self.scale_value):
+        if len(self.acc_samples[2]) > max(100, self.scale_value):
             self.acc_samples[2].pop(0)
 
         self.gyo_samples[0].append((data['frame_count'], data['gyo_x']))
@@ -211,7 +223,7 @@ class MainWindow(QtGui.QMainWindow):
         for i in range(3):
             data[i] = [s[1] for s in self.gyo_samples[i]]
             self.gyo_curve[i].setData(tdata, data[i])
-        self.acc_plot.setAxisScale(Qwt.QwtPlot.xBottom, tdata[-1]-self.scale_value, max(1, tdata[-1]))
+        self.acc_plot.setAxisScale(Qwt.QwtPlot.xBottom, tdata[-1] - self.scale_value, max(1, tdata[-1]))
         self.acc_plot.replot()
 
         self.gyo_plot.setAxisScale(Qwt.QwtPlot.xBottom, tdata[-1] - self.scale_value, max(1, tdata[-1]))
@@ -227,6 +239,7 @@ class MainWindow(QtGui.QMainWindow):
                                 data["gyo_y"],
                                 data["gyo_z"]
                                 )
+
         self.update_label_count += 1
         if self.update_label_count >= 10:
             self.update_label_count = 0
@@ -258,7 +271,7 @@ class MainWindow(QtGui.QMainWindow):
         self.canvas_start_pushButton.setEnabled(True)
 
     def on_identify_state_changed(self):
-        if self.__enable_identify is False:     #identify running
+        if self.__enable_identify is False:  # identify running
             self.__enable_identify = True
             self.algorithm_pushButton.setText("Stop Monitor")
 
@@ -268,9 +281,6 @@ class MainWindow(QtGui.QMainWindow):
             self.algorithm_pushButton.setText("Start Monitor")
 
             self.identify = None
-
-    def on_calibrate(self):
-        self.__calibrate_once = True
 
     def on_identify(self, data_dict):
         if self.identify:
@@ -312,9 +322,10 @@ class MainWindow(QtGui.QMainWindow):
                 com_error = globals.get_item_from_queue(self.error_q)
                 if com_error is not None:
                     QtGui.QMessageBox.critical(self, 'ComMonitorThread error',
-                                         com_error)
+                                               com_error)
                     self.receive_thread = None
                     return
+                self.calibrateButton.setEnabled(True)
 
             except OSError as err:
                 self.updateStatusBar(str(err))
@@ -342,8 +353,8 @@ class MainWindow(QtGui.QMainWindow):
         self.Port_num_comboBox.setEnabled(True)
         self.canvas_start_pushButton.setDisabled(True)
         self.canvas_pause_pushButton.setDisabled(True)
-        self.algorithm_pushButton.setDisabled(True)
-        self.calibrate_pushButton.setDisabled(True)
+        self.calibrateButton.setDisabled(True)
+        self.recordButton.setDisabled(True)
         self.updateStatusBar("monitor stoped")
 
     def updateStatusBar(self, msg):

@@ -521,7 +521,7 @@
     <property name="title">
      <string>Legend</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>22</x>
@@ -609,6 +609,19 @@
      </layout>
     </widget>
    </widget>
+   <widget class="QPushButton" name="calibrateButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>540</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Calibrate</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -624,6 +637,7 @@
      <string>File</string>
     </property>
     <addaction name="actionExit"/>
+    <addaction name="actionUpdate_uart_port"/>
    </widget>
    <widget class="QMenu" name="menuVideo">
     <property name="title">
@@ -649,6 +663,14 @@
    </property>
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionUpdate_uart_port">
+   <property name="text">
+    <string>update uart port</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
    </property>
   </action>
  </widget>

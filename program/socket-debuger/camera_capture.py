@@ -21,7 +21,7 @@ class Camera(threading.Thread):
         self.msg_q = msg_q
 
     def run(self):
-        self.cap = cv2.VideoCapture(1)
+        self.cap = cv2.VideoCapture(0)
         fourcc = cv2.VideoWriter_fourcc(*'MJPG')
 
         while self.cap.isOpened() and self.alive.isSet():
@@ -35,7 +35,7 @@ class Camera(threading.Thread):
                     if self.frame_count < self.frame_saved + self.SAVED_TIME:
                         self.after_pic.append(frame)
                     else:
-                        videoWriter = cv2.VideoWriter(self.video_path, fourcc, 24.0, (640, 480))
+                        videoWriter = cv2.VideoWriter(self.video_path, fourcc, 25.0, (640, 480))
                         for i in xrange(self.SAVED_TIME):
                             videoWriter.write(self.pre_pic[i])
                         for i in xrange(self.SAVED_TIME):
@@ -49,6 +49,9 @@ class Camera(threading.Thread):
             else:
                 self.pre_pic.append(frame)
             self.frame_count += 1
+            # time.sleep(0.03)
+            if self.frame_count%25 == 0:
+                print(self.frame_count)
             button = cv2.waitKey(1)
             if button == ord('q'):
                 break
