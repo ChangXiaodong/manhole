@@ -8,9 +8,9 @@ import globals
 
 
 if __name__ == "__main__":
-
-    data_path = globals.data_file_path
-    data_path = "E:/Manhole/test data/compare"
+    data_path = "E:/Manhole/test data/2-16/Data"
+    # data_path = "E:/Manhole/test data/sorted data/bad manhole1"
+    # data_path = "E:/Manhole/test data/special vehicle/walk"
     data_dic = data_reader.get_data_in_all_dir(data_path)
 
     acc_x_peak_width = []

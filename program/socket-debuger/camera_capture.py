@@ -41,7 +41,7 @@ class Camera(threading.Thread):
                             videoWriter.write(self.after_pic[i])
                         videoWriter.release()
                         self.saved_once = False
-                        self.msg_q.put("{} Seconds Video Saved".format(self.SAVED_SECONDS*2))
+                        # self.msg_q.put("{} Seconds Video Saved".format(self.SAVED_SECONDS*2))
                 else:
                     self.msg_q.put("video is shorter than {} seconds".format(self.SAVED_SECONDS))
                     self.saved_once = False

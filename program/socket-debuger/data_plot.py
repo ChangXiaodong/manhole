@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import data_reader
 
-dir_path = "E:/Manhole/test data/compare"
+dir_path = "E:/Manhole/test data/plot"
 data_dic = data_reader.get_data_in_all_dir(dir_path)
 fig = {}
 ax = {}

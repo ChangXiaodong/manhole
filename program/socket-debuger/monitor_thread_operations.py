@@ -98,7 +98,7 @@ class myThread(threading.Thread):
                                                  timestamp, self.frame_count))
                         if comming_flag == 0:
                             if self.count < 200 or get_parameters.pulse_max(
-                                    list(self.accx_prepare_quene)) < 500 and self.force_record_flag == 0:
+                                    list(self.accz_prepare_quene)) < 15000 and self.force_record_flag == 0:
                                 self.accx_prepare_quene.append(acc_x)
                                 self.accy_prepare_quene.append(acc_y)
                                 self.accz_prepare_quene.append(acc_z)
@@ -123,7 +123,7 @@ class myThread(threading.Thread):
                                     stable_count += 1
                             if stable_count > 100:
                                 self.msg_q.put("Vehicle Leaving. {} Seconds data saved".format(
-                                    round(time.time() - start_time, 3) + 1.7
+                                    round(time.time() - start_time, 3) + 3.6
                                 ))
                                 self.uart.close()
                                 comming_flag = 0
