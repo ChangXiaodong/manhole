@@ -10,7 +10,7 @@ class Camera(threading.Thread):
         super(Camera, self).__init__()
         self.saved_once = False
         self.SAVED_SECONDS = 3
-        self.SAVED_TIME = self.SAVED_SECONDS * 24
+        self.SAVED_TIME = self.SAVED_SECONDS * 15
         self.frame_count = 0
         self.frame_saved = 0
         self.pre_pic = deque(maxlen=self.SAVED_TIME)
@@ -23,7 +23,6 @@ class Camera(threading.Thread):
     def run(self):
         self.cap = cv2.VideoCapture(0)
         fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-
         while self.cap.isOpened() and self.alive.isSet():
             ret, frame = self.cap.read()
             font = cv2.FONT_ITALIC
@@ -35,7 +34,7 @@ class Camera(threading.Thread):
                     if self.frame_count < self.frame_saved + self.SAVED_TIME:
                         self.after_pic.append(frame)
                     else:
-                        videoWriter = cv2.VideoWriter(self.video_path, fourcc, 25.0, (640, 480))
+                        videoWriter = cv2.VideoWriter(self.video_path, fourcc, 15.0, (640, 480))
                         for i in xrange(self.SAVED_TIME):
                             videoWriter.write(self.pre_pic[i])
                         for i in xrange(self.SAVED_TIME):
@@ -49,9 +48,6 @@ class Camera(threading.Thread):
             else:
                 self.pre_pic.append(frame)
             self.frame_count += 1
-            # time.sleep(0.03)
-            if self.frame_count%25 == 0:
-                print(self.frame_count)
             button = cv2.waitKey(1)
             if button == ord('q'):
                 break

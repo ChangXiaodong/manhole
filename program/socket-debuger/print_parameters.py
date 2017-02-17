@@ -1,47 +1,17 @@
 import get_parameters
 import data_reader
-import os
 import plot_3d
 import globals
 
 
-def get_data_in_all_dir(dir_path=""):
-    dir_path = dir_path.replace("\\", "/")
-    dir_list = []
-    file_list = []
-    if dir_path[-1] != "/":
-        dir_path += "/"
 
-    dir_list.append(dir_path)
-    while dir_list:
-        current_dir = dir_list.pop()
-        for fileordir in os.listdir(current_dir):
-            temp_path = current_dir + fileordir
-            if os.path.isdir(temp_path):
-                if temp_path[-1] != "/":
-                    temp_path += "/"
-                dir_list.append(temp_path)
-            elif temp_path.endswith(".csv"):
-                file_list.append(temp_path)
-
-    data_dic = {}
-    for file in file_list:
-        acc_x, acc_y, acc_z, gyo_x, gyo_y, gyo_z = data_reader.get_data_by_csvpath(file)
-        data_dic[str(file).split("/")[-1].split(".")[0]] = {
-            "acc_x": acc_x,
-            "acc_y": acc_y,
-            "acc_z": acc_z,
-            "gyo_x": gyo_x,
-            "gyo_y": gyo_y,
-            "gyo_z": gyo_z
-        }
-    return data_dic
 
 
 if __name__ == "__main__":
 
     data_path = globals.data_file_path
-    data_dic = get_data_in_all_dir(data_path)
+    data_path = "E:/Manhole/test data/compare"
+    data_dic = data_reader.get_data_in_all_dir(data_path)
 
     acc_x_peak_width = []
     acc_x_peak_value = []
