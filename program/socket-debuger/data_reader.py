@@ -90,4 +90,4 @@ def get_data_in_all_dir(dir_path=""):
 
 if __name__ == "__main__":
 
-    print get_data_by_csvpath("E:\Manhole\\test data\middle_fast\\2\middle_fast_2.csv")
+    print(get_data_by_csvpath("E:\Manhole\\test data\middle_fast\\2\middle_fast_2.csv"))
