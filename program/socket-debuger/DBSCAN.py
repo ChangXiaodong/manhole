@@ -88,7 +88,7 @@ if __name__ == "__main__":
     plt.title('Effective Data:{:.2f}%'.format(len(filted_X)/len(X)*100))
     ax.plot(filted_X[:, 0], filted_X[:, 1], filted_X[:, 2], 'o', markerfacecolor='r',
             markeredgecolor='k')
-
+    print(xlim,ylim,zlim)
     # ax.set_xlim(xlim)
     # ax.set_ylim(ylim)
     # ax.set_zlim(zlim)
