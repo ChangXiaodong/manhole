@@ -20,8 +20,6 @@ static void MPU5883IOInit(void)
     GPIO_Init(MPU_SCL_PORT,MPU_SCL_BIT,GPIO_Mode_Out_PP_High_Fast); 
 }
 
-
-
 //发送IIC起始信号
 inline void ComStart(void)
 {
@@ -197,6 +195,15 @@ s16 MpuReadTwoByte(u8 addr)
     return (s16)((((u16)H)<<8)+L);   //合成数据
 }
 
+s16 MpuReadTwoByteSPI(u8 addr)
+{
+    u8 H,L;
+    SPI_ReadRegByte(addr,&H);
+    SPI_ReadRegByte(addr+1,&L);
+
+    return (s16)((((u16)H)<<8)+L);   //合成数据
+}
+
 /*
 *初始化，返回0代表失败 返回1代表成功
 **/
@@ -246,16 +253,27 @@ u8 Init_MPU6050(void)
 
 
 //获取相应的测量数据
+//void MpuGetData(void)
+//{
+//    //s16 temp = 0;
+//    accelStruct.accelX =  MpuReadTwoByte(MPU6050_RA_ACCEL_XOUT_H) + accelStruct.accx_offset;
+//    accelStruct.accelY =  MpuReadTwoByte(MPU6050_RA_ACCEL_YOUT_H) + accelStruct.accy_offset;
+//    accelStruct.accelZ =  MpuReadTwoByte(MPU6050_RA_ACCEL_ZOUT_H) + accelStruct.accz_offset;
+//    gyroStruct.gyroX =   MpuReadTwoByte(MPU6050_RA_GYRO_XOUT_H) + gyroStruct.gyox_offset;
+//    gyroStruct.gyroY =  MpuReadTwoByte(MPU6050_RA_GYRO_YOUT_H) + gyroStruct.gyoy_offset;
+//    gyroStruct.gyroZ =  MpuReadTwoByte(MPU6050_RA_GYRO_ZOUT_H) + gyroStruct.gyoz_offset;
+//    //temp = MpuReadTwoByte(MPU6050_RA_TEMP_OUT_H); 
+//}
+
 void MpuGetData(void)
 {
-    //s16 temp = 0;
-    accelStruct.accelX =  MpuReadTwoByte(MPU6050_RA_ACCEL_XOUT_H) + accelStruct.accx_offset;
-    accelStruct.accelY =  MpuReadTwoByte(MPU6050_RA_ACCEL_YOUT_H) + accelStruct.accy_offset;
-    accelStruct.accelZ =  MpuReadTwoByte(MPU6050_RA_ACCEL_ZOUT_H) + accelStruct.accz_offset;
-    gyroStruct.gyroX =   MpuReadTwoByte(MPU6050_RA_GYRO_XOUT_H) + gyroStruct.gyox_offset;
-    gyroStruct.gyroY =  MpuReadTwoByte(MPU6050_RA_GYRO_YOUT_H) + gyroStruct.gyoy_offset;
-    gyroStruct.gyroZ =  MpuReadTwoByte(MPU6050_RA_GYRO_ZOUT_H) + gyroStruct.gyoz_offset;
-    //temp = MpuReadTwoByte(MPU6050_RA_TEMP_OUT_H); 
+  accelStruct.accelX = MpuReadTwoByteSPI(MPU6050_RA_ACCEL_XOUT_H) + accelStruct.accx_offset;
+  accelStruct.accelY = MpuReadTwoByteSPI(MPU6050_RA_ACCEL_YOUT_H) + accelStruct.accy_offset;
+  accelStruct.accelZ = MpuReadTwoByteSPI(MPU6050_RA_ACCEL_ZOUT_H) + accelStruct.accz_offset;
+  gyroStruct.gyroX = MpuReadTwoByteSPI(MPU6050_RA_GYRO_XOUT_H) + gyroStruct.gyox_offset;
+  gyroStruct.gyroY = MpuReadTwoByteSPI(MPU6050_RA_GYRO_YOUT_H) + gyroStruct.gyoy_offset;
+  gyroStruct.gyroZ = MpuReadTwoByteSPI(MPU6050_RA_GYRO_ZOUT_H) + gyroStruct.gyoz_offset;
+  
 }
 
 //u8 MPU_Set_Rate(u16 rate)
@@ -270,12 +288,12 @@ void MpuGetData(void)
 
 void MPU_set_offset(u16 zero)
 {
-    accelStruct.accelX =  MpuReadTwoByte(MPU6050_RA_ACCEL_XOUT_H);
-    accelStruct.accelY =  MpuReadTwoByte(MPU6050_RA_ACCEL_YOUT_H);
-    accelStruct.accelZ =  MpuReadTwoByte(MPU6050_RA_ACCEL_ZOUT_H);
-    gyroStruct.gyroX =   MpuReadTwoByte(MPU6050_RA_GYRO_XOUT_H);
-    gyroStruct.gyroY =  MpuReadTwoByte(MPU6050_RA_GYRO_YOUT_H);
-    gyroStruct.gyroZ =  MpuReadTwoByte(MPU6050_RA_GYRO_ZOUT_H);
+    accelStruct.accelX =  MpuReadTwoByteSPI(MPU6050_RA_ACCEL_XOUT_H);
+    accelStruct.accelY =  MpuReadTwoByteSPI(MPU6050_RA_ACCEL_YOUT_H);
+    accelStruct.accelZ =  MpuReadTwoByteSPI(MPU6050_RA_ACCEL_ZOUT_H);
+    gyroStruct.gyroX =   MpuReadTwoByteSPI(MPU6050_RA_GYRO_XOUT_H);
+    gyroStruct.gyroY =  MpuReadTwoByteSPI(MPU6050_RA_GYRO_YOUT_H);
+    gyroStruct.gyroZ =  MpuReadTwoByteSPI(MPU6050_RA_GYRO_ZOUT_H);
     
     accelStruct.accx_offset = zero - accelStruct.accelX;
     accelStruct.accy_offset = zero - accelStruct.accelY;
@@ -283,5 +301,70 @@ void MPU_set_offset(u16 zero)
     gyroStruct.gyox_offset = zero - gyroStruct.gyroX;
     gyroStruct.gyoy_offset = zero - gyroStruct.gyroY;
     gyroStruct.gyoz_offset = zero - gyroStruct.gyroZ;
+}
+
+//void MPU_set_offset(u16 zero)
+//{
+//    accelStruct.accelX =  MpuReadTwoByte(MPU6050_RA_ACCEL_XOUT_H);
+//    accelStruct.accelY =  MpuReadTwoByte(MPU6050_RA_ACCEL_YOUT_H);
+//    accelStruct.accelZ =  MpuReadTwoByte(MPU6050_RA_ACCEL_ZOUT_H);
+//    gyroStruct.gyroX =   MpuReadTwoByte(MPU6050_RA_GYRO_XOUT_H);
+//    gyroStruct.gyroY =  MpuReadTwoByte(MPU6050_RA_GYRO_YOUT_H);
+//    gyroStruct.gyroZ =  MpuReadTwoByte(MPU6050_RA_GYRO_ZOUT_H);
+//    
+//    accelStruct.accx_offset = zero - accelStruct.accelX;
+//    accelStruct.accy_offset = zero - accelStruct.accelY;
+//    accelStruct.accz_offset = zero - accelStruct.accelZ;
+//    gyroStruct.gyox_offset = zero - gyroStruct.gyroX;
+//    gyroStruct.gyoy_offset = zero - gyroStruct.gyroY;
+//    gyroStruct.gyoz_offset = zero - gyroStruct.gyroZ;
+//    
+//}
+
+
+void SPI_6500_IOInit(void)
+{
+  GPIO_Init(SPI_CS_PORT,SPI_CS_BIT,GPIO_Mode_Out_PP_High_Fast);
+  GPIO_Init(SPI_MISO_PORT,SPI_MISO_BIT,GPIO_Mode_In_FL_No_IT);
+  GPIO_Init(SPI_MOSI_PORT,SPI_MOSI_BIT,GPIO_Mode_Out_PP_High_Fast);
+  GPIO_Init(SPI_CLK_PORT,SPI_CLK_BIT,GPIO_Mode_Out_PP_Low_Fast);
+}
+u8 reg_test = 0;
+void Init_MPU6500_SPI(void)
+{
+    u8 id = 0;
+    SPI_6500_IOInit();
+    delay_1ms;
+    SPI_ReadRegByte(MPU6050_RA_WHO_AM_I,&id);
+    if(id!=0x70)
+    {
+        while(1)
+        {
+            LED1_ON;
+            LED2_ON;
+            LED3_ON;
+            LED4_ON;
+            LED5_ON;
+            delay_ms(500);
+            LED1_OFF;
+            LED2_OFF;
+            LED3_OFF;
+            LED4_OFF;
+            LED5_OFF;
+            delay_ms(500);
+        }
+    }	//IIC总线错误
     
+    SPI_WriteRegByte(MPU6050_RA_PWR_MGMT_1,0x00);			
+    delay_ms(100);                                            
+    SPI_WriteRegByte(MPU6050_RA_SIGNAL_PATH_RESET,0x07);
+    delay_ms(100);
+    SPI_WriteRegByte(MPU6050_RA_SMPLRT_DIV,0x00);			
+    SPI_WriteRegByte(MPU6050_RA_CONFIG,0);       
+    SPI_WriteRegByte(MPU6050_RA_GYRO_CONFIG,0x0);			
+    SPI_WriteRegByte(MPU6050_RA_ACCEL_CONFIG,0x0);
+    SPI_ReadRegByte(MPU6050_RA_ACCEL_CONFIG, &reg_test);
+    SPI_WriteRegByte(MPU6050_RA_INT_PIN_CFG,0x00/*0x32*/);					
+    SPI_WriteRegByte(MPU6050_RA_INT_ENABLE,0x00/*0x01*/);					
+    SPI_WriteRegByte(MPU6050_RA_USER_CTRL,0x11);	
 }

@@ -2042,6 +2042,12 @@
       <name>$PROJ_DIR$\Libraries\hardware\mpu6050.h</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\Libraries\hardware\spi.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Libraries\hardware\spi.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\Libraries\hardware\SX1276.C</name>
     </file>
     <file>

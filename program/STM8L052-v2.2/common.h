@@ -14,4 +14,6 @@
 #include "schdule.h"
 #include "mac.h"
 #include "mpu6050.h"
+#include "spi.h"
+
 #endif

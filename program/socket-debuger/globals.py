@@ -1,5 +1,5 @@
-import Queue
 import platform
+import Queue
 YMAX = 10000.000
 YMIN = -10000.000
 
@@ -30,7 +30,7 @@ def get_all_from_queue(Q):
     """
     try:
         while True:
-            yield Q.get_nowait( )
+            yield Q.get_nowait()
     except Queue.Empty:
         raise StopIteration
 
@@ -49,6 +49,7 @@ def get_item_from_queue(Q, timeout=0.01):
         return None
     return item
 
+
 def enumerate_serial_ports():
     """
     Purpose:        scan for available serial ports
@@ -61,7 +62,7 @@ def enumerate_serial_ports():
     try:
         key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path)
     except WindowsError:
-        print "no avaliable uart"
+        print("no avaliable uart")
         return
         # raise self.IterationError
     for i in itertools.count():

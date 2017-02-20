@@ -165,7 +165,7 @@ class MainWindow(QtGui.QMainWindow):
             event.ignore()
 
     def on_portnum_changed(self, index):
-        print self.Port_num_comboBox.currentText()
+        print(self.Port_num_comboBox.currentText())
 
     def read_serial_data(self):
         qdata = list(globals.get_all_from_queue(self.data_q))

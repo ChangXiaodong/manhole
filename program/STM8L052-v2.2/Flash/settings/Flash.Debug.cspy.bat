@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"D:\IAR Systems\STM8\common\bin\cspybat" -f "F:\Manhole\program\STM8L052\Flash\settings\Flash.Debug.general.xcl" --backend -f "F:\Manhole\program\STM8L052\Flash\settings\Flash.Debug.driver.xcl" 
+"C:\Èí¼þ\IAR FOR STM8\common\bin\cspybat" -f "C:\Users\WJ\Desktop\STM8L052-v2.2\Flash\settings\Flash.Debug.general.xcl" --backend -f "C:\Users\WJ\Desktop\STM8L052-v2.2\Flash\settings\Flash.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"D:\IAR Systems\STM8\common\bin\cspybat" -f "F:\Manhole\program\STM8L052\Flash\settings\Flash.Debug.general.xcl" "--debug_file=%~1" --backend -f "F:\Manhole\program\STM8L052\Flash\settings\Flash.Debug.driver.xcl" 
+"C:\Èí¼þ\IAR FOR STM8\common\bin\cspybat" -f "C:\Users\WJ\Desktop\STM8L052-v2.2\Flash\settings\Flash.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\Users\WJ\Desktop\STM8L052-v2.2\Flash\settings\Flash.Debug.driver.xcl" 
 
 @echo off 
 :end

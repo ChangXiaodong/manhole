@@ -13,9 +13,6 @@
 #define MPU_SCL_HIGH     GPIO_SetBits(MPU_SCL_PORT,MPU_SCL_BIT);
 #define MPU_SCL_LOW      GPIO_ResetBits(MPU_SCL_PORT,MPU_SCL_BIT);
 
-
-
-
 #define MPU_ACK_WAIT_TIME	200	//us
 
 #define MPU6050_ADDRESS_AD0_LOW     0xD0 // AD0为低的时候设备的写地址
@@ -121,6 +118,7 @@
  * 4         | On          | 0.63Hz
  * 7         | Hold        | None
  */
+#define MPU6050_RA_ACCEL_CONFIG2     0x1D
 
 #define MPU6050_RA_FF_THR           0x1D
 /*自由落体加速度的阈值
@@ -635,9 +633,8 @@ u8 Init_MPU6050(void);
 void MpuGetData(void);
 extern inline void ComStart(void);
 extern inline void ComStop(void);
-void MPU_set_offset(u16 zero);
-
-
+extern void MPU_set_offset(u16 zero);
+extern void Init_MPU6500_SPI(void);
 
 #endif
 
