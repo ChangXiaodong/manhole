@@ -40,7 +40,7 @@ typedef struct
 #define LED5_TOGGLE  GPIO_ToggleBits(LED5_PORT,LED5_BIT);
 
 #define TEST1_PORT GPIOE
-#define TEST1_BIT  GPIO_Pin_0
+#define TEST1_BIT  GPIO_Pin_1
 #define TEST1_HIGH    GPIO_SetBits(TEST1_PORT,TEST1_BIT);
 #define TEST1_LOW      GPIO_ResetBits(TEST1_PORT,TEST1_BIT);
 #define TEST1_TOGGLE  GPIO_ToggleBits(TEST1_PORT,TEST1_BIT);
@@ -74,6 +74,7 @@ extern void Init_GPIO();
 extern void Init_TIMER();
 extern void Init_USART();
 void power_on();
+u8 UART_Receive_Data();
 
 extern void All_PULL_UP();
 #endif

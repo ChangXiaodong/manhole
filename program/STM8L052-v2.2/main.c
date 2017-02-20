@@ -1,14 +1,29 @@
 #include "common.h"
 u16 get_time = 0;
+u8 spi_testH;
+u8 spi_testL;
+u16 spi_test;
+u8 spi1_testH;
+u8 spi1_testL;
+u16 spi1_test;
 void main()
 {
-
     disableInterrupts();
     Init_System();
+    
     MPU_set_offset(0);
     power_on();
     //SystemSleep();
     //enableInterrupts();
+    
+    while(1)
+    {
+        if(UART_Receive_Data()==0x01)
+        {
+            MPU_set_offset(0);
+            break;
+        }
+    }
     while(1)
     {
         RESET_TIME3;

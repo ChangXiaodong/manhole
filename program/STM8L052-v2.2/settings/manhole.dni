@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=-1556267311
+Checksum=1023315422
 [CodeCoverage]
 Enabled=_ 0
 [DriverProfiling]
@@ -73,18 +73,27 @@ Fmt5=uint8_t[20]	4	0
 Fmt6=uint8_t[256]	4	0
 Fmt7=uint8_t[7]	4	0
 [watch_formats]
-Fmt0={W}42:address	4	0
-Fmt1={W}42:check	4	0
-Fmt2={W}42:execute	3	0
-Fmt3={W}42:opModePrev	4	0
-Fmt4={W}42:paConfig	4	0
-Fmt5={W}42:paDac	4	0
-Fmt6={W}42:read	4	0
-Fmt7={W}42:rx_once	3	0
-Fmt8={W}42:test_address	4	0
-Fmt9={W}42:test_l	3	0
-Fmt10={W}42:watch	4	0
-Fmt11={W}42:write	4	0
+Fmt0={W}1:readValue	4	0
+Fmt1={W}42:address	4	0
+Fmt2={W}42:check	4	0
+Fmt3={W}42:execute	3	0
+Fmt4={W}42:id	4	0
+Fmt5={W}42:opModePrev	4	0
+Fmt6={W}42:paConfig	4	0
+Fmt7={W}42:paDac	4	0
+Fmt8={W}42:read	4	0
+Fmt9={W}42:reg_test	4	0
+Fmt10={W}42:rx_once	3	0
+Fmt11={W}42:spi1_testH	3	0
+Fmt12={W}42:spi1_testL	3	0
+Fmt13={W}42:spi_test	3	0
+Fmt14={W}42:spi_testH	3	0
+Fmt15={W}42:spi_testL	3	0
+Fmt16={W}42:test_address	4	0
+Fmt17={W}42:test_l	3	0
+Fmt18={W}42:watch	4	0
+Fmt19={W}42:wj	4	0
+Fmt20={W}42:write	4	0
 [DataSample]
 LogEnabled=0
 GraphEnabled=0
@@ -100,9 +109,11 @@ LogFile=_ ""
 Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\backup}.88.13" 0 0 0 0 "" 0 ""
 Count=1
 [Aliases]
-A0=_ "E:\Manhole\program\backup\STM8L052\Libraries\src\stm8l15x_usart.c" ""
-A1=_ "E:\Manhole\program\backup\STM8L052\main.c" "E:\Manhole\program\STM8L052-v2.2\main.c"
-Count=2
+A0=_ "E:\Manhole\program\2-19spi\STM8L052-v2.2\main.c" "E:\Manhole\program\STM8L052-v2.2\main.c"
+A1=_ "E:\Manhole\program\backup\STM8L052\Libraries\src\stm8l15x_clk.c" "E:\Manhole\program\STM8L052-v2.2\Libraries\src\stm8l15x_clk.c"
+A2=_ "E:\Manhole\program\backup\STM8L052\Libraries\src\stm8l15x_usart.c" "E:\Manhole\program\STM8L052-v2.2\Libraries\src\stm8l15x_usart.c"
+A3=_ "E:\Manhole\program\backup\STM8L052\main.c" "E:\Manhole\program\STM8L052-v2.2\main.c"
+Count=4
 SuppressDialog=1
 [DebuggerSettings]
 DisableInterruptsWhenStepping=0

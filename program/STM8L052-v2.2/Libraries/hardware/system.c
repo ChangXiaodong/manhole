@@ -171,6 +171,12 @@ void UART_Send_Data(uint8 data)
     while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
 }
 
+u8 UART_Receive_Data()
+{
+    while (USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET);
+    return USART_ReceiveData8(USART1);
+}
+
 void setPHYAddress(uint16 address)
 {
     FLASH_Unlock(FLASH_MemType_Data);
@@ -225,7 +231,9 @@ void Init_System()
     Init_TIMER();
     Init_GPIO();
     delay_ms(1000);
-    Init_MPU6050();
+
+    //Init_MPU6050();
+    Init_MPU6500_SPI();
     Init_USART();
     //Init_RTC();
     //Init_Radio();
