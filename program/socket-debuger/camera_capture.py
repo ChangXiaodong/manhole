@@ -21,7 +21,7 @@ class Camera(threading.Thread):
         self.msg_q = msg_q
 
     def run(self):
-        self.cap = cv2.VideoCapture(0)
+        self.cap = cv2.VideoCapture(1)
         fourcc = cv2.VideoWriter_fourcc(*'MJPG')
         while self.cap.isOpened() and self.alive.isSet():
             ret, frame = self.cap.read()

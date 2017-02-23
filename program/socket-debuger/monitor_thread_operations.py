@@ -98,7 +98,7 @@ class myThread(threading.Thread):
                                                  timestamp, self.frame_count))
                         if comming_flag == 0:
                             if self.count < 200 or get_parameters.pulse_max(
-                                    list(self.accz_prepare_quene)) < 15000 and self.force_record_flag == 0:
+                                    list(self.accz_prepare_quene)) < 2000 and self.force_record_flag == 0:
                                 self.accx_prepare_quene.append(acc_x)
                                 self.accy_prepare_quene.append(acc_y)
                                 self.accz_prepare_quene.append(acc_z)

@@ -336,7 +336,7 @@ void Init_MPU6500_SPI(void)
     SPI_6500_IOInit();
     delay_1ms;
     SPI_ReadRegByte(MPU6050_RA_WHO_AM_I,&id);
-    if(id!=0x70)
+    if((id!=0x70)&&(id!=0x73))
     {
         while(1)
         {
@@ -362,7 +362,7 @@ void Init_MPU6500_SPI(void)
     SPI_WriteRegByte(MPU6050_RA_SMPLRT_DIV,0x00);			
     SPI_WriteRegByte(MPU6050_RA_CONFIG,0);       
     SPI_WriteRegByte(MPU6050_RA_GYRO_CONFIG,0x0);			
-    SPI_WriteRegByte(MPU6050_RA_ACCEL_CONFIG,0x0);
+    SPI_WriteRegByte(MPU6050_RA_ACCEL_CONFIG,0x00);
     SPI_ReadRegByte(MPU6050_RA_ACCEL_CONFIG, &reg_test);
     SPI_WriteRegByte(MPU6050_RA_INT_PIN_CFG,0x00/*0x32*/);					
     SPI_WriteRegByte(MPU6050_RA_INT_ENABLE,0x00/*0x01*/);					

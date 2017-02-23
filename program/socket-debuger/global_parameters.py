@@ -1,2 +1,2 @@
-DBSCAN_eps = 130
-DBSCAN_min_samples = 8
+DBSCAN_eps = 100
+DBSCAN_min_samples = 10

@@ -11,19 +11,19 @@ void main()
     disableInterrupts();
     Init_System();
     
-    MPU_set_offset(0);
+    //MPU_set_offset(0);
     power_on();
     //SystemSleep();
     //enableInterrupts();
     
-    while(1)
-    {
-        if(UART_Receive_Data()==0x01)
-        {
-            MPU_set_offset(0);
-            break;
-        }
-    }
+//    while(1)
+//    {
+//        if(UART_Receive_Data()==0x01)
+//        {
+//            //MPU_set_offset(0);
+//            break;
+//        }
+//    }
     while(1)
     {
         RESET_TIME3;

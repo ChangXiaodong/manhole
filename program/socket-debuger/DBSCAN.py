@@ -28,6 +28,8 @@ if __name__ == "__main__":
     # X = StandardScaler().fit_transform(X)
 
     data_path = "E:/Manhole/training data/original data/2-16/Data"
+    # data_path = "E:/Manhole/training data/original data/2-22/manhole1"
+    # data_path = "E:/Manhole/training data/original data/2-22/manhole2"
     # data_path = "E:/Manhole/training data/lebeled data/"
     data_dic = data_reader.get_data_in_all_dir(data_path)
     X = []
@@ -85,10 +87,11 @@ if __name__ == "__main__":
     plt.title('Estimated number of clusters: %d' % n_clusters_)
     fig2 = plt.figure()
     ax = fig2.add_subplot(111, projection='3d')
-    plt.title('Effective Data:{:.2f}%'.format(len(filted_X)/len(X)*100))
+    plt.title('Effective Data:{:.2f}%'.format(float(len(filted_X))/float(len(X))*100))
+    print("original length:{}, filtered length:{}".format(len(X), len(filted_X)))
     ax.plot(filted_X[:, 0], filted_X[:, 1], filted_X[:, 2], 'o', markerfacecolor='r',
             markeredgecolor='k')
-    print(xlim,ylim,zlim)
+
     # ax.set_xlim(xlim)
     # ax.set_ylim(ylim)
     # ax.set_zlim(zlim)
