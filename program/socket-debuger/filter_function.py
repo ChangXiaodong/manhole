@@ -1,5 +1,6 @@
 import DBSCAN
-
+import get_parameters
+from global_parameters import *
 
 class Filter(object):
     def __init__(self):
@@ -23,3 +24,14 @@ class Filter(object):
 
     def DBSCAN_filter(self, datapath):
         return DBSCAN.DBSCAN_filter(datapath)
+
+    def walk_bicycle_filter(self, data_dic):
+        if not data_dic:
+            return
+        for file, data in data_dic.items():
+            pulse_max = get_parameters.pulse_max(data["acc_z"])
+            if pulse_max < WALK_BIKE_PULSE_MAX:
+                data_dic.pop(file)
+        return data_dic
+
+

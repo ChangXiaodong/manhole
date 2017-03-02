@@ -1,7 +1,7 @@
 import platform
 import Queue
-YMAX = 60000.000
-YMIN = -60000.000
+YMAX = 35000.000
+YMIN = -35000.000
 
 DEFAULT_SCALE = 500
 if platform.system() == "Darwin":

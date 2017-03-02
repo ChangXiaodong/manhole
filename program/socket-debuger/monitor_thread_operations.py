@@ -40,6 +40,8 @@ class myThread(threading.Thread):
         self.gyox_prepare_quene = deque(maxlen=500)
         self.gyoy_prepare_quene = deque(maxlen=500)
         self.gyoz_prepare_quene = deque(maxlen=500)
+        self.acc_scale_prepare_quene = deque(maxlen=500)
+        self.gyo_scale_prepare_quene = deque(maxlen=500)
         self.time_stamp_prepare_quene = deque(maxlen=500)
         self.accx_data_quene = deque(maxlen=50000)
         self.accy_data_quene = deque(maxlen=50000)
@@ -47,6 +49,8 @@ class myThread(threading.Thread):
         self.gyox_data_quene = deque(maxlen=50000)
         self.gyoy_data_quene = deque(maxlen=50000)
         self.gyoz_data_quene = deque(maxlen=50000)
+        self.acc_scale_data_quene = deque(maxlen=50000)
+        self.gyo_scale_data_quene = deque(maxlen=50000)
         self.time_stamp_quene = deque(maxlen=50000)
         self.camera = camera_capture.Camera(self.msg_q)
         self.camera.start()
@@ -83,18 +87,21 @@ class myThread(threading.Thread):
             if head and ord(head) == 0x7D:
                 head = self.uart.read(1)
                 if head and ord(head) == 0x7E:
-                    line = self.uart.read(12)
+                    line = self.uart.read(14)
                     data = []
                     for s in line:
                         data.append(ord(s))
-                    if len(data) == 12:
+                    if len(data) == 14:
                         self.count += 1
                         self.frame_count += 1
                         acc_x, acc_y, acc_z = self.get_MSB(data[:6])
                         gyo_x, gyo_y, gyo_z = self.get_MSB(data[6:])
+                        acc_scale = data[12]
+                        gyo_scale = data[13]
                         timestamp = str(datetime.datetime.now())[:-3].replace(" ", "_")
                         self.display_data_q.put(([acc_x, acc_y, acc_z,
-                                                  gyo_x, gyo_y, gyo_z],
+                                                  gyo_x, gyo_y, gyo_z,
+                                                  acc_scale, gyo_scale],
                                                  timestamp, self.frame_count))
                         if comming_flag == 0:
                             if self.count < 200 or get_parameters.pulse_max(
@@ -105,6 +112,8 @@ class myThread(threading.Thread):
                                 self.gyox_prepare_quene.append(gyo_x)
                                 self.gyoy_prepare_quene.append(gyo_y)
                                 self.gyoz_prepare_quene.append(gyo_z)
+                                self.acc_scale_prepare_quene.append(acc_scale)
+                                self.gyo_scale_prepare_quene.append(gyo_scale)
                                 self.time_stamp_prepare_quene.append(timestamp)
                             else:
                                 self.msg_q.put("Vehicle Comming")
@@ -125,7 +134,7 @@ class myThread(threading.Thread):
                                 self.msg_q.put("Vehicle Leaving. {} Seconds data saved".format(
                                     round(time.time() - start_time, 3) + 3.6
                                 ))
-                                self.uart.close()
+                                # self.uart.close()
                                 comming_flag = 0
                                 self.count = 0
                                 stable_count = 0
@@ -158,11 +167,19 @@ class myThread(threading.Thread):
                                 gyo_z_to_write.extend(self.gyoz_prepare_quene)
                                 gyo_z_to_write.extend(self.gyoz_data_quene)
 
+                                acc_scale_wrtie = []
+                                acc_scale_wrtie.extend(self.acc_scale_prepare_quene)
+                                acc_scale_wrtie.extend(self.acc_scale_data_quene)
+
+                                gyo_scale_wrtie = []
+                                gyo_scale_wrtie.extend(self.gyo_scale_prepare_quene)
+                                gyo_scale_wrtie.extend(self.gyo_scale_data_quene)
                                 csv_writer.write(
                                     {
                                         'time': time_to_write,
                                         'acc_x': acc_x_to_write, "acc_y": acc_y_to_write, "acc_z": acc_z_to_write,
-                                        'gyo_x': gyo_x_to_write, "gyo_y": gyo_y_to_write, "gyo_z": gyo_z_to_write
+                                        'gyo_x': gyo_x_to_write, "gyo_y": gyo_y_to_write, "gyo_z": gyo_z_to_write,
+                                        "acc_scale": acc_scale_wrtie, "gyo_scale": gyo_scale_wrtie
                                     }, csv_path)
 
                                 self.accx_prepare_quene.clear()
@@ -171,6 +188,8 @@ class myThread(threading.Thread):
                                 self.gyox_prepare_quene.clear()
                                 self.gyoy_prepare_quene.clear()
                                 self.gyoz_prepare_quene.clear()
+                                self.accx_prepare_quene.clear()
+                                self.gyo_scale_prepare_quene.clear()
                                 self.accx_data_quene.clear()
                                 self.accy_data_quene.clear()
                                 self.accz_data_quene.clear()
@@ -178,8 +197,10 @@ class myThread(threading.Thread):
                                 self.gyoy_data_quene.clear()
                                 self.gyoz_data_quene.clear()
                                 self.time_stamp_quene.clear()
+                                self.acc_scale_data_quene.clear()
+                                self.gyo_scale_data_quene.clear()
                                 self.time_stamp_prepare_quene.clear()
-                                self.uart.open()
+                                # self.uart.open()
                                 self.uart.read(self.uart.in_waiting)
                                 self.force_record_flag = 0
 
@@ -189,6 +210,8 @@ class myThread(threading.Thread):
                             self.gyox_data_quene.append(gyo_x)
                             self.gyoy_data_quene.append(gyo_y)
                             self.gyoz_data_quene.append(gyo_z)
+                            self.acc_scale_data_quene.append(acc_scale)
+                            self.gyo_scale_data_quene.append(gyo_scale)
                             self.time_stamp_quene.append(timestamp)
 
         if self.uart:

@@ -5,13 +5,16 @@ from sklearn.cluster import KMeans
 
 from mpl_toolkits.mplot3d import Axes3D
 
-import filter
+import filter_function
 import time
 if __name__ == '__main__':
 
-    Filter = filter.Filter()
-    data_path = "E:/Manhole/training data/original data/2-16/Data"
+    Filter = filter_function.Filter()
+    # data_path = "E:/Manhole/training data/original data/2-16/Data"
     # data_path = "E:/Manhole/training data/original data/2-22/"
+    # data_path = "E:/Manhole/training data/original data/2-24"
+    # data_path = "E:/Manhole/training data/original data/2-28/"
+    data_path = "E:/Manhole/training data/scale/good/"
     data = np.array(Filter.DBSCAN_filter(data_path))
     if not data.any():
         print("unavailable data")
@@ -24,8 +27,5 @@ if __name__ == '__main__':
     ax.plot(k_means_fit.cluster_centers_[:, 0], k_means_fit.cluster_centers_[:, 1], k_means_fit.cluster_centers_[:, 2],
             '*', markerfacecolor='r',
             markeredgecolor='k', markersize=14)
-    ax.set_xlim([-157.4, 3349.4])
-    ax.set_ylim([-144.1, 3048.1])
-    ax.set_zlim([10, 2044.])
     plt.title("K-Means Center")
     plt.show()

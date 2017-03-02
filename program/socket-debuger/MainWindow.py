@@ -111,6 +111,10 @@ class MainWindow(QtGui.QMainWindow):
         self.recordButton.clicked.connect(self.on_record)
         self.calibrateButton.clicked.connect(self.on_calibrate)
         self.actionUpdate_uart_port.triggered.connect(self.on_update_uart_port)
+        self.acc_scale_up_Button.clicked.connect(self.on_acc_scale_up)
+        self.acc_scale_down_Button.clicked.connect(self.on_acc_scale_down)
+        self.gyo_scale_up_Button.clicked.connect(self.on_gyo_scale_up)
+        self.gyo_scale_down_Button.clicked.connect(self.on_gyo_scale_down)
 
         QtCore.QObject.connect(
             self.Port_num_comboBox,
@@ -127,6 +131,26 @@ class MainWindow(QtGui.QMainWindow):
             QtCore.SIGNAL("currentChanged(int)"),
             self.on_tab_changed
         )
+
+    def on_acc_scale_up(self):
+        if self.acc_scale + 1 < 4:
+            print("acc scale +1")
+            self.receive_thread.send([0x7D, 1, self.acc_scale + 1, 0x0D])
+
+    def on_acc_scale_down(self):
+        if self.acc_scale - 1 >= 0:
+            print("acc scale -1")
+            self.receive_thread.send([0x7D, 1, self.acc_scale - 1, 0x0D])
+
+    def on_gyo_scale_up(self):
+        if self.gyo_scale + 1 < 4:
+            print("gyo scale +1")
+            self.receive_thread.send([0x7D, 2, self.gyo_scale + 1, 0x0D])
+
+    def on_gyo_scale_down(self):
+        if self.gyo_scale - 1 >= 0:
+            print("acc scale -1")
+            self.receive_thread.send([0x7D, 2, self.gyo_scale - 1, 0x0D])
 
     def on_calibrate(self):
         self.receive_thread.send([0x01])
@@ -177,7 +201,9 @@ class MainWindow(QtGui.QMainWindow):
                         acc_z=qdata[-1][0][2],
                         gyo_x=qdata[-1][0][3],
                         gyo_y=qdata[-1][0][4],
-                        gyo_z=qdata[-1][0][5]
+                        gyo_z=qdata[-1][0][5],
+                        acc_scale=qdata[-1][0][6],
+                        gyo_scale=qdata[-1][0][7]
                         )
             self.livefeed.add_data(data)
             return dict(acc_x=qdata[-1][0][0],
@@ -185,7 +211,9 @@ class MainWindow(QtGui.QMainWindow):
                         acc_z=qdata[-1][0][2],
                         gyo_x=qdata[-1][0][3],
                         gyo_y=qdata[-1][0][4],
-                        gyo_z=qdata[-1][0][5]
+                        gyo_z=qdata[-1][0][5],
+                        acc_scale=qdata[-1][0][6],
+                        gyo_scale=qdata[-1][0][7]
                         )
         return None
 
@@ -233,11 +261,13 @@ class MainWindow(QtGui.QMainWindow):
         def update(data):
             self.updataACCLabel(data["acc_x"],
                                 data["acc_y"],
-                                data["acc_z"]
+                                data["acc_z"],
+                                data["acc_scale"]
                                 )
             self.updataGYOLabel(data["gyo_x"],
                                 data["gyo_y"],
-                                data["gyo_z"]
+                                data["gyo_z"],
+                                data["gyo_scale"]
                                 )
 
         self.update_label_count += 1
@@ -361,15 +391,35 @@ class MainWindow(QtGui.QMainWindow):
         self.statusBar.showMessage(msg)
         self.update_statusbar_count += 1
 
-    def updataACCLabel(self, x, y, z):
+    def updataACCLabel(self, x, y, z, scale):
         self.acc_x_Label.setText(str(x))
         self.acc_y_Label.setText(str(y))
         self.acc_z_Label.setText(str(z))
+        self.acc_scale = scale
+        if scale == 0:
+            scale_text = "2"
+        elif scale == 1:
+            scale_text = "4"
+        elif scale == 2:
+            scale_text = "8"
+        else:
+            scale_text = "16"
+        self.acc_scale_Label.setText(scale_text)
 
-    def updataGYOLabel(self, x, y, z):
+    def updataGYOLabel(self, x, y, z, scale):
         self.gyo_x_Label.setText(str(x))
         self.gyo_y_Label.setText(str(y))
         self.gyo_z_Label.setText(str(z))
+        self.gyo_scale = scale
+        if scale == 0:
+            scale_text = "250"
+        elif scale == 1:
+            scale_text = "500"
+        elif scale == 2:
+            scale_text = "1000"
+        else:
+            scale_text = "2000"
+        self.gyo_scale_Label.setText(scale_text)
 
 
 if __name__ == "__main__":

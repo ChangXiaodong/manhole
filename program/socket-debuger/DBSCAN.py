@@ -1,6 +1,7 @@
 import numpy as np
 import data_reader
 import get_parameters
+import filter_function
 from global_parameters import *
 from sklearn.cluster import DBSCAN
 from sklearn import metrics
@@ -27,11 +28,20 @@ if __name__ == "__main__":
     #                             random_state=0)
     # X = StandardScaler().fit_transform(X)
 
-    data_path = "E:/Manhole/training data/original data/2-16/Data"
+    # data_path = "E:/Manhole/training data/original data/2-16/Data"
     # data_path = "E:/Manhole/training data/original data/2-22/manhole1"
     # data_path = "E:/Manhole/training data/original data/2-22/manhole2"
     # data_path = "E:/Manhole/training data/lebeled data/"
+    # data_path = "E:/Manhole/training data/original data/2-24"
+
+    # data_path = "E:/Manhole/training data/original data/2-28/Data3/"
+    # data_path = "E:/Manhole/training data/scale"
+    data_path = "E:/Manhole/training data/scale/good/"
     data_dic = data_reader.get_data_in_all_dir(data_path)
+
+    # filter_fun = filter_function.Filter()
+    # filter_fun.walk_bicycle_filter(data_dic)
+
     X = []
     for file, data in data_dic.items():
         X.append(get_parameters.peak_value_divide_by_width(data))
@@ -39,11 +49,17 @@ if __name__ == "__main__":
     db = DBSCAN(eps=DBSCAN_eps, min_samples=DBSCAN_min_samples, n_jobs=-1).fit(X)
     core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
     core_samples_mask[db.core_sample_indices_] = True
+    print(core_samples_mask)
     labels = db.labels_
     filted_X = []
     for i in db.core_sample_indices_:
         filted_X.append(X[i])
+    if not filted_X:
+        print("Not valid Data")
+        import sys
+        sys.exit(0)
     filted_X = np.array(filted_X)
+
     # Number of clusters in labels, ignoring noise if present.
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
 
@@ -67,19 +83,23 @@ if __name__ == "__main__":
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-    for k, col in zip(unique_labels, colors):
-        if k == -1:
-            # Black used for noise.
-            col = 'k'
-
-        class_member_mask = (labels == k)
-        xy = X[class_member_mask & core_samples_mask]
-        ax.plot(xy[:, 0], xy[:, 1], xy[:, 2], 'o', markerfacecolor=col,
-                markeredgecolor='k', markersize=6)
-
-        xy = X[class_member_mask & ~core_samples_mask]
-        ax.plot(xy[:, 0], xy[:, 1], xy[:, 2], 'o', markerfacecolor=col,
-                markeredgecolor='k', markersize=6)
+    ax.plot(X[:, 0], X[:, 1], X[:, 2], 'o', markerfacecolor='b',
+            markeredgecolor='k')
+    ax.plot(filted_X[:, 0], filted_X[:, 1], filted_X[:, 2], 'o', markerfacecolor='r',
+            markeredgecolor='k')
+    # for k, col in zip(unique_labels, colors):
+    #     if k == -1:
+    #         # Black used for noise.
+    #         col = 'k'
+    #
+    #     class_member_mask = (labels == k)
+    #     # xy = X[class_member_mask & core_samples_mask]
+    #     # ax.plot(xy[:, 0], xy[:, 1], xy[:, 2], 'o', markerfacecolor=col,
+    #     #         markeredgecolor='k', markersize=6)
+    #
+    #     xy = X[class_member_mask & ~core_samples_mask]
+    #     ax.plot(xy[:, 0], xy[:, 1], xy[:, 2], 'o', markerfacecolor=col,
+    #             markeredgecolor='k', markersize=6)
 
     xlim = ax.get_xlim()
     ylim = ax.get_ylim()
@@ -88,6 +108,7 @@ if __name__ == "__main__":
     fig2 = plt.figure()
     ax = fig2.add_subplot(111, projection='3d')
     plt.title('Effective Data:{:.2f}%'.format(float(len(filted_X))/float(len(X))*100))
+    print(filted_X)
     print("original length:{}, filtered length:{}".format(len(X), len(filted_X)))
     ax.plot(filted_X[:, 0], filted_X[:, 1], filted_X[:, 2], 'o', markerfacecolor='r',
             markeredgecolor='k')

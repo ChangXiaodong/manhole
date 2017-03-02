@@ -38,7 +38,7 @@ class PlotTools(object):
             name = "{}{}{}".format(x[dataind], y[dataind], z[dataind])
             for s in self.selected:
                 s[0].set_visible(False)
-            print "file name                     peak width  peak value   pulse max"
+            print "file name                     peak value   pulse max"
             filename = str(filename_dic[name]).split("/")[-1]
             self.selected.append(
                 self.ax["ACC Peak Value"].plot(
@@ -58,30 +58,18 @@ class PlotTools(object):
             )
             self.fig["ACC Pulse Max"].show()
 
-            self.selected.append(
-                self.ax["ACC Peak Width"].plot(
-                    [self.data_base["{}_acc_peak_width".format(filename)][0]],
-                    [self.data_base["{}_acc_peak_width".format(filename)][1]],
-                    [self.data_base["{}_acc_peak_width".format(filename)][2]],
-                    'o', ms=12, alpha=0.4, color='red', visible=True)
-            )
-            self.fig["ACC Peak Width"].show()
-
-            print "{}  acc_x->     {}        {}       {}".format(
+            print "{}  acc_x->     {}        {}       ".format(
                 filename,
-                self.data_base["{}_acc_peak_width".format(filename)][0],
                 self.data_base["{}_acc_peak_value".format(filename)][0],
                 self.data_base["{}_acc_pulse_max".format(filename)][0]
             )
-            print "{}  acc_y->     {}        {}       {}".format(
+            print "{}  acc_y->     {}        {}       ".format(
                 filename,
-                self.data_base["{}_acc_peak_width".format(filename)][1],
                 self.data_base["{}_acc_peak_value".format(filename)][1],
                 self.data_base["{}_acc_pulse_max".format(filename)][1]
             )
-            print "{}  acc_z->     {}        {}       {}".format(
+            print "{}  acc_z->     {}        {}      ".format(
                 filename,
-                self.data_base["{}_acc_peak_width".format(filename)][2],
                 self.data_base["{}_acc_peak_value".format(filename)][2],
                 self.data_base["{}_acc_pulse_max".format(filename)][2]
             )
@@ -104,30 +92,18 @@ class PlotTools(object):
             )
             self.fig["GYO Pulse Max"].show()
 
-            self.selected.append(
-                self.ax["GYO Peak Width(Vehicle velocity)"].plot(
-                    [self.data_base["{}_gyo_peak_width".format(filename)][0]],
-                    [self.data_base["{}_gyo_peak_width".format(filename)][1]],
-                    [self.data_base["{}_gyo_peak_width".format(filename)][2]],
-                    'o', ms=12, alpha=0.4, color='red', visible=True)
-            )
-            self.fig["GYO Peak Width(Vehicle velocity)"].show()
-
-            print "{}  gyo_x->     {}        {}       {}".format(
+            print "{}  gyo_x->     {}        {}       ".format(
                 filename,
-                self.data_base["{}_gyo_peak_width".format(filename)][0],
                 self.data_base["{}_gyo_peak_value".format(filename)][0],
                 self.data_base["{}_gyo_pulse_max".format(filename)][0]
             )
-            print "{}  gyo_y->     {}        {}       {}".format(
+            print "{}  gyo_y->     {}        {}       ".format(
                 filename,
-                self.data_base["{}_gyo_peak_width".format(filename)][1],
                 self.data_base["{}_gyo_peak_value".format(filename)][1],
                 self.data_base["{}_gyo_pulse_max".format(filename)][1]
             )
-            print "{}  gyo_z->     {}        {}       {}".format(
+            print "{}  gyo_z->     {}        {}       ".format(
                 filename,
-                self.data_base["{}_gyo_peak_width".format(filename)][2],
                 self.data_base["{}_gyo_peak_value".format(filename)][2],
                 self.data_base["{}_gyo_pulse_max".format(filename)][2]
             )
@@ -140,12 +116,9 @@ class PlotTools(object):
                     'o', ms=12, alpha=0.4, color='red', visible=True)
             )
             self.fig["ACC Peak Value/Width"].show()
-
-            print "{}-> x:{} y:{} z:{}".format(
+            print "{}-> width:{}".format(
                 filename,
-                self.data_base["{}_acc_peak_value_divide_by_gyo_peak_width".format(filename)][0],
-                self.data_base["{}_acc_peak_value_divide_by_gyo_peak_width".format(filename)][1],
-                self.data_base["{}_acc_peak_value_divide_by_gyo_peak_width".format(filename)][2]
+                self.data_base["{}_width".format(filename)],
             )
 
             final_dir_name = str(filename_dic[name]).split("/")[-1]
