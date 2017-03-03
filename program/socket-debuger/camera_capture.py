@@ -11,7 +11,8 @@ class Camera(threading.Thread):
         self.saved_once = False
         self.SAVED_SECONDS = 6
         self.SAVED_TIME = self.SAVED_SECONDS * 15
-        self.frame_count = 0
+        self.__frame = 0
+        self.__save_frame = 0
         self.pre_pic = deque(maxlen=self.SAVED_TIME)
         self.after_pic = deque(maxlen=self.SAVED_TIME)
         self.pic = []
@@ -33,7 +34,7 @@ class Camera(threading.Thread):
             if n >= self.SAVED_TIME:
                 self.pic.pop(0)
             self.pic.append(frame)
-            self.frame_count += 1
+            self.__frame_count()
             button = cv2.waitKey(1)
             if button == ord('q') or self.__close_camera:
                 break
@@ -43,31 +44,45 @@ class Camera(threading.Thread):
         cv2.destroyAllWindows()
 
     def save(self, path):
+
         if os.path.exists("./data/") != True:
             os.makedirs("./data/")
         if os.path.exists("./data/" + path) != True:
             os.makedirs("./data/" + path)
         video_path = "./data/" + path + "/" + path + ".avi"
-        threading.Thread(target=self.__save_video, args=(video_path, self.frame_count)).start()
+        threading.Thread(target=self.__save_video, args=(video_path, self.__get_frame_count())).start()
 
-    def __save_video(self, path, frame_count):
-        while self.frame_count - frame_count < self.SAVED_TIME / 2:
-            pass
-        fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-        videoWriter = cv2.VideoWriter(path, fourcc, 15.0, (640, 480))
-        for p in self.pic[-self.SAVED_TIME:]:
-            videoWriter.write(p)
-        videoWriter.release()
+    def __save_video(self, path, frame_c):
+        for i in range(10):
+            print(self.__frame)
+            time.sleep(0.5)
+
+        # while self.__save_frame - frame_c < self.SAVED_TIME / 2:
+        #     print(self.__save_frame)
+        #     time.sleep(0.01)
+        # fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+        # videoWriter = cv2.VideoWriter(path, fourcc, 15.0, (640, 480))
+        # for p in self.pic[-self.SAVED_TIME:]:
+        #     videoWriter.write(p)
+        # videoWriter.release()
 
     def close(self):
         self.__close_camera = True
         self.cap.release()
         cv2.destroyAllWindows()
         self.alive.clear()
-        threading.Thread.join(self, None)
 
-    def set_camera(self, camera_num):
-        self.cap = cv2.VideoCapture(camera_num)
+    def __frame_count(self):
+        self.__frame += 1
+        self.__set_save_frame()
+
+    def __get_frame_count(self):
+        return self.__frame
+
+    def __set_save_frame(self):
+        self.__save_frame = self.__get_frame_count()
+
+
 
 if __name__ == "__main__":
     ca = Camera()
