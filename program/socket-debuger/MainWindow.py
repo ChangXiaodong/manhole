@@ -139,16 +139,12 @@ class MainWindow(QtGui.QMainWindow):
 
     def on_open_camera1(self):
         self.camera.close()
-        self.camera = camera_capture.Camera(self.msg_q, 0)
-        self.camera.setDaemon(True)
-        self.camera.start()
+        self.camera.open_camera(0)
         self.updateStatusBar("Camera 1 opened")
 
     def on_open_camera2(self):
         self.camera.close()
-        self.camera = camera_capture.Camera(self.msg_q, 1)
-        self.camera.setDaemon(True)
-        self.camera.start()
+        self.camera.open_camera(1)
         self.updateStatusBar("Camera 2 opened")
 
     def on_close_camera(self):
