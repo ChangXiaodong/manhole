@@ -7,7 +7,7 @@ import serial
 import datetime
 import get_parameters
 import csv_writer
-import camera_capture
+
 
 
 class myThread(threading.Thread):
@@ -17,6 +17,7 @@ class myThread(threading.Thread):
             data_q,
             error_q,
             msg_q,
+            camera,
             port_stopbits=serial.STOPBITS_ONE,
             port_parity=serial.PARITY_NONE,
             port_timeout=0.01
@@ -45,8 +46,7 @@ class myThread(threading.Thread):
         self.acc_scale_data_quene = []
         self.gyo_scale_data_quene = []
         self.time_stamp_quene = []
-        self.camera = camera_capture.Camera(self.msg_q)
-        self.camera.start()
+        self.camera = camera
         self.force_record_flag = 0
 
         self.uart = None

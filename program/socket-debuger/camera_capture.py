@@ -6,7 +6,7 @@ import os
 import threading
 
 class Camera(threading.Thread):
-    def __init__(self, msg_q):
+    def __init__(self, msg_q, camera_num):
         super(Camera, self).__init__()
         self.saved_once = False
         self.SAVED_SECONDS = 6
@@ -18,9 +18,11 @@ class Camera(threading.Thread):
         self.alive = threading.Event()
         self.alive.set()
         self.msg_q = msg_q
+        self.cap = cv2.VideoCapture(camera_num)
+        self.__close_camera = False
+
 
     def run(self):
-        self.cap = cv2.VideoCapture(0)
         while self.cap.isOpened() and self.alive.isSet():
             ret, frame = self.cap.read()
             font = cv2.FONT_ITALIC
@@ -33,7 +35,7 @@ class Camera(threading.Thread):
             self.pic.append(frame)
             self.frame_count += 1
             button = cv2.waitKey(1)
-            if button == ord('q'):
+            if button == ord('q') or self.__close_camera:
                 break
             elif button == ord('s'):
                 self.save(str(time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime(time.time())))+".avi")
@@ -58,10 +60,14 @@ class Camera(threading.Thread):
         videoWriter.release()
 
     def close(self):
+        self.__close_camera = True
         self.cap.release()
         cv2.destroyAllWindows()
         self.alive.clear()
         threading.Thread.join(self, None)
+
+    def set_camera(self, camera_num):
+        self.cap = cv2.VideoCapture(camera_num)
 
 if __name__ == "__main__":
     ca = Camera()

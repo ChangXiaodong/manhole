@@ -11,6 +11,7 @@ import Queue
 import os
 import time
 import algorithm
+import camera_capture
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -50,6 +51,7 @@ class MainWindow(QtGui.QMainWindow):
         self.tab_index = 0
         self.__calibrate_once = False
         self.identify_result_memory = 0
+        self.camera = None
 
     def plot_factory(self, parent_object):
         plot = Qwt.QwtPlot(parent_object)
@@ -111,6 +113,9 @@ class MainWindow(QtGui.QMainWindow):
         self.recordButton.clicked.connect(self.on_record)
         self.calibrateButton.clicked.connect(self.on_calibrate)
         self.actionUpdate_uart_port.triggered.connect(self.on_update_uart_port)
+        self.actionCamera1.triggered.connect(self.on_open_camera1)
+        self.actionCamera2.triggered.connect(self.on_open_camera2)
+        self.actionClose.triggered.connect(self.on_close_camera)
         self.acc_scale_up_Button.clicked.connect(self.on_acc_scale_up)
         self.acc_scale_down_Button.clicked.connect(self.on_acc_scale_down)
         self.gyo_scale_up_Button.clicked.connect(self.on_gyo_scale_up)
@@ -131,6 +136,23 @@ class MainWindow(QtGui.QMainWindow):
             QtCore.SIGNAL("currentChanged(int)"),
             self.on_tab_changed
         )
+
+    def on_open_camera1(self):
+        self.camera.close()
+        self.camera = camera_capture.Camera(self.msg_q, 0)
+        self.camera.setDaemon(True)
+        self.camera.start()
+        self.updateStatusBar("Camera 1 opened")
+
+    def on_open_camera2(self):
+        self.camera.close()
+        self.camera = camera_capture.Camera(self.msg_q, 1)
+        self.camera.setDaemon(True)
+        self.camera.start()
+        self.updateStatusBar("Camera 2 opened")
+
+    def on_close_camera(self):
+        self.camera.close()
 
     def on_acc_scale_up(self):
         if self.acc_scale + 1 < 4:
@@ -337,11 +359,15 @@ class MainWindow(QtGui.QMainWindow):
                 self.settings = {}
                 return
             try:
+                self.camera = camera_capture.Camera(self.msg_q, 0)
+                self.camera.setDaemon(True)
+                self.camera.start()
                 self.receive_thread = socket.myThread(
                     self.settings,
                     self.data_q,
                     self.error_q,
-                    self.msg_q
+                    self.msg_q,
+                    self.camera
                 )
                 self.receive_thread.setDaemon(True)
                 self.receive_thread.start()
