@@ -134,22 +134,18 @@ class MainWindow(QtGui.QMainWindow):
 
     def on_acc_scale_up(self):
         if self.acc_scale + 1 < 4:
-            print("acc scale +1")
             self.receive_thread.send([0x7D, 1, self.acc_scale + 1, 0x0D])
 
     def on_acc_scale_down(self):
         if self.acc_scale - 1 >= 0:
-            print("acc scale -1")
             self.receive_thread.send([0x7D, 1, self.acc_scale - 1, 0x0D])
 
     def on_gyo_scale_up(self):
         if self.gyo_scale + 1 < 4:
-            print("gyo scale +1")
             self.receive_thread.send([0x7D, 2, self.gyo_scale + 1, 0x0D])
 
     def on_gyo_scale_down(self):
         if self.gyo_scale - 1 >= 0:
-            print("acc scale -1")
             self.receive_thread.send([0x7D, 2, self.gyo_scale - 1, 0x0D])
 
     def on_calibrate(self):

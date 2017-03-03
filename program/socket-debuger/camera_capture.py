@@ -9,44 +9,28 @@ class Camera(threading.Thread):
     def __init__(self, msg_q):
         super(Camera, self).__init__()
         self.saved_once = False
-        self.SAVED_SECONDS = 3
+        self.SAVED_SECONDS = 6
         self.SAVED_TIME = self.SAVED_SECONDS * 15
         self.frame_count = 0
-        self.frame_saved = 0
         self.pre_pic = deque(maxlen=self.SAVED_TIME)
         self.after_pic = deque(maxlen=self.SAVED_TIME)
-        self.video_path = ""
+        self.pic = []
         self.alive = threading.Event()
         self.alive.set()
         self.msg_q = msg_q
 
     def run(self):
-        self.cap = cv2.VideoCapture(1)
-        fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+        self.cap = cv2.VideoCapture(0)
         while self.cap.isOpened() and self.alive.isSet():
             ret, frame = self.cap.read()
             font = cv2.FONT_ITALIC
             time_now = str(datetime.datetime.now())[:-3]
             cv2.putText(frame, time_now, (10, 470), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
             cv2.imshow('Live Image', frame)
-            if self.saved_once == True:
-                if self.frame_count > self.SAVED_TIME:
-                    if self.frame_count < self.frame_saved + self.SAVED_TIME:
-                        self.after_pic.append(frame)
-                    else:
-                        videoWriter = cv2.VideoWriter(self.video_path, fourcc, 15.0, (640, 480))
-                        for i in xrange(self.SAVED_TIME):
-                            videoWriter.write(self.pre_pic[i])
-                        for i in xrange(self.SAVED_TIME):
-                            videoWriter.write(self.after_pic[i])
-                        videoWriter.release()
-                        self.saved_once = False
-                        # self.msg_q.put("{} Seconds Video Saved".format(self.SAVED_SECONDS*2))
-                else:
-                    self.msg_q.put("video is shorter than {} seconds".format(self.SAVED_SECONDS))
-                    self.saved_once = False
-            else:
-                self.pre_pic.append(frame)
+            n = self.pic.__len__()
+            if n >= self.SAVED_TIME:
+                self.pic.pop(0)
+            self.pic.append(frame)
             self.frame_count += 1
             button = cv2.waitKey(1)
             if button == ord('q'):
@@ -57,13 +41,21 @@ class Camera(threading.Thread):
         cv2.destroyAllWindows()
 
     def save(self, path):
-        self.saved_once = True
-        self.frame_saved = self.frame_count
         if os.path.exists("./data/") != True:
             os.makedirs("./data/")
         if os.path.exists("./data/" + path) != True:
             os.makedirs("./data/" + path)
-        self.video_path = "./data/" + path + "/" + path + ".avi"
+        video_path = "./data/" + path + "/" + path + ".avi"
+        threading.Thread(target=self.__save_video, args=(video_path, self.frame_count)).start()
+
+    def __save_video(self, path, frame_count):
+        while self.frame_count - frame_count < self.SAVED_TIME / 2:
+            pass
+        fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+        videoWriter = cv2.VideoWriter(path, fourcc, 15.0, (640, 480))
+        for p in self.pic[-self.SAVED_TIME:]:
+            videoWriter.write(p)
+        videoWriter.release()
 
     def close(self):
         self.cap.release()
