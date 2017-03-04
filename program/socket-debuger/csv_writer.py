@@ -11,10 +11,10 @@ def write(data, path="test_csv"):
         os.makedirs("./data/" + path)
 
     csv_path = "./data/" + path + "/" + path + ".csv"
-    with open(csv_path, 'wb') as csvfile:
+    with open(csv_path, 'ab') as csvfile:
         filed_names = ['time', 'acc_x', 'acc_y', 'acc_z', "gyo_x", "gyo_y", "gyo_z", "acc_scale", "gyo_scale"]
         writer = csv.DictWriter(csvfile, filed_names)
-        writer.writeheader()
+        # writer.writeheader()
         for i in xrange(len(data["time"])):
             writer.writerow(
                 {

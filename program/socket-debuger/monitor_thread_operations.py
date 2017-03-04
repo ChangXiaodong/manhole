@@ -9,7 +9,6 @@ import get_parameters
 import csv_writer
 
 
-
 class myThread(threading.Thread):
     def __init__(
             self,
@@ -48,7 +47,8 @@ class myThread(threading.Thread):
         self.time_stamp_quene = []
         self.camera = camera
         self.force_record_flag = 0
-
+        self.__single_mode = True
+        self.__seq_csv_path = ''
         self.uart = None
 
     def get_MSB(self, bytes):
@@ -119,37 +119,54 @@ class myThread(threading.Thread):
                         self.time_stamp_quene.append(timestamp)
                         if n == 300:
                             self.msg_q.put("Data Quene Ready")
-                        if n > 300:
-                            coming_pulse = get_parameters.pulse_max(self.accz_data_quene[n - 200:])
-                            if coming_flag == 0 and coming_pulse > 2000 or self.force_record_flag != 0:
-                                self.msg_q.put("Vehicle Coming")
-                                start_time = time.time()
-                                coming_flag = 1
-                                stable_count = 0
-                                csv_path = str(time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime(time.time())))
-                                vehicle_coming_frame = self.frame_count - 300
-                                self.camera.save(csv_path)
-                            if coming_flag == 1 and coming_pulse < 500:
-                                stable_count += 1
-                                if stable_count > 100:
-                                    coming_flag = 0
+                        if self.__single_mode == True:
+                            if n > 300:
+                                coming_pulse = get_parameters.pulse_max(self.accz_data_quene[n - 200:])
+                                if coming_flag == 0 and coming_pulse > 2000 or self.force_record_flag != 0:
+                                    self.msg_q.put("Vehicle Coming")
+                                    start_time = time.time()
+                                    coming_flag = 1
                                     stable_count = 0
-                                    self.msg_q.put("Vehicle Leaving, {} Seconds data saved".format(
-                                        round(time.time() - start_time, 3) + 3.6
-                                    ))
-                                    data_dict = {}
-                                    quene_range = -(self.frame_count - vehicle_coming_frame)
-                                    data_dict['time'] = self.time_stamp_quene[quene_range:]
-                                    data_dict['acc_x'] = self.accx_data_quene[quene_range:]
-                                    data_dict['acc_y'] = self.accy_data_quene[quene_range:]
-                                    data_dict['acc_z'] = self.accz_data_quene[quene_range:]
-                                    data_dict['gyo_x'] = self.gyox_data_quene[quene_range:]
-                                    data_dict['gyo_y'] = self.gyoy_data_quene[quene_range:]
-                                    data_dict['gyo_z'] = self.gyoz_data_quene[quene_range:]
-                                    data_dict['acc_scale'] = self.acc_scale_data_quene[quene_range:]
-                                    data_dict['gyo_scale'] = self.gyo_scale_data_quene[quene_range:]
-                                    t = threading.Thread(target=self.save_data, args=(data_dict, csv_path))
-                                    t.start()
+                                    csv_path = str(time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime(time.time())))
+                                    vehicle_coming_frame = self.frame_count - 300
+                                    self.camera.save(csv_path)
+                                if coming_flag == 1 and coming_pulse < 500:
+                                    stable_count += 1
+                                    if stable_count > 100:
+                                        coming_flag = 0
+                                        stable_count = 0
+                                        self.msg_q.put("Vehicle Leaving, {} Seconds data saved".format(
+                                            round(time.time() - start_time, 3) + 3.6
+                                        ))
+                                        data_dict = {}
+                                        quene_range = -(self.frame_count - vehicle_coming_frame)
+                                        data_dict['time'] = self.time_stamp_quene[quene_range:]
+                                        data_dict['acc_x'] = self.accx_data_quene[quene_range:]
+                                        data_dict['acc_y'] = self.accy_data_quene[quene_range:]
+                                        data_dict['acc_z'] = self.accz_data_quene[quene_range:]
+                                        data_dict['gyo_x'] = self.gyox_data_quene[quene_range:]
+                                        data_dict['gyo_y'] = self.gyoy_data_quene[quene_range:]
+                                        data_dict['gyo_z'] = self.gyoz_data_quene[quene_range:]
+                                        data_dict['acc_scale'] = self.acc_scale_data_quene[quene_range:]
+                                        data_dict['gyo_scale'] = self.gyo_scale_data_quene[quene_range:]
+                                        t = threading.Thread(target=self.save_data, args=(data_dict, csv_path))
+                                        t.start()
+                        else:
+                            if self.frame_count % 100 == 0:
+                                data_dict = {}
+                                quene_range = -100
+                                data_dict['time'] = self.time_stamp_quene[quene_range:]
+                                data_dict['acc_x'] = self.accx_data_quene[quene_range:]
+                                data_dict['acc_y'] = self.accy_data_quene[quene_range:]
+                                data_dict['acc_z'] = self.accz_data_quene[quene_range:]
+                                data_dict['gyo_x'] = self.gyox_data_quene[quene_range:]
+                                data_dict['gyo_y'] = self.gyoy_data_quene[quene_range:]
+                                data_dict['gyo_z'] = self.gyoz_data_quene[quene_range:]
+                                data_dict['acc_scale'] = self.acc_scale_data_quene[quene_range:]
+                                data_dict['gyo_scale'] = self.gyo_scale_data_quene[quene_range:]
+                                t = threading.Thread(target=self.save_data, args=(data_dict, self.__seq_csv_path))
+                                t.start()
+
         if self.uart:
             self.uart.close()
 
@@ -176,3 +193,11 @@ class myThread(threading.Thread):
     def save_data(self, data, csv_path):
         # self.camera.save(csv_path)
         csv_writer.write(data, csv_path)
+
+    def set_single_mode(self, single):
+        self.__single_mode = single
+        if single == False:
+            self.__seq_csv_path = str(time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime(time.time())))
+            self.camera.set_single_mode(False, self.__seq_csv_path)
+        else:
+            self.camera.set_single_mode(True)

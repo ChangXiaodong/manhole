@@ -84,7 +84,6 @@ class MainWindow(QtGui.QMainWindow):
         self.stop_pushButton.setDisabled(True)
         self.canvas_start_pushButton.setDisabled(True)
         self.canvas_pause_pushButton.setDisabled(True)
-        self.calibrateButton.setDisabled(True)
         self.recordButton.setDisabled(True)
         self.BaudRate_lineEdit.setText("115200")
         self.updateStatusBar("UART Closed")
@@ -111,7 +110,6 @@ class MainWindow(QtGui.QMainWindow):
         self.canvas_start_pushButton.clicked.connect(self.on_start_canvas)
         self.canvas_pause_pushButton.clicked.connect(self.on_pause_canvas)
         self.recordButton.clicked.connect(self.on_record)
-        self.calibrateButton.clicked.connect(self.on_calibrate)
         self.actionUpdate_uart_port.triggered.connect(self.on_update_uart_port)
         self.actionCamera1.triggered.connect(self.on_open_camera1)
         self.actionCamera2.triggered.connect(self.on_open_camera2)
@@ -120,6 +118,8 @@ class MainWindow(QtGui.QMainWindow):
         self.acc_scale_down_Button.clicked.connect(self.on_acc_scale_down)
         self.gyo_scale_up_Button.clicked.connect(self.on_gyo_scale_up)
         self.gyo_scale_down_Button.clicked.connect(self.on_gyo_scale_down)
+        self.sequence_radioButton.clicked.connect(self.on_seq_radio)
+        self.single_radioButton.clicked.connect(self.on_single_radio)
 
         QtCore.QObject.connect(
             self.Port_num_comboBox,
@@ -136,6 +136,14 @@ class MainWindow(QtGui.QMainWindow):
             QtCore.SIGNAL("currentChanged(int)"),
             self.on_tab_changed
         )
+
+    def on_seq_radio(self):
+        self.receive_thread.set_single_mode(False)
+        self.updateStatusBar("Sequence Captured")
+
+    def on_single_radio(self):
+        self.receive_thread.set_single_mode(True)
+        self.updateStatusBar("Single Captured")
 
     def on_open_camera1(self):
         self.camera.close()
@@ -373,7 +381,6 @@ class MainWindow(QtGui.QMainWindow):
                                                com_error)
                     self.receive_thread = None
                     return
-                self.calibrateButton.setEnabled(True)
 
             except OSError as err:
                 self.updateStatusBar(str(err))

@@ -20,6 +20,8 @@ class Camera(threading.Thread):
         self.msg_q = msg_q
         self.cap = cv2.VideoCapture(camera_num)
         self.__close_camera = False
+        self.__single_mode = True
+        self.__seq_video_writer = None
 
 
     def run(self):
@@ -33,6 +35,8 @@ class Camera(threading.Thread):
                 cv2.putText(frame, time_now, (10, 470), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
                 cv2.imshow('Live Image', frame)
                 n = self.pic.__len__()
+                if self.__single_mode == False:
+                    self.__seq_video_writer.write(frame)
                 if n >= self.SAVED_TIME:
                     self.pic.pop(0)
                 self.pic.append(frame)
@@ -68,6 +72,21 @@ class Camera(threading.Thread):
         self.__close_camera = False
         self.cap = cv2.VideoCapture(camera_num)
         self.alive.set()
+
+    def set_single_mode(self, single, path=''):
+        self.__single_mode = single
+        if single == False:
+            if os.path.exists("./data/") != True:
+                os.makedirs("./data/")
+            if os.path.exists("./data/" + path) != True:
+                os.makedirs("./data/" + path)
+            video_path = "./data/" + path + "/" + path + ".avi"
+            fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+            self.__seq_video_writer = cv2.VideoWriter(video_path, fourcc, 15.0, (640, 480))
+        else:
+            if self.__seq_video_writer:
+                self.__seq_video_writer.release()
+
 
 
 

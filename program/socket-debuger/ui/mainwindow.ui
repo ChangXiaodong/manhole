@@ -599,7 +599,7 @@
    <widget class="QPushButton" name="recordButton">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>160</x>
       <y>600</y>
       <width>111</width>
       <height>31</height>
@@ -715,17 +715,33 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QPushButton" name="calibrateButton">
+   <widget class="QRadioButton" name="single_radioButton">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>600</y>
-      <width>111</width>
-      <height>31</height>
+      <y>610</y>
+      <width>89</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Calibrate</string>
+     <string>Single</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="sequence_radioButton">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>610</y>
+      <width>89</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Sequence</string>
     </property>
    </widget>
   </widget>
