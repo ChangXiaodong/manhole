@@ -9,7 +9,8 @@ if __name__ == "__main__":
     # data_path = "E:/Manhole/test data/special vehicle/walk"
     # data_path = "E:/Manhole/training data/plot"
     # data_path = "E:/Manhole/training data/original data/2-28/Data1"
-    data_path = "E:/Manhole/training data/scale/good/"
+    # data_path = "E:/Manhole/training data/scale/good/"
+    data_path = "E:/Manhole/training data/plot"
     data_dic = data_reader.get_data_in_all_dir(data_path)
     acc_x_peak_value = []
     acc_x_pulse_max = []
@@ -33,7 +34,6 @@ if __name__ == "__main__":
 
     for filename, data in data_dic.items():
         width = get_parameters.peak_width(data)
-
 
         acc_x_peak_value.append(get_parameters.peak_value(data["acc_x"]))
         acc_x_pulse_max.append(get_parameters.pulse_max(data["acc_x"]))

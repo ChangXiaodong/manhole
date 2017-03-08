@@ -363,9 +363,6 @@ class MainWindow(QtGui.QMainWindow):
                 self.settings = {}
                 return
             try:
-                self.camera = camera_capture.Camera(self.msg_q, 0)
-                self.camera.setDaemon(True)
-                self.camera.start()
                 self.receive_thread = socket.myThread(
                     self.settings,
                     self.data_q,
@@ -408,7 +405,6 @@ class MainWindow(QtGui.QMainWindow):
         self.Port_num_comboBox.setEnabled(True)
         self.canvas_start_pushButton.setDisabled(True)
         self.canvas_pause_pushButton.setDisabled(True)
-        self.calibrateButton.setDisabled(True)
         self.recordButton.setDisabled(True)
         self.updateStatusBar("monitor stoped")
 
@@ -446,10 +442,17 @@ class MainWindow(QtGui.QMainWindow):
             scale_text = "2000"
         self.gyo_scale_Label.setText(scale_text)
 
+    def open_camera(self):
+        self.camera = camera_capture.Camera(self.msg_q, 1)
+        self.camera.setDaemon(True)
+        self.camera.start()
+        self.receive_thread.camera = self.camera
+
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     win = MainWindow()
     win.show()
     win.on_open_serial()
+    win.open_camera()
     sys.exit(app.exec_())

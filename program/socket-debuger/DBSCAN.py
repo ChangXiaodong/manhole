@@ -7,6 +7,7 @@ from sklearn.cluster import DBSCAN
 from sklearn import metrics
 from sklearn.datasets.samples_generator import make_blobs
 from sklearn.preprocessing import StandardScaler
+import platform
 
 def DBSCAN_filter(data_path):
     data_dic = data_reader.get_data_in_all_dir(data_path)
@@ -36,7 +37,10 @@ if __name__ == "__main__":
 
     # data_path = "E:/Manhole/training data/original data/2-28/Data3/"
     # data_path = "E:/Manhole/training data/scale"
-    data_path = "E:/Manhole/training data/scale/good/"
+    if platform.platform() == "Windows":
+        data_path = "E:/Manhole/training data/scale/good/"
+    else:
+        data_path = "/Users/xiaoxiami/Manhole/training data/original data/3-6/"
     data_dic = data_reader.get_data_in_all_dir(data_path)
 
     # filter_fun = filter_function.Filter()

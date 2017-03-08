@@ -38,14 +38,15 @@ def get_data_by_csvpath(path=""):
     gyo_y = []
     gyo_z = []
     with open(path) as csvfile:
-        reader = csv.DictReader(csvfile)
+        # reader = csv.DictReader(csvfile)
+        reader = csv.reader(csvfile)
         for row in reader:
-            acc_x.append(int(row["acc_x"]))
-            acc_y.append(int(row["acc_y"]))
-            acc_z.append(int(row["acc_z"]))
-            gyo_x.append(int(row["gyo_x"]))
-            gyo_y.append(int(row["gyo_y"]))
-            gyo_z.append(int(row["gyo_z"]))
+            acc_x.append(int(row[1]))
+            acc_y.append(int(row[2]))
+            acc_z.append(int(row[3]))
+            gyo_x.append(int(row[4]))
+            gyo_y.append(int(row[5]))
+            gyo_z.append(int(row[6]))
     return acc_x, acc_y, acc_z, gyo_x, gyo_y, gyo_z
 
 def dir_path_check(dir_path):
