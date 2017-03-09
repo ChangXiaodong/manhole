@@ -5,6 +5,7 @@ import time
 import os
 import threading
 
+
 class Camera(threading.Thread):
     def __init__(self, msg_q, camera_num):
         super(Camera, self).__init__()
@@ -22,7 +23,6 @@ class Camera(threading.Thread):
         self.__close_camera = False
         self.__single_mode = True
         self.__seq_video_writer = None
-
 
     def run(self):
         while True:
@@ -46,14 +46,14 @@ class Camera(threading.Thread):
                     self.cap.release()
                     cv2.destroyAllWindows()
                 elif button == ord('s'):
-                    self.save(str(time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime(time.time())))+".avi")
+                    self.save(str(time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime(time.time()))) + ".avi")
 
     def save(self, path):
-        if os.path.exists("./data/") != True:
-            os.makedirs("./data/")
-        if os.path.exists("./data/" + path) != True:
-            os.makedirs("./data/" + path)
-        video_path = "./data/" + path + "/" + path + ".avi"
+        if os.path.exists("../data/") != True:
+            os.makedirs("../data/")
+        if os.path.exists("../data/" + path) != True:
+            os.makedirs("../data/" + path)
+        video_path = "../data/" + path + "/" + path + ".avi"
         threading.Thread(target=self.__save_video, args=(video_path, self.__frame)).start()
 
     def __save_video(self, path, frame_c):
@@ -76,21 +76,16 @@ class Camera(threading.Thread):
     def set_single_mode(self, single, path=''):
         self.__single_mode = single
         if single == False:
-            if os.path.exists("./data/") != True:
-                os.makedirs("./data/")
-            if os.path.exists("./data/" + path) != True:
-                os.makedirs("./data/" + path)
-            video_path = "./data/" + path + "/" + path + ".avi"
+            if os.path.exists("../data/") != True:
+                os.makedirs("../data/")
+            if os.path.exists("../data/" + path) != True:
+                os.makedirs("../data/" + path)
+            video_path = "../data/" + path + "/" + path + ".avi"
             fourcc = cv2.VideoWriter_fourcc(*'MJPG')
             self.__seq_video_writer = cv2.VideoWriter(video_path, fourcc, 15.0, (640, 480))
         else:
             if self.__seq_video_writer:
                 self.__seq_video_writer.release()
-
-
-
-
-
 
 
 if __name__ == "__main__":

@@ -1,6 +1,5 @@
 # coding=utf-8
-import data_reader
-from get_parameters import *
+from processor.get_parameters import *
 
 path = raw_input("input excel data path:")
 path = path.replace("\\", "/")

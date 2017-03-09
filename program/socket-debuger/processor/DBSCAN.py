@@ -1,13 +1,12 @@
-import numpy as np
-import data_reader
-import get_parameters
-import filter_function
-from global_parameters import *
-from sklearn.cluster import DBSCAN
-from sklearn import metrics
-from sklearn.datasets.samples_generator import make_blobs
-from sklearn.preprocessing import StandardScaler
 import platform
+
+import numpy as np
+from sklearn.cluster import DBSCAN
+
+import data_reader
+from global_parameters import *
+from processor import get_parameters
+
 
 def DBSCAN_filter(data_path):
     data_dic = data_reader.get_data_in_all_dir(data_path)
@@ -37,8 +36,8 @@ if __name__ == "__main__":
 
     # data_path = "E:/Manhole/training data/original data/2-28/Data3/"
     # data_path = "E:/Manhole/training data/scale"
-    if platform.platform() == "Windows":
-        data_path = "E:/Manhole/training data/scale/good/"
+    if "Windows" in platform.platform():
+        data_path = "E:/Manhole/training data/original data/3-6"
     else:
         data_path = "/Users/xiaoxiami/Manhole/training data/original data/3-6/"
     data_dic = data_reader.get_data_in_all_dir(data_path)
@@ -80,7 +79,6 @@ if __name__ == "__main__":
 
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import Axes3D
-
     # Black removed and is used for noise instead.
     unique_labels = set(labels)
     colors = plt.cm.Spectral(np.linspace(0, 1, len(unique_labels)))

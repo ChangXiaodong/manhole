@@ -1,5 +1,5 @@
-import get_parameters
 from global_parameters import *
+import get_parameters
 
 
 class Filter(object):

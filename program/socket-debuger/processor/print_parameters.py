@@ -1,7 +1,6 @@
-import get_parameters
 import data_reader
-import plot_3d
-import globals
+import get_parameters
+from collector import plot_3d
 
 if __name__ == "__main__":
     # data_path = "E:/Manhole/training data/original data/2-16/Data"

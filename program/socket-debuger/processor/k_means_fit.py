@@ -1,12 +1,11 @@
-import numpy as np
 import sys
+
 import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.cluster import KMeans
 
-from mpl_toolkits.mplot3d import Axes3D
-
 import filter_function
-import time
+
 if __name__ == '__main__':
 
     Filter = filter_function.Filter()

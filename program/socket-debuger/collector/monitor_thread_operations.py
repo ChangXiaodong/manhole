@@ -1,12 +1,12 @@
 # coding=utf-8
-import threading
-import multiprocessing as mp
-import time
-from collections import deque
-import serial
 import datetime
-import get_parameters
+import threading
+import time
+
+import serial
+
 import csv_writer
+from processor import get_parameters
 
 
 class myThread(threading.Thread):

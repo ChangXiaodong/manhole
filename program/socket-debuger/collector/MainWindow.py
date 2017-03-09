@@ -6,20 +6,17 @@ sys.setdefaultencoding("utf-8")
 from PyQt4 import QtGui, QtCore, uic
 import monitor_thread_operations as socket
 import PyQt4.Qwt5 as Qwt
-import globals
 import Queue
 import os
-import time
-import algorithm
-import camera_capture
+from collector import algorithm, camera_capture, globals
 
 
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
-        uic.loadUi('ui/mainwindow.ui', self)
+        uic.loadUi('../ui/mainwindow.ui', self)
         with open("comple.py", "w") as pyfile:
-            uic.compileUi('ui/mainwindow.ui', pyfile)
+            uic.compileUi('../ui/mainwindow.ui', pyfile)
 
         self.move(10, 10)
 
@@ -151,6 +148,7 @@ class MainWindow(QtGui.QMainWindow):
         self.updateStatusBar("Camera 1 opened")
 
     def on_open_camera2(self):
+
         self.camera.close()
         self.camera.open_camera(1)
         self.updateStatusBar("Camera 2 opened")
@@ -350,6 +348,7 @@ class MainWindow(QtGui.QMainWindow):
         self.data_q = Queue.Queue()
         self.error_q = Queue.Queue()
         self.msg_q = Queue.Queue()
+        self.receive_thread = None
 
         if self.settings.has_key("port"):
             self.stop_pushButton.setEnabled(True)
@@ -443,10 +442,11 @@ class MainWindow(QtGui.QMainWindow):
         self.gyo_scale_Label.setText(scale_text)
 
     def open_camera(self):
-        self.camera = camera_capture.Camera(self.msg_q, 1)
-        self.camera.setDaemon(True)
-        self.camera.start()
-        self.receive_thread.camera = self.camera
+        if self.receive_thread:
+            self.camera = camera_capture.Camera(self.msg_q, 1)
+            self.camera.setDaemon(True)
+            self.camera.start()
+            self.receive_thread.camera = self.camera
 
 
 if __name__ == "__main__":

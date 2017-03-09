@@ -1,9 +1,9 @@
-from get_parameters import *
-from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.pyplot as plt
 import os
+
 import pyperclip
-import globals
+
+from collector import globals
+from processor.get_parameters import *
 
 
 class PlotTools(object):

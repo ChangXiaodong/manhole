@@ -166,12 +166,12 @@ def get_width_index(data):
 if __name__ == "__main__":
     import data_reader
     import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D
     import platform
+    from mpl_toolkits.mplot3d import Axes3D
 
     filter = filter_function.Filter()
     # data_path = "E:/Manhole/training data/plot"
-    if platform.platform() == "Windows":
+    if "Windows" in platform.platform():
         data_path = "E:/Manhole/training data/original data/3-6/3/middle"
     else:
         data_path = "/Users/xiaoxiami/Manhole/training data/original data/3-6/3/side"
@@ -203,7 +203,7 @@ if __name__ == "__main__":
         # ax.plot(item[2] - item[0], 100, "bo")
     ax.plot(x, y, z, "bo")
 
-    if platform.platform() == "Windows":
+    if "Windows" in platform.platform():
         data_path = "E:/Manhole/training data/original data/3-6/3/middle"
     else:
         data_path = "/Users/xiaoxiami/Manhole/training data/original data/3-6/3/middle"

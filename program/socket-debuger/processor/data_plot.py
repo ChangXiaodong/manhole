@@ -1,8 +1,9 @@
-import matplotlib.pyplot as plt
-import data_reader
-import numpy as np
-import filter_function
 import platform
+
+import matplotlib.pyplot as plt
+
+import data_reader
+from processor import filter_function
 
 if platform.platform() == "Windows":
     dir_path = "E:/Manhole/training data/plot"
