@@ -635,6 +635,10 @@ extern inline void ComStart(void);
 extern inline void ComStop(void);
 extern void MPU_set_offset(u16 zero);
 extern void Init_MPU6500_SPI(void);
+void set_scale(u8 type, u8 scale);
+
+extern u8 acc_scale;
+extern u8 gyo_scale;
 
 #endif
 

@@ -14,7 +14,7 @@ void main()
     //MPU_set_offset(0);
     power_on();
     //SystemSleep();
-    //enableInterrupts();
+    enableInterrupts();
     
 //    while(1)
 //    {
@@ -43,6 +43,8 @@ void main()
         UART_Send_Data(gyroStruct.gyroY);
         UART_Send_Data(gyroStruct.gyroZ>>8);
         UART_Send_Data(gyroStruct.gyroZ);
+        UART_Send_Data(acc_scale);
+        UART_Send_Data(gyo_scale);
     }
     
     while(1)

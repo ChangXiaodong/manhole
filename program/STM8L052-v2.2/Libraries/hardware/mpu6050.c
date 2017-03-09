@@ -2,6 +2,8 @@
 
 struct ACCELSTRUCT accelStruct = {0,0,0};
 struct GYROSTRUCT	gyroStruct = {0,0,0};
+u8 acc_scale = 0;
+u8 gyo_scale = 0;
 
 
 //IO方向设置
@@ -329,7 +331,41 @@ void SPI_6500_IOInit(void)
   GPIO_Init(SPI_MOSI_PORT,SPI_MOSI_BIT,GPIO_Mode_Out_PP_High_Fast);
   GPIO_Init(SPI_CLK_PORT,SPI_CLK_BIT,GPIO_Mode_Out_PP_Low_Fast);
 }
-u8 reg_test = 0;
+
+void get_scale(u8 acc_config, u8 gyo_config)
+{
+    switch(acc_config>>3 & 0x03)
+    {
+        case 0:
+            acc_scale = 2;
+            break;
+        case 1:
+            acc_scale = 4;
+            break;
+        case 2:
+            acc_scale = 8;
+            break;
+        case 3:
+            acc_scale = 16;
+            break;
+    }
+    switch(gyo_config>>3 & 0x03)
+    {
+        case 0:
+            gyo_scale = 25;
+            break;
+        case 1:
+            gyo_scale = 50;
+            break;
+        case 2:
+            gyo_scale = 100;
+            break;
+        case 3:
+            gyo_scale = 200;
+            break;
+    }
+}
+
 void Init_MPU6500_SPI(void)
 {
     u8 id = 0;
@@ -360,11 +396,68 @@ void Init_MPU6500_SPI(void)
     SPI_WriteRegByte(MPU6050_RA_SIGNAL_PATH_RESET,0x07);
     delay_ms(100);
     SPI_WriteRegByte(MPU6050_RA_SMPLRT_DIV,0x00);			
-    SPI_WriteRegByte(MPU6050_RA_CONFIG,0);       
-    SPI_WriteRegByte(MPU6050_RA_GYRO_CONFIG,0x0);			
-    SPI_WriteRegByte(MPU6050_RA_ACCEL_CONFIG,0x00);
-    SPI_ReadRegByte(MPU6050_RA_ACCEL_CONFIG, &reg_test);
+    SPI_WriteRegByte(MPU6050_RA_CONFIG,7);  
+    gyo_scale = 3;
+    SPI_WriteRegByte(MPU6050_RA_GYRO_CONFIG,0x01 | (gyo_scale<<3));
+    acc_scale = 3;
+    SPI_WriteRegByte(MPU6050_RA_ACCEL_CONFIG,0x00 | (acc_scale)<<3);             //2G:0x00  4G:0x08  8G:0x10   16G:0x18
+    SPI_WriteRegByte(MPU6050_RA_ACCEL_CONFIG2,0x10);
     SPI_WriteRegByte(MPU6050_RA_INT_PIN_CFG,0x00/*0x32*/);					
     SPI_WriteRegByte(MPU6050_RA_INT_ENABLE,0x00/*0x01*/);					
     SPI_WriteRegByte(MPU6050_RA_USER_CTRL,0x11);	
+}
+
+void set_scale(u8 type, u8 scale)
+{
+    u8 id = 0;
+    SPI_6500_IOInit();
+    delay_1ms;
+    SPI_ReadRegByte(MPU6050_RA_WHO_AM_I,&id);
+    if((id!=0x70)&&(id!=0x73))
+    {
+        while(1)
+        {
+            LED1_ON;
+            LED2_ON;
+            LED3_ON;
+            LED4_ON;
+            LED5_ON;
+            delay_ms(500);
+            LED1_OFF;
+            LED2_OFF;
+            LED3_OFF;
+            LED4_OFF;
+            LED5_OFF;
+            delay_ms(500);
+        }
+    }	//IIC总线错误
+    
+    SPI_WriteRegByte(MPU6050_RA_PWR_MGMT_1,0x00);			
+    delay_ms(100);                                            
+    SPI_WriteRegByte(MPU6050_RA_SIGNAL_PATH_RESET,0x07);
+    delay_ms(100);
+    SPI_WriteRegByte(MPU6050_RA_SMPLRT_DIV,0x00);			
+    SPI_WriteRegByte(MPU6050_RA_CONFIG,7);  
+    if(type == 1)
+    {
+        if(scale < 4)
+        {
+            acc_scale = scale;
+        }
+    }
+    else
+    {
+        if(scale < 4)
+        {
+            gyo_scale = scale;
+        }
+    }
+    SPI_WriteRegByte(MPU6050_RA_GYRO_CONFIG,0x01 | (gyo_scale<<3));
+    SPI_WriteRegByte(MPU6050_RA_ACCEL_CONFIG,0x00 | (acc_scale)<<3);             //2G:0x00  4G:0x08  8G:0x10   16G:0x18
+    SPI_WriteRegByte(MPU6050_RA_ACCEL_CONFIG2,0x10);
+    SPI_WriteRegByte(MPU6050_RA_INT_PIN_CFG,0x00/*0x32*/);					
+    SPI_WriteRegByte(MPU6050_RA_INT_ENABLE,0x00/*0x01*/);					
+    SPI_WriteRegByte(MPU6050_RA_USER_CTRL,0x11);	
+    
+    
 }

@@ -32,6 +32,8 @@
 /** @addtogroup STM8L15x_StdPeriph_Template
   * @{
   */
+u8 rx_buf[100];
+u16 rx_count = 0;
 void rxIrqCallback();
 void txIrqCallback();
 uint8 isCRCError();
@@ -593,15 +595,32 @@ INTERRUPT_HANDLER(USART1_TX_TIM5_UPD_OVF_TRG_BRK_IRQHandler,27)
   * @param  None
   * @retval None
   */
+u8 see1,see2;
 INTERRUPT_HANDLER(USART1_RX_TIM5_CC_IRQHandler,28)
 {
     /* In order to detect unexpected events during development,
        it is recommended to set a breakpoint on the following instruction.
     */
+    u8 buf = 0;
     USART_ClearFlag(USART1,USART_FLAG_PE);
+    
     
     if(USART_GetFlagStatus(USART1,USART_FLAG_RXNE))
     {
+        buf = USART_ReceiveData8(USART1);
+        if(buf == 0x7D)
+        {
+            rx_count = 0;
+        }
+        else if(buf == 0x0D)
+        {
+            rx_count = 0;
+            set_scale(rx_buf[0], rx_buf[1]);
+        }
+        else
+        {
+            rx_buf[rx_count++] = buf;
+        }
 
     }
 }
