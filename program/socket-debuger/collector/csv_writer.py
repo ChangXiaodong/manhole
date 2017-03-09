@@ -5,12 +5,12 @@ import time
 
 
 def write(data, path="test_csv"):
-    if os.path.exists("../data/") != True:
-        os.makedirs("../data/")
-    if os.path.exists("../data/" + path) != True:
-        os.makedirs("../data/" + path)
+    if os.path.exists("../Data/") != True:
+        os.makedirs("../Data/")
+    if os.path.exists("../Data/" + path) != True:
+        os.makedirs("../Data/" + path)
 
-    csv_path = "../data/" + path + "/" + path + ".csv"
+    csv_path = "../Data/" + path + "/" + path + ".csv"
     with open(csv_path, 'ab') as csvfile:
         filed_names = ['time', 'acc_x', 'acc_y', 'acc_z', "gyo_x", "gyo_y", "gyo_z", "acc_scale", "gyo_scale"]
         writer = csv.DictWriter(csvfile, filed_names)

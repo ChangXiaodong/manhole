@@ -5,7 +5,7 @@ from sklearn.cluster import DBSCAN
 
 import data_reader
 from global_parameters import *
-from processor import get_parameters
+import get_parameters
 
 
 def DBSCAN_filter(data_path):

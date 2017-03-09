@@ -4,9 +4,7 @@ import threading
 import time
 
 import serial
-
 import csv_writer
-from processor import get_parameters
 
 
 class myThread(threading.Thread):
@@ -67,6 +65,17 @@ class myThread(threading.Thread):
 
         return x, y, z
 
+
+
+    def pulse_max(self, data):
+        def mean(data):
+            return sum(data) / len(data)
+        stable_value = mean(data[:5])
+        max_value = 0
+        for i in range(len(data)):
+            max_value = max(max_value, abs(data[i] - stable_value))
+        return max_value
+
     def run(self):
         coming_flag = 0
         start_time = 0
@@ -121,7 +130,7 @@ class myThread(threading.Thread):
                             self.msg_q.put("Data Quene Ready")
                         if self.__single_mode == True:
                             if n > 300:
-                                coming_pulse = get_parameters.pulse_max(self.accz_data_quene[n - 200:])
+                                coming_pulse = self.pulse_max(self.accz_data_quene[n - 200:])
                                 if coming_flag == 0 and coming_pulse > 2000 or self.force_record_flag != 0:
                                     self.msg_q.put("Vehicle Coming")
                                     start_time = time.time()

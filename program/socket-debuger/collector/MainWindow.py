@@ -28,9 +28,9 @@ class MainWindow(QtGui.QMainWindow):
         self.init_data_path()
 
     def init_data_path(self):
-        if not os.path.exists("Data/"):
-            os.makedirs("Data/")
-        self.data_path = "Data/"
+        if not os.path.exists("../Data/"):
+            os.makedirs("../Data/")
+        self.data_path = "../Data/"
 
     def init_component(self):
         self.timer = QtCore.QTimer()

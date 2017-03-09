@@ -1,6 +1,4 @@
 import filter_function
-
-
 def peak_width(data):
     def get_width(data_buf):
         n = data_buf.__len__()
@@ -27,11 +25,6 @@ def peak_width(data):
 def peak_value(data):
     return abs(max(data) - min(data))
 
-
-def mean(data):
-    return sum(data) / len(data)
-
-
 def variance(data):
     mean_value = mean(data)
     sum_buf = 0
@@ -39,6 +32,8 @@ def variance(data):
         sum_buf += (v - mean_value) ** 2
     return sum_buf / len(data)
 
+def mean(data):
+    return sum(data) / len(data)
 
 def pulse_max(data):
     stable_value = mean(data[:5])
@@ -164,7 +159,7 @@ def get_width_index(data):
 
 
 if __name__ == "__main__":
-    import data_reader
+    import processor.data_reader
     import matplotlib.pyplot as plt
     import platform
     from mpl_toolkits.mplot3d import Axes3D
@@ -176,7 +171,7 @@ if __name__ == "__main__":
     else:
         data_path = "/Users/xiaoxiami/Manhole/training data/original data/3-6/3/side"
 
-    data_dic = data_reader.get_data_in_all_dir(data_path)
+    data_dic = processor.data_reader.get_data_in_all_dir(data_path)
     index_x = []
     index_y = []
     index_z = []
@@ -207,7 +202,7 @@ if __name__ == "__main__":
         data_path = "E:/Manhole/training data/original data/3-6/3/middle"
     else:
         data_path = "/Users/xiaoxiami/Manhole/training data/original data/3-6/3/middle"
-    data_dic = data_reader.get_data_in_all_dir(data_path)
+    data_dic = processor.data_reader.get_data_in_all_dir(data_path)
     index_x = []
     index_y = []
     index_z = []

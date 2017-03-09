@@ -76,11 +76,11 @@ class Camera(threading.Thread):
     def set_single_mode(self, single, path=''):
         self.__single_mode = single
         if single == False:
-            if os.path.exists("../data/") != True:
-                os.makedirs("../data/")
-            if os.path.exists("../data/" + path) != True:
-                os.makedirs("../data/" + path)
-            video_path = "../data/" + path + "/" + path + ".avi"
+            if os.path.exists("../Data/") != True:
+                os.makedirs("../Data/")
+            if os.path.exists("../Data/" + path) != True:
+                os.makedirs("../Data/" + path)
+            video_path = "../Data/" + path + "/" + path + ".avi"
             fourcc = cv2.VideoWriter_fourcc(*'MJPG')
             self.__seq_video_writer = cv2.VideoWriter(video_path, fourcc, 15.0, (640, 480))
         else:
