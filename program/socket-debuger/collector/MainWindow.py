@@ -8,7 +8,7 @@ import monitor_thread_operations as socket
 import PyQt4.Qwt5 as Qwt
 import Queue
 import os
-from collector import algorithm, camera_capture, globals
+import algorithm, camera_capture, globals
 
 
 class MainWindow(QtGui.QMainWindow):
