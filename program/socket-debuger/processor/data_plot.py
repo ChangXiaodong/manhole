@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import data_reader
 from processor import filter_function
 
-if platform.platform() == "Windows":
+if "Windows" in platform.platform():
     dir_path = "E:/Manhole/training data/plot"
 else:
     dir_path = "/Users/xiaoxiami/Manhole/training data/plot"

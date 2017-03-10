@@ -155,7 +155,7 @@ if __name__ == "__main__":
         pulse_max_gyo_x = pulse_max(gyo_x)
         pulse_max_gyo_y = pulse_max(gyo_y)
         pulse_max_gyo_z = pulse_max(gyo_z)
-        print "{} pulse max acc x:{} y:{} z:{} gyo x:{} y:{} z:{}".format(
+        print("{} pulse max acc x:{} y:{} z:{} gyo x:{} y:{} z:{}".format(
             path.split("/")[-1],
             pulse_max_acc_x,
             pulse_max_acc_y,
@@ -163,7 +163,7 @@ if __name__ == "__main__":
             pulse_max_gyo_x,
             pulse_max_gyo_y,
             pulse_max_gyo_z
-        )
+        ))
 
         acc_pulse_buf.append([pulse_max_acc_x, pulse_max_acc_y, pulse_max_acc_z])
         gyo_pulse_buf.append([pulse_max_gyo_x, pulse_max_gyo_y, pulse_max_gyo_z])

@@ -117,6 +117,8 @@ class MainWindow(QtGui.QMainWindow):
         self.gyo_scale_down_Button.clicked.connect(self.on_gyo_scale_down)
         self.sequence_radioButton.clicked.connect(self.on_seq_radio)
         self.single_radioButton.clicked.connect(self.on_single_radio)
+        self.read_config_pushButton.clicked.connect(self.on_read_config)
+        self.write_config_pushButton.clicked.connect(self.on_write_config)
 
         QtCore.QObject.connect(
             self.Port_num_comboBox,
@@ -158,19 +160,72 @@ class MainWindow(QtGui.QMainWindow):
 
     def on_acc_scale_up(self):
         if self.acc_scale + 1 < 4:
-            self.receive_thread.send([0x7D, 1, self.acc_scale + 1, 0x0D])
+            self.receive_thread.send([
+                0x7D,
+                self.acc_scale + 1, self.acc_fchoice, self.acc_dlpf,
+                self.gyo_scale, self.gyo_fchoice, self.gyo_dlpf,
+                0x7F
+            ])
 
     def on_acc_scale_down(self):
         if self.acc_scale - 1 >= 0:
-            self.receive_thread.send([0x7D, 1, self.acc_scale - 1, 0x0D])
+            self.receive_thread.send([
+                0x7D,
+                self.acc_scale - 1, self.acc_fchoice, self.acc_dlpf,
+                self.gyo_scale, self.gyo_fchoice, self.gyo_dlpf,
+                0x7F
+            ])
 
     def on_gyo_scale_up(self):
         if self.gyo_scale + 1 < 4:
-            self.receive_thread.send([0x7D, 2, self.gyo_scale + 1, 0x0D])
+            self.receive_thread.send([
+                0x7D,
+                self.acc_scale, self.acc_fchoice, self.acc_dlpf,
+                self.gyo_scale + 1, self.gyo_fchoice, self.gyo_dlpf,
+                0x7F
+            ])
 
     def on_gyo_scale_down(self):
         if self.gyo_scale - 1 >= 0:
-            self.receive_thread.send([0x7D, 2, self.gyo_scale - 1, 0x0D])
+            self.receive_thread.send([
+                0x7D,
+                self.acc_scale, self.acc_fchoice, self.acc_dlpf,
+                self.gyo_scale - 1, self.gyo_fchoice, self.gyo_dlpf,
+                0x7F
+            ])
+
+    def on_read_config(self):
+        self.acc_fchoice_lineEdit.setText(str(self.acc_fchoice))
+        self.acc_dlpf_cfg_lineEdit.setText(str(self.acc_dlpf))
+        self.acc_fs_sel_lineEdit.setText(str(self.acc_scale))
+        self.gyo_fchoice_lineEdit.setText(str(self.gyo_fchoice))
+        self.gyo_dlpf_cfg_lineEdit.setText(str(self.gyo_dlpf))
+        self.gyo_fs_sel_lineEdit.setText(str(self.gyo_scale))
+
+    def on_write_config(self):
+        acc_scale = abs(int(self.acc_fs_sel_lineEdit.text()))
+        acc_dlpf = abs(int(self.acc_dlpf_cfg_lineEdit.text()))
+        acc_fchoice = abs(int(self.acc_fchoice_lineEdit.text()))
+        gyo_scale = abs(int(self.gyo_fs_sel_lineEdit.text()))
+        gyo_dlpf = abs(int(self.gyo_dlpf_cfg_lineEdit.text()))
+        gyo_fchoice = abs(int(self.gyo_fchoice_lineEdit.text()))
+        if acc_scale > 3:
+            acc_scale = 3
+        if acc_dlpf > 7:
+            acc_dlpf = 7
+        if acc_fchoice > 1:
+            acc_fchoice = 1
+        if gyo_scale > 3:
+            gyo_scale = 3
+        if gyo_dlpf > 7:
+            gyo_dlpf = 7
+        if gyo_fchoice > 3:
+            gyo_fchoice = 3
+
+        print("acc_scale:{} acc_dlpf:{} acc_fchoice:{} gyo_scale:{} gyo_dlpf:{} gyo_fchoice:{}".format(
+            acc_scale, acc_dlpf, acc_fchoice, gyo_scale, gyo_dlpf, gyo_fchoice
+        ))
+        self.receive_thread.send([0x7D, acc_scale, acc_fchoice, acc_dlpf, gyo_scale, gyo_fchoice, gyo_dlpf, 0x7F])
 
     def on_calibrate(self):
         self.receive_thread.send([0x01])
@@ -223,7 +278,11 @@ class MainWindow(QtGui.QMainWindow):
                         gyo_y=qdata[-1][0][4],
                         gyo_z=qdata[-1][0][5],
                         acc_scale=qdata[-1][0][6],
-                        gyo_scale=qdata[-1][0][7]
+                        acc_fchoice=qdata[-1][0][7],
+                        acc_dlpf=qdata[-1][0][8],
+                        gyo_scale=qdata[-1][0][9],
+                        gyo_fchoice=qdata[-1][0][10],
+                        gyo_dlpf=qdata[-1][0][11]
                         )
             self.livefeed.add_data(data)
             return dict(acc_x=qdata[-1][0][0],
@@ -233,7 +292,11 @@ class MainWindow(QtGui.QMainWindow):
                         gyo_y=qdata[-1][0][4],
                         gyo_z=qdata[-1][0][5],
                         acc_scale=qdata[-1][0][6],
-                        gyo_scale=qdata[-1][0][7]
+                        acc_fchoice=qdata[-1][0][7],
+                        acc_dlpf=qdata[-1][0][8],
+                        gyo_scale=qdata[-1][0][9],
+                        gyo_fchoice=qdata[-1][0][10],
+                        gyo_dlpf=qdata[-1][0][11]
                         )
         return None
 
@@ -289,6 +352,13 @@ class MainWindow(QtGui.QMainWindow):
                                 data["gyo_z"],
                                 data["gyo_scale"]
                                 )
+
+        self.acc_scale = data_dict["acc_scale"]
+        self.acc_fchoice = data_dict["acc_fchoice"]
+        self.acc_dlpf = data_dict["acc_dlpf"]
+        self.gyo_scale = data_dict["gyo_scale"]
+        self.gyo_fchoice = data_dict["gyo_fchoice"]
+        self.gyo_dlpf = data_dict["gyo_dlpf"]
 
         self.update_label_count += 1
         if self.update_label_count >= 10:

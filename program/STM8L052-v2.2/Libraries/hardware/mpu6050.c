@@ -4,6 +4,10 @@ struct ACCELSTRUCT accelStruct = {0,0,0};
 struct GYROSTRUCT	gyroStruct = {0,0,0};
 u8 acc_scale = 0;
 u8 gyo_scale = 0;
+u8 acc_fchoice = 0;
+u8 acc_dlpf = 0;
+u8 gyo_fchoice = 0;
+u8 gyo_dlpf = 0;
 
 
 //IO方向设置
@@ -68,17 +72,6 @@ static u8 ComWaitAck(void)
     
 }
 
-//static void ComSendAck(void)
-//{
-//	MPU_SCL_LOW;
-//	MPU_SDA_OUT();
-//    MPU_SDA_LOW;
-//	delay_us(2);
-//    MPU_SCL_HIGH;
-//    delay_us(5);
-//    MPU_SCL_LOW;
-//    delay_us(5);
-//}
 
 static void ComSendNoAck(void)
 {
@@ -254,19 +247,6 @@ u8 Init_MPU6050(void)
 }
 
 
-//获取相应的测量数据
-//void MpuGetData(void)
-//{
-//    //s16 temp = 0;
-//    accelStruct.accelX =  MpuReadTwoByte(MPU6050_RA_ACCEL_XOUT_H) + accelStruct.accx_offset;
-//    accelStruct.accelY =  MpuReadTwoByte(MPU6050_RA_ACCEL_YOUT_H) + accelStruct.accy_offset;
-//    accelStruct.accelZ =  MpuReadTwoByte(MPU6050_RA_ACCEL_ZOUT_H) + accelStruct.accz_offset;
-//    gyroStruct.gyroX =   MpuReadTwoByte(MPU6050_RA_GYRO_XOUT_H) + gyroStruct.gyox_offset;
-//    gyroStruct.gyroY =  MpuReadTwoByte(MPU6050_RA_GYRO_YOUT_H) + gyroStruct.gyoy_offset;
-//    gyroStruct.gyroZ =  MpuReadTwoByte(MPU6050_RA_GYRO_ZOUT_H) + gyroStruct.gyoz_offset;
-//    //temp = MpuReadTwoByte(MPU6050_RA_TEMP_OUT_H); 
-//}
-
 void MpuGetData(void)
 {
   accelStruct.accelX = MpuReadTwoByteSPI(MPU6050_RA_ACCEL_XOUT_H) + accelStruct.accx_offset;
@@ -278,15 +258,6 @@ void MpuGetData(void)
   
 }
 
-//u8 MPU_Set_Rate(u16 rate)
-//{
-//        u8 data;
-//        if(rate>1000)rate=1000;
-//        if(rate<4)rate=4;
-//        data=1000/rate-1;
-//        data=MPUWriteReg(MPU_SAMPLE_RATE_REG,data);        //设置数字低通滤波器
-//        return MPU_Set_LPF(rate/2);        //自动设置LPF为采样率的一半
-//}
 
 void MPU_set_offset(u16 zero)
 {
@@ -304,25 +275,6 @@ void MPU_set_offset(u16 zero)
     gyroStruct.gyoy_offset = zero - gyroStruct.gyroY;
     gyroStruct.gyoz_offset = zero - gyroStruct.gyroZ;
 }
-
-//void MPU_set_offset(u16 zero)
-//{
-//    accelStruct.accelX =  MpuReadTwoByte(MPU6050_RA_ACCEL_XOUT_H);
-//    accelStruct.accelY =  MpuReadTwoByte(MPU6050_RA_ACCEL_YOUT_H);
-//    accelStruct.accelZ =  MpuReadTwoByte(MPU6050_RA_ACCEL_ZOUT_H);
-//    gyroStruct.gyroX =   MpuReadTwoByte(MPU6050_RA_GYRO_XOUT_H);
-//    gyroStruct.gyroY =  MpuReadTwoByte(MPU6050_RA_GYRO_YOUT_H);
-//    gyroStruct.gyroZ =  MpuReadTwoByte(MPU6050_RA_GYRO_ZOUT_H);
-//    
-//    accelStruct.accx_offset = zero - accelStruct.accelX;
-//    accelStruct.accy_offset = zero - accelStruct.accelY;
-//    accelStruct.accz_offset = zero - accelStruct.accelZ;
-//    gyroStruct.gyox_offset = zero - gyroStruct.gyroX;
-//    gyroStruct.gyoy_offset = zero - gyroStruct.gyroY;
-//    gyroStruct.gyoz_offset = zero - gyroStruct.gyroZ;
-//    
-//}
-
 
 void SPI_6500_IOInit(void)
 {
@@ -395,21 +347,45 @@ void Init_MPU6500_SPI(void)
     delay_ms(100);                                            
     SPI_WriteRegByte(MPU6050_RA_SIGNAL_PATH_RESET,0x07);
     delay_ms(100);
-    SPI_WriteRegByte(MPU6050_RA_SMPLRT_DIV,0x00);			
-    SPI_WriteRegByte(MPU6050_RA_CONFIG,7);  
+    SPI_WriteRegByte(MPU6050_RA_SMPLRT_DIV,0x00);
+    gyo_dlpf = 7;
+    SPI_WriteRegByte(MPU6050_RA_CONFIG,gyo_dlpf);  
     gyo_scale = 3;
-    SPI_WriteRegByte(MPU6050_RA_GYRO_CONFIG,0x01 | (gyo_scale<<3));
-    acc_scale = 3;
+    gyo_fchoice = 1;
+    
+    SPI_WriteRegByte(MPU6050_RA_GYRO_CONFIG,(gyo_scale<<3) | gyo_fchoice);
+    acc_scale = 2;
+    acc_fchoice = 0;
+    acc_dlpf = 0;
     SPI_WriteRegByte(MPU6050_RA_ACCEL_CONFIG,0x00 | (acc_scale)<<3);             //2G:0x00  4G:0x08  8G:0x10   16G:0x18
-    SPI_WriteRegByte(MPU6050_RA_ACCEL_CONFIG2,0x10);
+    SPI_WriteRegByte(MPU6050_RA_ACCEL_CONFIG2,acc_fchoice<<3|acc_dlpf);
     SPI_WriteRegByte(MPU6050_RA_INT_PIN_CFG,0x00/*0x32*/);					
     SPI_WriteRegByte(MPU6050_RA_INT_ENABLE,0x00/*0x01*/);					
     SPI_WriteRegByte(MPU6050_RA_USER_CTRL,0x11);	
 }
 
-void set_scale(u8 type, u8 scale)
+/*
+**
+**
+**
+**
+*/
+
+void set_config(u8* data)
 {
     u8 id = 0;
+    
+    if((data[0]>3)||(data[3]>3)||(data[1]>1)||(data[4]>3)||(data[2]>7)||(data[5]>7))
+    {
+        return;
+    }
+    acc_scale = data[0];
+    acc_fchoice = data[1];
+    acc_dlpf = data[2];
+    gyo_scale = data[3];
+    gyo_fchoice = data[4];
+    gyo_dlpf = data[5];
+    
     SPI_6500_IOInit();
     delay_1ms;
     SPI_ReadRegByte(MPU6050_RA_WHO_AM_I,&id);
@@ -436,28 +412,13 @@ void set_scale(u8 type, u8 scale)
     delay_ms(100);                                            
     SPI_WriteRegByte(MPU6050_RA_SIGNAL_PATH_RESET,0x07);
     delay_ms(100);
-    SPI_WriteRegByte(MPU6050_RA_SMPLRT_DIV,0x00);			
-    SPI_WriteRegByte(MPU6050_RA_CONFIG,7);  
-    if(type == 1)
-    {
-        if(scale < 4)
-        {
-            acc_scale = scale;
-        }
-    }
-    else
-    {
-        if(scale < 4)
-        {
-            gyo_scale = scale;
-        }
-    }
-    SPI_WriteRegByte(MPU6050_RA_GYRO_CONFIG,0x01 | (gyo_scale<<3));
+    SPI_WriteRegByte(MPU6050_RA_SMPLRT_DIV,0x00);
+    SPI_WriteRegByte(MPU6050_RA_CONFIG,gyo_dlpf);  
+    SPI_WriteRegByte(MPU6050_RA_GYRO_CONFIG,(gyo_scale<<3) | gyo_fchoice);
     SPI_WriteRegByte(MPU6050_RA_ACCEL_CONFIG,0x00 | (acc_scale)<<3);             //2G:0x00  4G:0x08  8G:0x10   16G:0x18
-    SPI_WriteRegByte(MPU6050_RA_ACCEL_CONFIG2,0x10);
+    SPI_WriteRegByte(MPU6050_RA_ACCEL_CONFIG2,acc_fchoice<<3|acc_dlpf);
     SPI_WriteRegByte(MPU6050_RA_INT_PIN_CFG,0x00/*0x32*/);					
     SPI_WriteRegByte(MPU6050_RA_INT_ENABLE,0x00/*0x01*/);					
     SPI_WriteRegByte(MPU6050_RA_USER_CTRL,0x11);	
-    
-    
 }
+

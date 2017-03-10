@@ -41,7 +41,11 @@ class myThread(threading.Thread):
         self.gyoy_data_quene = []
         self.gyoz_data_quene = []
         self.acc_scale_data_quene = []
+        self.acc_fchoice_data_quene = []
+        self.acc_dlpf_data_quene = []
         self.gyo_scale_data_quene = []
+        self.gyo_fchoice_data_quene = []
+        self.gyo_dlpf_data_quene = []
         self.time_stamp_quene = []
         self.camera = camera
         self.force_record_flag = 0
@@ -65,11 +69,10 @@ class myThread(threading.Thread):
 
         return x, y, z
 
-
-
     def pulse_max(self, data):
         def mean(data):
             return sum(data) / len(data)
+
         stable_value = mean(data[:5])
         max_value = 0
         for i in range(len(data)):
@@ -90,21 +93,26 @@ class myThread(threading.Thread):
             if head and ord(head) == 0x7D:
                 head = self.uart.read(1)
                 if head and ord(head) == 0x7E:
-                    line = self.uart.read(14)
+                    line = self.uart.read(18)
                     data = []
                     for s in line:
                         data.append(ord(s))
-                    if len(data) == 14:
+                    if len(data) == 18:
                         self.count += 1
                         self.frame_count += 1
                         acc_x, acc_y, acc_z = self.get_MSB(data[:6])
                         gyo_x, gyo_y, gyo_z = self.get_MSB(data[6:])
                         acc_scale = data[12]
-                        gyo_scale = data[13]
+                        acc_fchoice = data[13]
+                        acc_dlpf = data[14]
+                        gyo_scale = data[15]
+                        gyo_fchoice = data[16]
+                        gyo_dlpf = data[17]
                         timestamp = str(datetime.datetime.now())[:-3].replace(" ", "_")
                         self.display_data_q.put(([acc_x, acc_y, acc_z,
                                                   gyo_x, gyo_y, gyo_z,
-                                                  acc_scale, gyo_scale],
+                                                  acc_scale, acc_fchoice, acc_dlpf,
+                                                  gyo_scale, gyo_fchoice, gyo_dlpf],
                                                  timestamp, self.frame_count))
                         n = self.acc_scale_data_quene.__len__()
                         if n >= self.MAX_LEN:
@@ -116,6 +124,10 @@ class myThread(threading.Thread):
                             self.gyoz_data_quene.pop(0)
                             self.acc_scale_data_quene.pop(0)
                             self.gyo_scale_data_quene.pop(0)
+                            self.acc_fchoice_data_quene.pop(0)
+                            self.acc_dlpf_data_quene.pop(0)
+                            self.gyo_fchoice_data_quene.pop(0)
+                            self.gyo_dlpf_data_quene.pop(0)
                             self.time_stamp_quene.pop(0)
                         self.accx_data_quene.append(acc_x)
                         self.accy_data_quene.append(acc_y)
@@ -124,6 +136,10 @@ class myThread(threading.Thread):
                         self.gyoy_data_quene.append(gyo_y)
                         self.gyoz_data_quene.append(gyo_z)
                         self.acc_scale_data_quene.append(acc_scale)
+                        self.acc_dlpf_data_quene.append(acc_dlpf)
+                        self.acc_fchoice_data_quene.append(acc_fchoice)
+                        self.gyo_dlpf_data_quene.append(gyo_dlpf)
+                        self.gyo_fchoice_data_quene.append(gyo_fchoice)
                         self.gyo_scale_data_quene.append(gyo_scale)
                         self.time_stamp_quene.append(timestamp)
                         if n == 300:
@@ -157,7 +173,12 @@ class myThread(threading.Thread):
                                         data_dict['gyo_y'] = self.gyoy_data_quene[quene_range:]
                                         data_dict['gyo_z'] = self.gyoz_data_quene[quene_range:]
                                         data_dict['acc_scale'] = self.acc_scale_data_quene[quene_range:]
+                                        data_dict['acc_fchoice'] = self.acc_fchoice_data_quene[quene_range:]
+                                        data_dict['acc_dlpf'] = self.acc_dlpf_data_quene[quene_range:]
                                         data_dict['gyo_scale'] = self.gyo_scale_data_quene[quene_range:]
+                                        data_dict['gyo_fchoice'] = self.gyo_fchoice_data_quene[quene_range:]
+                                        data_dict['gyo_dlpf'] = self.gyo_dlpf_data_quene[quene_range:]
+
                                         t = threading.Thread(target=self.save_data, args=(data_dict, csv_path))
                                         t.start()
                         else:
@@ -172,10 +193,13 @@ class myThread(threading.Thread):
                                 data_dict['gyo_y'] = self.gyoy_data_quene[quene_range:]
                                 data_dict['gyo_z'] = self.gyoz_data_quene[quene_range:]
                                 data_dict['acc_scale'] = self.acc_scale_data_quene[quene_range:]
+                                data_dict['acc_fchoice'] = self.acc_fchoice_data_quene[quene_range:]
+                                data_dict['acc_dlpf'] = self.acc_dlpf_data_quene[quene_range:]
                                 data_dict['gyo_scale'] = self.gyo_scale_data_quene[quene_range:]
+                                data_dict['gyo_fchoice'] = self.gyo_fchoice_data_quene[quene_range:]
+                                data_dict['gyo_dlpf'] = self.gyo_dlpf_data_quene[quene_range:]
                                 t = threading.Thread(target=self.save_data, args=(data_dict, self.__seq_csv_path))
                                 t.start()
-
         if self.uart:
             self.uart.close()
 
@@ -184,8 +208,7 @@ class myThread(threading.Thread):
             if self.uart:
                 self.uart.close()
             self.uart = serial.Serial(**self.serial_settings)
-
-        except serial.SerialException, e:
+        except serial.SerialException as e:
             self.error_q.put(e.message)
 
     def force_record(self):
