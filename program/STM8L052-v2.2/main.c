@@ -44,7 +44,11 @@ void main()
         UART_Send_Data(gyroStruct.gyroZ>>8);
         UART_Send_Data(gyroStruct.gyroZ);
         UART_Send_Data(acc_scale);
+        UART_Send_Data(acc_fchoice);
+        UART_Send_Data(acc_dlpf);
         UART_Send_Data(gyo_scale);
+        UART_Send_Data(gyo_fchoice);
+        UART_Send_Data(gyo_dlpf);
     }
     
     while(1)

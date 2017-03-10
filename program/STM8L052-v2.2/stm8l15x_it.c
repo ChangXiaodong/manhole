@@ -612,10 +612,10 @@ INTERRUPT_HANDLER(USART1_RX_TIM5_CC_IRQHandler,28)
         {
             rx_count = 0;
         }
-        else if(buf == 0x0D)
+        else if(buf == 0x7F)
         {
             rx_count = 0;
-            set_scale(rx_buf[0], rx_buf[1]);
+            set_config(rx_buf);
         }
         else
         {

@@ -222,7 +222,7 @@ class MainWindow(QtGui.QMainWindow):
         if gyo_fchoice > 3:
             gyo_fchoice = 3
 
-        print("acc_scale:{} acc_dlpf:{} acc_fchoice:{} gyo_scale:{} gyo_dlpf:{} gyo_fchoice:{}".format(
+        self.updateStatusBar("acc_scale:{} acc_dlpf:{} acc_fchoice:{} gyo_scale:{} gyo_dlpf:{} gyo_fchoice:{}".format(
             acc_scale, acc_dlpf, acc_fchoice, gyo_scale, gyo_dlpf, gyo_fchoice
         ))
         self.receive_thread.send([0x7D, acc_scale, acc_fchoice, acc_dlpf, gyo_scale, gyo_fchoice, gyo_dlpf, 0x7F])
