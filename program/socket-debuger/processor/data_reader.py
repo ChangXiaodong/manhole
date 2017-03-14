@@ -2,6 +2,7 @@ import xlrd
 import csv
 import os
 
+
 def get_acc_data_by_excelpath(path=""):
     data = xlrd.open_workbook(path)
     table = data.sheets()[0]
@@ -49,11 +50,57 @@ def get_data_by_csvpath(path=""):
             gyo_z.append(int(row[6]))
     return acc_x, acc_y, acc_z, gyo_x, gyo_y, gyo_z
 
+
+def get_data_by_csvpath_8bit(path=""):
+    acc_x = []
+    acc_y = []
+    acc_z = []
+    gyo_x = []
+    gyo_y = []
+    gyo_z = []
+    count = 0
+    with open(path) as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            acc_x.append(float(int(row[1]) + 32767) / 65535)
+            acc_y.append(float(int(row[2]) + 32767) / 65535)
+            acc_z.append(float(int(row[3]) + 32767) / 65535)
+            gyo_x.append(float(int(row[4]) + 32767) / 65535)
+            gyo_y.append(float(int(row[5]) + 32767) / 65535)
+            gyo_z.append(float(int(row[6]) + 32767) / 65535)
+            count += 1
+            if count == 10:
+                break
+    middle_acc_x = sum(acc_x) / 10
+    middle_acc_y = sum(acc_y) / 10
+    middle_acc_z = sum(acc_z) / 10
+    middle_gyo_x = sum(gyo_x) / 10
+    middle_gyo_y = sum(gyo_y) / 10
+    middle_gyo_z = sum(gyo_z) / 10
+    acc_x = []
+    acc_y = []
+    acc_z = []
+    gyo_x = []
+    gyo_y = []
+    gyo_z = []
+    with open(path) as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            acc_x.append(float(int(row[1]) - middle_acc_x + 32767) / 65535)
+            acc_y.append(float(int(row[2]) - middle_acc_y + 32767) / 65535)
+            acc_z.append(float(int(row[3]) - middle_acc_z + 32767) / 65535)
+            gyo_x.append(float(int(row[4]) - middle_gyo_x + 32767) / 65535)
+            gyo_y.append(float(int(row[5]) - middle_gyo_y + 32767) / 65535)
+            gyo_z.append(float(int(row[6]) - middle_gyo_z + 32767) / 65535)
+    return acc_x, acc_y, acc_z, gyo_x, gyo_y, gyo_z
+
+
 def dir_path_check(dir_path):
     dir_path = dir_path.replace("\\", "/")
     if dir_path[-1] != "/":
         dir_path += "/"
     return dir_path
+
 
 def get_file_recursive(dir_path=""):
     dir_path = dir_path_check(dir_path)
@@ -72,12 +119,16 @@ def get_file_recursive(dir_path=""):
                 file_list.append(temp_path)
     return file_list
 
-def get_data_in_all_dir(dir_path=""):
+
+def get_data_in_all_dir(dir_path="", data_bit=16):
     dir_path = dir_path_check(dir_path)
     file_list = get_file_recursive(dir_path)
     data_dic = {}
     for file in file_list:
-        acc_x, acc_y, acc_z, gyo_x, gyo_y, gyo_z = get_data_by_csvpath(file)
+        if data_bit == 16:
+            acc_x, acc_y, acc_z, gyo_x, gyo_y, gyo_z = get_data_by_csvpath(file)
+        else:
+            acc_x, acc_y, acc_z, gyo_x, gyo_y, gyo_z = get_data_by_csvpath_8bit(file)
         data_dic[str(file).split("/")[-1].split(".")[0]] = {
             "acc_x": acc_x,
             "acc_y": acc_y,
@@ -90,5 +141,4 @@ def get_data_in_all_dir(dir_path=""):
 
 
 if __name__ == "__main__":
-
     print(get_data_by_csvpath("E:\Manhole\\test data\middle_fast\\2\middle_fast_2.csv"))
