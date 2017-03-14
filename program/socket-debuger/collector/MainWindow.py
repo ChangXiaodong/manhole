@@ -201,6 +201,51 @@ class MainWindow(QtGui.QMainWindow):
         self.gyo_fchoice_lineEdit.setText(str(self.gyo_fchoice))
         self.gyo_dlpf_cfg_lineEdit.setText(str(self.gyo_dlpf))
         self.gyo_fs_sel_lineEdit.setText(str(self.gyo_scale))
+        acc_band_width = ""
+        gyo_band_width = ""
+
+        if self.acc_fchoice == 1:
+            acc_band_width = "1.13K"
+        else:
+            if self.acc_dlpf == 0:
+                acc_band_width = "460"
+            elif self.acc_dlpf == 1:
+                acc_band_width = "184"
+            elif self.acc_dlpf == 2:
+                acc_band_width = "92"
+            elif self.acc_dlpf == 3:
+                acc_band_width = "41"
+            elif self.acc_dlpf == 4:
+                acc_band_width = "20"
+            elif self.acc_dlpf == 5:
+                acc_band_width = "10"
+            elif self.acc_dlpf == 6:
+                acc_band_width = "5"
+            elif self.acc_dlpf == 7:
+                acc_band_width = "460"
+        if self.gyo_fchoice == 1 or self.gyo_fchoice == 3:
+            gyo_band_width = "8800"
+        elif self.gyo_fchoice == 2:
+            gyo_band_width = "3600"
+        else:
+            if self.gyo_dlpf == 0:
+                gyo_band_width = "250"
+            elif self.gyo_dlpf == 1:
+                gyo_band_width = "184"
+            elif self.gyo_dlpf == 2:
+                gyo_band_width = "92"
+            elif self.gyo_dlpf == 3:
+                gyo_band_width = "41"
+            elif self.gyo_dlpf == 4:
+                gyo_band_width = "20"
+            elif self.gyo_dlpf == 5:
+                gyo_band_width = "10"
+            elif self.gyo_dlpf == 6:
+                gyo_band_width = "5"
+            elif self.gyo_dlpf == 7:
+                gyo_band_width = "3600"
+        self.acc_bw_label.setText(acc_band_width)
+        self.gyo_bw_label.setText(gyo_band_width)
 
     def on_write_config(self):
         acc_scale = abs(int(self.acc_fs_sel_lineEdit.text()))
