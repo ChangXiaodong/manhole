@@ -38,6 +38,10 @@ class MainWindow(QtGui.QMainWindow):
         self.gyo_livefeed = globals.LiveDataFeed()
         self.acc_samples = [[], [], []]
         self.gyo_samples = [[], [], []]
+        self.data_q = Queue.Queue()
+        self.error_q = Queue.Queue()
+        self.msg_q = Queue.Queue()
+        self.receive_thread = None
         self.scale_value = globals.DEFAULT_SCALE
         self.update_label_count = 0
         self.excel_data = []
@@ -148,15 +152,28 @@ class MainWindow(QtGui.QMainWindow):
         self.updateStatusBar("Single Captured")
 
     def on_open_camera1(self):
-        self.camera.close()
-        self.camera.open_camera(0)
+        if self.camera:
+            self.camera.close()
+            self.camera.open_camera(0)
+        else:
+            self.camera = camera_capture.Camera(self.msg_q, 0)
+            self.camera.setDaemon(True)
+            self.camera.start()
+        if self.receive_thread:
+            self.receive_thread.camera = self.camera
         self.updateStatusBar("Camera 1 opened")
 
     def on_open_camera2(self):
         if self.camera:
             self.camera.close()
             self.camera.open_camera(1)
-            self.updateStatusBar("Camera 2 opened")
+        else:
+            self.camera = camera_capture.Camera(self.msg_q, 1)
+            self.camera.setDaemon(True)
+            self.camera.start()
+        if self.receive_thread:
+            self.receive_thread.camera = self.camera
+        self.updateStatusBar("Camera 2 opened")
 
     def on_close_camera(self):
         self.camera.close()
@@ -525,21 +542,17 @@ class MainWindow(QtGui.QMainWindow):
         self.updateStatusBar("monitor stoped")
 
     def on_connect_socket(self):
-        self.data_q = Queue.Queue()
-        self.error_q = Queue.Queue()
-        self.msg_q = Queue.Queue()
         self.receive_thread = None
-        server_ip = self.server_ip_lineEdit.text()
-        port = self.server_port_lineEdit.text()
-        self.receive_thread = socket.socketThread(
-            server_ip,
-            port,
+        self.settings["server_ip"] = self.server_ip_lineEdit.text()
+        self.settings["port"] = self.server_port_lineEdit.text()
+        self.receive_thread = socket.myThread(
+            self.settings,
             self.data_q,
             self.error_q,
             self.msg_q,
-            self.camera
+            self.camera,
+            device="wifi"
         )
-        self.receive_thread.connect()
         self.receive_thread.setDaemon(True)
         self.receive_thread.start()
         self.monitor_active = True
@@ -617,7 +630,8 @@ if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     win = MainWindow()
     win.show()
+
     # win.on_open_serial()
-    win.on_connect_socket()
-    win.open_camera()
+    # win.on_connect_socket()
+    # win.open_camera()
     sys.exit(app.exec_())

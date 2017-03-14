@@ -742,7 +742,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
-        self.tabWidget_2.setCurrentIndex(1)
+        self.tabWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.Port_num_comboBox, self.BaudRate_lineEdit)
         MainWindow.setTabOrder(self.BaudRate_lineEdit, self.open_pushButton)
