@@ -79,6 +79,7 @@ class MainWindow(QtGui.QMainWindow):
 
     def init_defaultUI(self):
         self.stop_pushButton.setDisabled(True)
+        self.disconnect_pushButton.setDisabled(True)
         self.canvas_start_pushButton.setDisabled(True)
         self.canvas_pause_pushButton.setDisabled(True)
         self.recordButton.setDisabled(True)
@@ -119,6 +120,8 @@ class MainWindow(QtGui.QMainWindow):
         self.single_radioButton.clicked.connect(self.on_single_radio)
         self.read_config_pushButton.clicked.connect(self.on_read_config)
         self.write_config_pushButton.clicked.connect(self.on_write_config)
+        self.connect_pushButton.clicked.connect(self.on_connect_socket)
+        self.disconnect_pushButton.clicked.connect(self.on_disconnect_socket)
 
         QtCore.QObject.connect(
             self.Port_num_comboBox,
@@ -150,10 +153,10 @@ class MainWindow(QtGui.QMainWindow):
         self.updateStatusBar("Camera 1 opened")
 
     def on_open_camera2(self):
-
-        self.camera.close()
-        self.camera.open_camera(1)
-        self.updateStatusBar("Camera 2 opened")
+        if self.camera:
+            self.camera.close()
+            self.camera.open_camera(1)
+            self.updateStatusBar("Camera 2 opened")
 
     def on_close_camera(self):
         self.camera.close()
@@ -346,7 +349,6 @@ class MainWindow(QtGui.QMainWindow):
         return None
 
     def update_plot(self, data):
-
         self.acc_samples[0].append((data['frame_count'], data['acc_x']))
         if len(self.acc_samples[0]) > max(100, self.scale_value):
             self.acc_samples[0].pop(0)
@@ -412,7 +414,7 @@ class MainWindow(QtGui.QMainWindow):
 
     def on_timer(self):
         self.on_timer_count += 1
-        if self.on_timer_count == 50:
+        if self.on_timer_count == 5:
             self.on_timer_count = 0
             msg = globals.get_item_from_queue(self.msg_q)
             if msg:
@@ -522,6 +524,50 @@ class MainWindow(QtGui.QMainWindow):
         self.recordButton.setDisabled(True)
         self.updateStatusBar("monitor stoped")
 
+    def on_connect_socket(self):
+        self.data_q = Queue.Queue()
+        self.error_q = Queue.Queue()
+        self.msg_q = Queue.Queue()
+        self.receive_thread = None
+        server_ip = self.server_ip_lineEdit.text()
+        port = self.server_port_lineEdit.text()
+        self.receive_thread = socket.socketThread(
+            server_ip,
+            port,
+            self.data_q,
+            self.error_q,
+            self.msg_q,
+            self.camera
+        )
+        self.receive_thread.connect()
+        self.receive_thread.setDaemon(True)
+        self.receive_thread.start()
+        self.monitor_active = True
+        self.canvas_start_pushButton.setEnabled(True)
+        self.canvas_pause_pushButton.setEnabled(True)
+        self.server_ip_lineEdit.setDisabled(True)
+        self.server_port_lineEdit.setDisabled(True)
+        self.recordButton.setEnabled(True)
+        self.disconnect_pushButton.setEnabled(True)
+        self.connect_pushButton.setDisabled(True)
+        self.updateStatusBar("TCP Connected")
+        self.timer.start(5)
+
+    def on_disconnect_socket(self):
+        if self.receive_thread is not None:
+            self.receive_thread.join(1000)
+            self.receive_thread = None
+        self.monitor_active = False
+        self.timer.stop()
+        self.disconnect_pushButton.setDisabled(True)
+        self.connect_pushButton.setEnabled(True)
+        self.canvas_start_pushButton.setDisabled(True)
+        self.canvas_pause_pushButton.setDisabled(True)
+        self.recordButton.setDisabled(True)
+        self.server_ip_lineEdit.setEnabled(True)
+        self.server_port_lineEdit.setEnabled(True)
+        self.updateStatusBar("monitor stoped")
+
     def updateStatusBar(self, msg):
         self.statusBar.showMessage(msg)
         self.update_statusbar_count += 1
@@ -557,17 +603,21 @@ class MainWindow(QtGui.QMainWindow):
         self.gyo_scale_Label.setText(scale_text)
 
     def open_camera(self):
-        if self.receive_thread:
-            self.camera = camera_capture.Camera(self.msg_q, 1)
-            self.camera.setDaemon(True)
-            self.camera.start()
-            self.receive_thread.camera = self.camera
+        try:
+            if self.receive_thread:
+                self.camera = camera_capture.Camera(self.msg_q, 1)
+                self.camera.setDaemon(True)
+                self.camera.start()
+                self.receive_thread.camera = self.camera
+        except AttributeError:
+            print("Unknown Data Source")
 
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     win = MainWindow()
     win.show()
-    win.on_open_serial()
+    # win.on_open_serial()
+    win.on_connect_socket()
     win.open_camera()
     sys.exit(app.exec_())

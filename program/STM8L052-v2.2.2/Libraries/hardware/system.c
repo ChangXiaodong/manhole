@@ -136,7 +136,7 @@ void Init_TIMER()
     Init_Time();   //TIMER3
 }
 
-void Init_USART()
+void Init_USART1()
 {
     CLK_PeripheralClockConfig(CLK_Peripheral_USART1,ENABLE);
     
@@ -151,6 +151,23 @@ void Init_USART()
     
     USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
     USART_Cmd(USART1,ENABLE);
+}
+
+void Init_USART2()
+{
+    CLK_PeripheralClockConfig(CLK_Peripheral_USART2,ENABLE);
+    
+    USART_DeInit(USART2);
+    GPIO_ExternalPullUpConfig(GPIOE,GPIO_Pin_3|GPIO_Pin_4,ENABLE);
+    USART_Init(USART2,
+               115200,
+               USART_WordLength_8b,
+               USART_StopBits_1,
+               USART_Parity_No,
+               (USART_Mode_TypeDef)(USART_Mode_Tx|USART_Mode_Rx));
+    
+    USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
+    USART_Cmd(USART2,ENABLE);
 }
 
 void Init_RTC()
@@ -169,6 +186,12 @@ void UART_Send_Data(uint8 data)
 {
     USART_SendData8(USART1,data);
     while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
+}
+
+void WIFI_Send_Data(uint8 data)
+{
+    USART_SendData8(USART2,data);
+    while (USART_GetFlagStatus(USART2, USART_FLAG_TC) == RESET);
 }
 
 u8 UART_Receive_Data()
@@ -234,7 +257,8 @@ void Init_System()
 
     //Init_MPU6050();
     Init_MPU6500_SPI();
-    Init_USART();
+    Init_USART1();
+    Init_USART2();
     //Init_RTC();
     //Init_Radio();
     //Init_Sensor();

@@ -273,7 +273,6 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler,4)
     RTC_WakeUpCmd(ENABLE);
     TEST1_TOGGLE;
     
-    
     MpuGetData();
     UART_Send_Data(0x7D);
     UART_Send_Data(0x7E);
@@ -507,6 +506,28 @@ INTERRUPT_HANDLER(TIM2_CC_USART2_RX_IRQHandler,20)
     /* In order to detect unexpected events during development,
        it is recommended to set a breakpoint on the following instruction.
     */
+    u8 buf = 0;
+    USART_ClearFlag(USART2,USART_FLAG_PE);
+    
+    
+    if(USART_GetFlagStatus(USART2,USART_FLAG_RXNE))
+    {
+        buf = USART_ReceiveData8(USART2);
+        if(buf == 0x7D)
+        {
+            rx_count = 0;
+        }
+        else if(buf == 0x7F)
+        {
+            rx_count = 0;
+            set_config(rx_buf);
+        }
+        else
+        {
+            rx_buf[rx_count++] = buf;
+        }
+
+    }
 }
 
 

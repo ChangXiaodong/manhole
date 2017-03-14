@@ -72,7 +72,9 @@ extern uint16_t getPHYAddress();
 extern void Init_Sensor();
 extern void Init_GPIO();
 extern void Init_TIMER();
-extern void Init_USART();
+extern void Init_USART1();
+extern void Init_USART2();
+void WIFI_Send_Data(uint8 data);
 void power_on();
 u8 UART_Receive_Data();
 

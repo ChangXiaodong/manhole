@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=360830639
+Checksum=-1726177403
 [CodeCoverage]
 Enabled=_ 0
 [DriverProfiling]
@@ -98,6 +98,9 @@ Fmt20={W}42:write	4	0
 LogEnabled=0
 GraphEnabled=0
 ShowTimeLog=1
+[Breakpoints]
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\backup}.88.13" 0 0 0 0 "" 0 ""
+Count=1
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -105,9 +108,6 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
-[Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\backup}.88.13" 0 0 0 0 "" 0 ""
-Count=1
 [Aliases]
 A0=_ "E:\Manhole\program\2-19spi\STM8L052-v2.2\main.c" "E:\Manhole\program\STM8L052-v2.2\main.c"
 A1=_ "E:\Manhole\program\backup\STM8L052\Libraries\src\stm8l15x_clk.c" "E:\Manhole\program\STM8L052-v2.2\Libraries\src\stm8l15x_clk.c"
