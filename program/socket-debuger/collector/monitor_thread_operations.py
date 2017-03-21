@@ -13,6 +13,7 @@ class myThread(threading.Thread):
             self,
             settings,
             data_q,
+            active_q,
             error_q,
             msg_q,
             camera,
@@ -25,6 +26,7 @@ class myThread(threading.Thread):
         self.type = device
         self.display_data_q = data_q
         self.error_q = error_q
+        self.active_q = active_q
         self.alive = threading.Event()
         self.alive.set()
         self.__enable_record_data = True
@@ -50,6 +52,7 @@ class myThread(threading.Thread):
         self.force_record_flag = 0
         self.__single_mode = True
         self.__seq_csv_path = ''
+        self.__seq_start_time = 0
         if self.type == "uart":
             self.serial_settings = settings
             self.serial_settings["stopbits"] = port_stopbits
@@ -201,6 +204,7 @@ class myThread(threading.Thread):
                                             data_dict['gyo_fchoice'] = self.gyo_fchoice_data_quene[quene_range:]
                                             data_dict['gyo_dlpf'] = self.gyo_dlpf_data_quene[quene_range:]
 
+                                            self.active_q.put(data_dict)
                                             t = threading.Thread(target=self.save_data, args=(data_dict, csv_path))
                                             t.start()
                             else:
@@ -220,6 +224,9 @@ class myThread(threading.Thread):
                                     data_dict['gyo_scale'] = self.gyo_scale_data_quene[quene_range:]
                                     data_dict['gyo_fchoice'] = self.gyo_fchoice_data_quene[quene_range:]
                                     data_dict['gyo_dlpf'] = self.gyo_dlpf_data_quene[quene_range:]
+                                    if int(time.time()) - self.__seq_start_time > 2000:
+                                        self.set_single_mode(True)
+                                        self.set_single_mode(False)
                                     t = threading.Thread(target=self.save_data, args=(data_dict, self.__seq_csv_path))
                                     t.start()
 
@@ -244,8 +251,12 @@ class myThread(threading.Thread):
         threading.Thread.join(self, timeout)
 
     def send(self, data):
-        for v in data:
-            self.uart.write(chr(v).encode("ISO-8859-1"))
+        if self.type == "uart":
+            for v in data:
+                self.uart.write(chr(v).encode("ISO-8859-1"))
+        else:
+            for v in data:
+                self.client.send(chr(v).encode("ISO-8859-1"))
 
     def save_data(self, data, csv_path):
         # self.camera.save(csv_path)
@@ -256,5 +267,6 @@ class myThread(threading.Thread):
         if single == False:
             self.__seq_csv_path = str(time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime(time.time())))
             self.camera.set_single_mode(False, self.__seq_csv_path)
+            self.__seq_start_time = int(time.time())
         else:
             self.camera.set_single_mode(True)

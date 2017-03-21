@@ -36,11 +36,12 @@ class MainWindow(QtGui.QMainWindow):
         self.timer = QtCore.QTimer()
         self.livefeed = globals.LiveDataFeed()
         self.gyo_livefeed = globals.LiveDataFeed()
-        self.acc_samples = [[], [], []]
-        self.gyo_samples = [[], [], []]
+        # self.acc_samples = [[], [], []]
+        # self.gyo_samples = [[], [], []]
         self.data_q = Queue.Queue()
         self.error_q = Queue.Queue()
         self.msg_q = Queue.Queue()
+        self.active_q = Queue.Queue()
         self.receive_thread = None
         self.scale_value = globals.DEFAULT_SCALE
         self.update_label_count = 0
@@ -221,6 +222,8 @@ class MainWindow(QtGui.QMainWindow):
         self.gyo_fchoice_lineEdit.setText(str(self.gyo_fchoice))
         self.gyo_dlpf_cfg_lineEdit.setText(str(self.gyo_dlpf))
         self.gyo_fs_sel_lineEdit.setText(str(self.gyo_scale))
+        self.acc_scale_label.setText(str(self.acc_scale_text))
+        self.gyo_scale_label.setText(str(self.gyo_scale_text))
         acc_band_width = ""
         gyo_band_width = ""
 
@@ -334,22 +337,6 @@ class MainWindow(QtGui.QMainWindow):
     def read_serial_data(self):
         qdata = list(globals.get_all_from_queue(self.data_q))
         if len(qdata) > 0:
-            data = dict(timestamp=qdata[-1][1],
-                        frame_count=qdata[-1][2],
-                        acc_x=qdata[-1][0][0],
-                        acc_y=qdata[-1][0][1],
-                        acc_z=qdata[-1][0][2],
-                        gyo_x=qdata[-1][0][3],
-                        gyo_y=qdata[-1][0][4],
-                        gyo_z=qdata[-1][0][5],
-                        acc_scale=qdata[-1][0][6],
-                        acc_fchoice=qdata[-1][0][7],
-                        acc_dlpf=qdata[-1][0][8],
-                        gyo_scale=qdata[-1][0][9],
-                        gyo_fchoice=qdata[-1][0][10],
-                        gyo_dlpf=qdata[-1][0][11]
-                        )
-            self.livefeed.add_data(data)
             return dict(acc_x=qdata[-1][0][0],
                         acc_y=qdata[-1][0][1],
                         acc_z=qdata[-1][0][2],
@@ -366,42 +353,18 @@ class MainWindow(QtGui.QMainWindow):
         return None
 
     def update_plot(self, data):
-        self.acc_samples[0].append((data['frame_count'], data['acc_x']))
-        if len(self.acc_samples[0]) > max(100, self.scale_value):
-            self.acc_samples[0].pop(0)
 
-        self.acc_samples[1].append((data['frame_count'], data['acc_y']))
-        if len(self.acc_samples[1]) > max(100, self.scale_value):
-            self.acc_samples[1].pop(0)
+        self.acc_curve[0].setData(range(len(data['acc_x'])), data['acc_x'])
+        self.acc_curve[1].setData(range(len(data['acc_y'])), data['acc_y'])
+        self.acc_curve[2].setData(range(len(data['acc_z'])), data['acc_z'])
 
-        self.acc_samples[2].append((data['frame_count'], data['acc_z']))
-        if len(self.acc_samples[2]) > max(100, self.scale_value):
-            self.acc_samples[2].pop(0)
-
-        self.gyo_samples[0].append((data['frame_count'], data['gyo_x']))
-        if len(self.gyo_samples[0]) > max(100, self.scale_value):
-            self.gyo_samples[0].pop(0)
-
-        self.gyo_samples[1].append((data['frame_count'], data['gyo_y']))
-        if len(self.gyo_samples[1]) > max(100, self.scale_value):
-            self.gyo_samples[1].pop(0)
-
-        self.gyo_samples[2].append((data['frame_count'], data['gyo_z']))
-        if len(self.gyo_samples[2]) > max(100, self.scale_value):
-            self.gyo_samples[2].pop(0)
-
-        tdata = [s[0] for s in self.acc_samples[2]]
-
-        for i in range(3):
-            data[i] = [s[1] for s in self.acc_samples[i]]
-            self.acc_curve[i].setData(tdata, data[i])
-        for i in range(3):
-            data[i] = [s[1] for s in self.gyo_samples[i]]
-            self.gyo_curve[i].setData(tdata, data[i])
-        self.acc_plot.setAxisScale(Qwt.QwtPlot.xBottom, tdata[-1] - self.scale_value, max(1, tdata[-1]))
+        self.gyo_curve[0].setData(range(len(data['gyo_x'])), data['gyo_x'])
+        self.gyo_curve[1].setData(range(len(data['gyo_y'])), data['gyo_y'])
+        self.gyo_curve[2].setData(range(len(data['gyo_z'])), data['gyo_z'])
+        self.acc_plot.setAxisScale(Qwt.QwtPlot.xBottom, 0, data['acc_x'].__len__())
         self.acc_plot.replot()
 
-        self.gyo_plot.setAxisScale(Qwt.QwtPlot.xBottom, tdata[-1] - self.scale_value, max(1, tdata[-1]))
+        self.gyo_plot.setAxisScale(Qwt.QwtPlot.xBottom, 0, data['gyo_x'].__len__())
         self.gyo_plot.replot()
 
     def update_label(self, data_dict):
@@ -439,10 +402,9 @@ class MainWindow(QtGui.QMainWindow):
         data_dict = self.read_serial_data()
         if data_dict:
             self.update_label(data_dict)
-        if self.livefeed.has_new_data:
-            data = self.livefeed.read_data()
-            if self.__enablecanvas is True and self.tab_index == 0:
-                self.update_plot(data)
+        active_data = globals.get_item_from_queue(self.active_q)
+        if active_data:
+            self.update_plot(active_data)
 
     def on_start_canvas(self):
         self.__enablecanvas = True
@@ -479,9 +441,6 @@ class MainWindow(QtGui.QMainWindow):
                     self.result_label.setText(u"井盖正常")
 
     def on_open_serial(self):
-        self.data_q = Queue.Queue()
-        self.error_q = Queue.Queue()
-        self.msg_q = Queue.Queue()
         self.receive_thread = None
 
         if self.settings.has_key("port"):
@@ -499,6 +458,7 @@ class MainWindow(QtGui.QMainWindow):
                 self.receive_thread = socket.myThread(
                     self.settings,
                     self.data_q,
+                    self.active_q,
                     self.error_q,
                     self.msg_q,
                     self.camera
@@ -548,6 +508,7 @@ class MainWindow(QtGui.QMainWindow):
         self.receive_thread = socket.myThread(
             self.settings,
             self.data_q,
+            self.active_q,
             self.error_q,
             self.msg_q,
             self.camera,
@@ -591,14 +552,14 @@ class MainWindow(QtGui.QMainWindow):
         self.acc_z_Label.setText(str(z))
         self.acc_scale = scale
         if scale == 0:
-            scale_text = "2"
+            self.acc_scale_text = "2"
         elif scale == 1:
-            scale_text = "4"
+            self.acc_scale_text = "4"
         elif scale == 2:
-            scale_text = "8"
+            self.acc_scale_text = "8"
         else:
-            scale_text = "16"
-        self.acc_scale_Label.setText(scale_text)
+            self.acc_scale_text = "16"
+        self.acc_scale_Label.setText(self.acc_scale_text)
 
     def updataGYOLabel(self, x, y, z, scale):
         self.gyo_x_Label.setText(str(x))
@@ -606,14 +567,14 @@ class MainWindow(QtGui.QMainWindow):
         self.gyo_z_Label.setText(str(z))
         self.gyo_scale = scale
         if scale == 0:
-            scale_text = "250"
+            self.gyo_scale_text = "250"
         elif scale == 1:
-            scale_text = "500"
+            self.gyo_scale_text = "500"
         elif scale == 2:
-            scale_text = "1000"
+            self.gyo_scale_text = "1000"
         else:
-            scale_text = "2000"
-        self.gyo_scale_Label.setText(scale_text)
+            self.gyo_scale_text = "2000"
+        self.gyo_scale_Label.setText(self.gyo_scale_text)
 
     def open_camera(self):
         try:
