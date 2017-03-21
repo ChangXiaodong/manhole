@@ -34,10 +34,6 @@ class MainWindow(QtGui.QMainWindow):
 
     def init_component(self):
         self.timer = QtCore.QTimer()
-        self.livefeed = globals.LiveDataFeed()
-        self.gyo_livefeed = globals.LiveDataFeed()
-        # self.acc_samples = [[], [], []]
-        # self.gyo_samples = [[], [], []]
         self.data_q = Queue.Queue()
         self.error_q = Queue.Queue()
         self.msg_q = Queue.Queue()
@@ -45,7 +41,6 @@ class MainWindow(QtGui.QMainWindow):
         self.receive_thread = None
         self.scale_value = globals.DEFAULT_SCALE
         self.update_label_count = 0
-        self.excel_data = []
         self.update_statusbar_count = 0
         self.__enableRecoedData = True
         self.__enablecanvas = False
@@ -54,6 +49,7 @@ class MainWindow(QtGui.QMainWindow):
         self.__calibrate_once = False
         self.identify_result_memory = 0
         self.camera = None
+        self.data_source = "uart"
 
     def plot_factory(self, parent_object):
         plot = Qwt.QwtPlot(parent_object)
@@ -387,9 +383,13 @@ class MainWindow(QtGui.QMainWindow):
         self.gyo_fchoice = data_dict["gyo_fchoice"]
         self.gyo_dlpf = data_dict["gyo_dlpf"]
 
-        self.update_label_count += 1
-        if self.update_label_count >= 10:
-            self.update_label_count = 0
+
+        if self.data_source == "uart":
+            self.update_label_count += 1
+            if self.update_label_count >= 10:
+                self.update_label_count = 0
+                update(data_dict)
+        else:
             update(data_dict)
 
     def on_timer(self):
@@ -483,6 +483,7 @@ class MainWindow(QtGui.QMainWindow):
         self.BaudRate_lineEdit.setDisabled(True)
         self.recordButton.setEnabled(True)
         self.updateStatusBar("UART Opened")
+        self.data_source = "uart"
         self.timer.start(15)
         self.on_start_canvas()
 
@@ -525,7 +526,8 @@ class MainWindow(QtGui.QMainWindow):
         self.disconnect_pushButton.setEnabled(True)
         self.connect_pushButton.setDisabled(True)
         self.updateStatusBar("TCP Connected")
-        self.timer.start(5)
+        self.data_source = "wifi"
+        self.timer.start(15)
 
     def on_disconnect_socket(self):
         if self.receive_thread is not None:

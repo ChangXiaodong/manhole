@@ -133,6 +133,7 @@ class myThread(threading.Thread):
                             gyo_fchoice = data[16]
                             gyo_dlpf = data[17]
                             timestamp = str(datetime.datetime.now())[:-3].replace(" ", "_")
+
                             self.display_data_q.put(([acc_x, acc_y, acc_z,
                                                       gyo_x, gyo_y, gyo_z,
                                                       acc_scale, acc_fchoice, acc_dlpf,
