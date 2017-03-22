@@ -21,7 +21,7 @@ methods = [None, 'none', 'nearest', 'bilinear', 'bicubic', 'spline16',
 # image_file = cbook.get_sample_data('ada.png')
 # image = plt.imread(image_file)
 
-dir_path = "E:/Manhole/training data/original data/3-6/2/middle/1"
+dir_path = "E:/Manhole/training data/original data/3-6/2/"
 data_dic = data_reader.get_data_in_all_dir(dir_path, data_bit=8)
 column = 1000
 row_step = 1000 / len(data_dic)
