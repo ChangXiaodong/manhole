@@ -1,7 +1,7 @@
 import platform
 import matplotlib.pyplot as plt
 import data_reader
-from processor import filter_function
+import filter_function
 
 def gh_plot(fig, ax, title, value):
     filter = filter_function.Filter()
@@ -39,6 +39,7 @@ def none_plot(fig, ax, title, value):
     ax["acc-" + title].plot(x, value['gyo_x'])
     ax["acc-" + title].plot(x, value['gyo_y'])
     ax["acc-" + title].plot(x, value['gyo_z'])
+    ax["acc-" + title].set_ylim([-35000, 35000])
 
 
 def plot_2d(filter_type=None):

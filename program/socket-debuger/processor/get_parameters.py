@@ -1,5 +1,8 @@
+# coding=utf-8
 import filter_function
-def peak_width(data):
+
+
+def peak_width_old(data):
     def get_width(data_buf):
         n = data_buf.__len__()
         start_index = 0
@@ -25,6 +28,7 @@ def peak_width(data):
 def peak_value(data):
     return abs(max(data) - min(data))
 
+
 def variance(data):
     mean_value = mean(data)
     sum_buf = 0
@@ -32,8 +36,10 @@ def variance(data):
         sum_buf += (v - mean_value) ** 2
     return sum_buf / len(data)
 
+
 def mean(data):
     return sum(data) / len(data)
+
 
 def pulse_max(data):
     stable_value = mean(data[:5])
@@ -44,7 +50,7 @@ def pulse_max(data):
 
 
 def peak_value_divide_by_width(data):
-    width = peak_width(data)
+    width = peak_width_old(data)
     x_peak_value = peak_value(data["acc_x"])
     y_peak_value = peak_value(data["acc_y"])
     z_peak_value = peak_value(data["acc_z"])
@@ -136,29 +142,170 @@ def get_width_index(data):
         index7 = data.index(max(data[index2:index3]))
         index8 = data.index(max(data[index4:index5]))
     return (index1, index2, index3, index4, index5, index6, index7, index8)
-    # print(index1, index2, index3, index4, index5, index6, index7, index8)
-    # plt.subplot(2, 1, 1)
-    # plt.plot(var_list)
-    # plt.plot(index1, 100, 'o')
-    # plt.plot(index2, 100, 'o')
-    # plt.plot(index3, 100, 'o')
-    # plt.plot(index4, 100, 'o')
-    # plt.plot(index5, 100, 'o')
-    # plt.plot(index6, 100, 'o')
-    # plt.subplot(2, 1, 2)
-    # plt.plot(data)
-    # plt.plot(index1, 100, 'o')
-    # plt.plot(index2, 100, 'o')
-    # plt.plot(index3, 100, 'o')
-    # plt.plot(index4, 100, 'o')
-    # plt.plot(index5, 100, 'o')
-    # plt.plot(index6, 100, 'o')
-    # plt.plot(index7, data[index7], 'o')
-    # plt.plot(index8, data[index8], 'o')
-    # plt.show()
 
 
-if __name__ == "__main__":
+def split_data(data):
+    partition = []
+    # 计算原始数据的标准差，并经过一个均值滤波，为后面数据切分做准备
+    var = []
+    for i in range(len(data) - 3):
+        v = int(variance(data[i:i + 3]) ** 0.5)
+        var.append(0 if v < 100 else v)
+    filter = filter_function.Filter()
+    var = filter.mean_value_filter(var, 20)
+    var = filter.mean_value_filter(var, 20)
+    WIDTH = 20
+    split = []
+    # 将数据切分，有多少个轮子partition就有多长
+    # for i, v in enumerate(var):
+    #     print(i, v)
+    i = WIDTH
+    max_var = max(var)
+    pass_max_flag = 0
+    # 寻找var的波谷进行切分
+    while WIDTH <= i < len(var) - WIDTH:
+        if i == 514:
+            pass
+        if var[i] > max_var // 20 or var[i] > 200:
+            pass_max_flag = 1
+        if pass_max_flag == 1:
+            count = 0
+            for j in range(i - WIDTH, i + WIDTH):
+                # 对 var为0时进行特殊处理。检查左右连边是不是有峰值
+                if var[i] <= var[j]:
+                    if var[i] != 0:
+                        count += 1
+                    else:
+                        if i - 100 > 0 and i + 100 < len(var):
+                            left_max = max(var[i - 100:i])
+                            right_max = max(var[i:i + 100])
+                            if left_max > max(var) * 0.3 and right_max > max(var) * 0.3:
+                                split.append(i - 4)
+                                i += WIDTH
+                                count = 0
+                                break
+            if count >= WIDTH * 2 - 3:
+                split.append(i - 4)
+                i += WIDTH
+        i += 1
+    if len(split) == 1:
+        count = 0
+        for v in var:
+            if v > max_var * 2 // 3:
+                count += 1
+        if count > 50:
+            split = []
+    # 波谷切分没有成功，寻找波峰，用两个波峰的中值进行切分
+    if not split:
+        split = []
+        split_buf = []
+        WIDTH = WIDTH
+        i = WIDTH
+        while WIDTH <= i < len(var) - WIDTH:
+            count = 0
+            for j in range(i - WIDTH, i + WIDTH):
+                if var[i] >= var[j] and var[i] > max_var * 0.2:
+                    count += 1
+            if count > WIDTH * 2 - 2:
+                split_buf.append(i - 4)
+                i += WIDTH
+            i += 1
+        for i in range(1, len(split_buf)):
+            split.append((split_buf[i] + split_buf[i - 1]) >> 1)
+        if len(split_buf) == 1:
+            split.append(split_buf[0] - 80)
+    mem = 0
+    # 切分数据
+    for s in split:
+        if partition:
+            partition.pop()
+        partition.append(data[mem:s])
+        partition.append(data[s:])
+        mem = s
+
+    return partition, var
+
+def get_valid_data(data):
+    '''
+    :param data: 
+    :return:start inedx, end index
+     通过斜率找到波形的起始点和结束点
+    '''
+    WIDTH = 2
+    start = 0
+    end = 0
+    # for i, v in enumerate(data):
+    #     print(i, v)
+    for i in range(len(data) - WIDTH):
+        if abs((data[i + WIDTH] - data[i]) / (WIDTH + 1)) > 200:
+            start = i
+            break
+    for i in range(len(data) - 1, WIDTH, -1):
+        if abs((data[i] - data[i - WIDTH]) / (WIDTH + 1)) > 200:
+            end = i
+            break
+    return start, end
+
+
+def get_peak_width(data, low, high):
+    '''
+    :param data: 
+    :return: width
+     目标：
+     1.计算出车轮的个数。peak_max_index和peak_min_index的长度为车轮个数。
+     2.计算出车轮经过时的峰峰值。一组peak_max_index和peak_min_index对应着最大值最小值的坐标。相减即为峰峰值
+     3.计算出车辆经过的起点和终点。用于判断车辆长度，速度等。也可以用来切分不同车辆。low, high为起点和终点
+     4.通过var可以整体的判断出标准差，间接反映出井盖震动强弱。
+    '''
+
+    partition, var = split_data(data)
+    peak_max_index = []
+    peak_min_index = []
+    base_length = 0
+    middle = sum(data[:20]) // 20
+
+    for i, part in enumerate(partition):
+        max_buf = -32768
+        max_index = -1
+        min_buf = 32768
+        min_index = -1
+        for j, v in enumerate(part):
+            if abs(v - middle) > 100:
+                if v > max_buf:
+                    max_buf = v
+                    max_index = j + base_length
+                elif v < min_buf:
+                    min_buf = v
+                    min_index = j + base_length
+        if max_index > low and max_index < high and min_index > low and min_index < high:
+            peak_max_index.append(max_index)
+            peak_min_index.append(min_index)
+        base_length += len(part)
+    i = 0
+    n = len(peak_min_index)
+    # 删除波峰波谷过长的index，这种是识别错误的
+    while i < n:
+        if abs(peak_min_index[i] - peak_max_index[i]) > 70:
+            peak_min_index.pop(i)
+            peak_max_index.pop(i)
+            n -= 1
+        i += 1
+    # 若有四个index，说明有抖动没有滤掉
+    if n == 4:
+        min_buf = [
+            (0.8 * peak_min_index[0] + 0.2 * peak_min_index[1]),
+            (0.8 * peak_min_index[2] + 0.2 * peak_min_index[3]),
+        ]
+        max_buf = [
+            (0.8 * peak_max_index[0] + 0.2 * peak_max_index[1]),
+            (0.8 * peak_max_index[2] + 0.2 * peak_max_index[3]),
+        ]
+        peak_min_index = min_buf[:]
+        peak_max_index = max_buf[:]
+
+    return peak_max_index, peak_min_index, var
+
+def index_test():
     import processor.data_reader
     import matplotlib.pyplot as plt
     import platform
@@ -167,63 +314,36 @@ if __name__ == "__main__":
     filter = filter_function.Filter()
     # data_path = "E:/Manhole/training data/plot"
     if "Windows" in platform.platform():
-        data_path = "E:/Manhole/training data/original data/3-6/3/middle"
+        # data_path = "E:/Manhole/training data/original data/3-6/3/middle"
+        data_path = "E:/Manhole/training data/2d_plot/"
     else:
         data_path = "/Users/xiaoxiami/Manhole/training data/original data/3-6/3/side"
 
     data_dic = processor.data_reader.get_data_in_all_dir(data_path)
-    index_x = []
-    index_y = []
-    index_z = []
+
+    fig = {}
+    ax = {}
 
     for title, data in data_dic.items():
-        filtered_data_x = filter.g_h_filter(data=data['acc_x'], dx=1, g=1. / 10, h=1. / 3, dt=1.)
-        filtered_data_y = filter.g_h_filter(data=data['acc_y'], dx=1, g=1. / 10, h=1. / 3, dt=1.)
-        filtered_data_z = filter.g_h_filter(data=data['acc_z'], dx=1, g=1. / 10, h=1. / 3, dt=1.)
-        index_x.append(get_width_index(filtered_data_x))
-        index_y.append(get_width_index(filtered_data_y))
-        index_z.append(get_width_index(filtered_data_z))
-    fig = plt.figure(figsize=(16, 8))
-    ax = fig.add_subplot(111, projection='3d')
-    x = []
-    y = []
-    z = []
-    for i in range(index_x.__len__()):
-        item_x = index_x[i]
-        item_y = index_y[i]
-        item_z = index_z[i]
-        x.append(item_x[5] - item_x[3])
-        y.append(item_y[5] - item_y[3])
-        z.append(item_z[5] - item_z[3])
-        # ax.plot(item[2] - item[0], 100, "bo")
-    ax.plot(x, y, z, "bo")
+        x = range(len(data['acc_x']))
+        print(title)
+        start, end = get_valid_data(data['acc_z'])
+        (max_index, min_index, var) = (get_peak_width(data['acc_z'], start, end))
 
-    if "Windows" in platform.platform():
-        data_path = "E:/Manhole/training data/original data/3-6/3/middle"
-    else:
-        data_path = "/Users/xiaoxiami/Manhole/training data/original data/3-6/3/middle"
-    data_dic = processor.data_reader.get_data_in_all_dir(data_path)
-    index_x = []
-    index_y = []
-    index_z = []
-    for title, data in data_dic.items():
-        filtered_data_x = filter.g_h_filter(data=data['acc_x'], dx=1, g=1. / 10, h=1. / 3, dt=1.)
-        filtered_data_y = filter.g_h_filter(data=data['acc_y'], dx=1, g=1. / 10, h=1. / 3, dt=1.)
-        filtered_data_z = filter.g_h_filter(data=data['acc_z'], dx=1, g=1. / 10, h=1. / 3, dt=1.)
-        index_x.append(get_width_index(filtered_data_x))
-        index_y.append(get_width_index(filtered_data_y))
-        index_z.append(get_width_index(filtered_data_z))
-    x = []
-    y = []
-    z = []
-    for i in range(index_x.__len__()):
-        item_x = index_x[i]
-        item_y = index_y[i]
-        item_z = index_z[i]
-        # ax.plot(item[2] - item[0], 100, "o")
-        x.append(item_x[5] - item_x[3])
-        y.append(item_y[5] - item_y[3])
-        z.append(item_z[5] - item_z[3])
-    ax.plot(x, y, z, "ro")
+        fig[title] = plt.figure(figsize=(16, 8))
+        ax["acc-" + title] = fig[title].add_subplot(211)
+        ax["acc-" + title].set_title(title)
+        ax["acc-" + title].plot(x, data['acc_z'])
+        ax["acc-" + title].set_ylim([-35000, 35000])
+        for i in range(len(max_index)):
+            ax["acc-" + title].plot(max_index[i], data['acc_z'][0], 'ro')
+            ax["acc-" + title].plot(min_index[i], data['acc_z'][0], 'go')
+        ax["acc-" + title].plot(start, data['acc_z'][0], 'yo', alpha=0.5)
+        ax["acc-" + title].plot(end, data['acc_z'][0], 'yo', alpha=0.5)
+        ax["acc-" + title] = fig[title].add_subplot(212)
+        ax["acc-" + title].plot(range(len(var)), var)
 
     plt.show()
+if __name__ == "__main__":
+    index_test()
+
