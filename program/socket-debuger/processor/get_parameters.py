@@ -29,8 +29,9 @@ def peak_value(data):
     return abs(max(data) - min(data))
 
 
-def variance(data):
-    mean_value = mean(data)
+def variance(data, mean_value=None):
+    if not mean_value:
+        mean_value = mean(data)
     sum_buf = 0
     for v in data:
         sum_buf += (v - mean_value) ** 2
@@ -305,14 +306,7 @@ def get_peak_width(data, low, high):
 
     return peak_max_index, peak_min_index, var
 
-def index_test():
-    import processor.data_reader
-    import matplotlib.pyplot as plt
-    import platform
-    from mpl_toolkits.mplot3d import Axes3D
-
-    filter = filter_function.Filter()
-    # data_path = "E:/Manhole/training data/plot"
+def index():
     if "Windows" in platform.platform():
         # data_path = "E:/Manhole/training data/original data/3-6/3/middle"
         data_path = "E:/Manhole/training data/2d_plot/"
@@ -344,6 +338,44 @@ def index_test():
         ax["acc-" + title].plot(range(len(var)), var)
 
     plt.show()
+
+def x_y_info():
+    if "Windows" in platform.platform():
+        # data_path = "E:/Manhole/training data/original data/3-6/3/middle"
+        data_path = "E:/Manhole/training data/2d_plot/"
+    else:
+        data_path = "/Users/xiaoxiami/Manhole/training data/original data/3-6/3/side"
+
+    data_dic = processor.data_reader.get_data_in_all_dir(data_path)
+
+    fig = {}
+    ax = {}
+
+    for title, data in data_dic.items():
+        n = len(data['acc_x'])
+        x = range(n)
+        print(title)
+        start, end = get_valid_data(data['acc_z'])
+        middle_x = sum(data['acc_x'][:20]) // 20
+        middle_y = sum(data['acc_y'][:20]) // 20
+        variance_x = int(variance(data['acc_x'][start:end], middle_x) ** 0.5)
+        variance_y = int(variance(data['acc_y'][start:end], middle_y) ** 0.5)
+        print(variance_x, variance_y)
+        fig[title] = plt.figure(figsize=(16, 8))
+        ax["acc-" + title] = fig[title].add_subplot(111)
+        ax["acc-" + title].set_title(title)
+        ax["acc-" + title].plot(x, data['acc_x'])
+        ax["acc-" + title].plot(x, data['acc_y'])
+        ax["acc-" + title].set_ylim([-35000, 35000])
+
+    plt.show()
 if __name__ == "__main__":
-    index_test()
+    import processor.data_reader
+    import matplotlib.pyplot as plt
+    import platform
+    from mpl_toolkits.mplot3d import Axes3D
+
+
+    index()
+    #x_y_info()
 
