@@ -15,7 +15,7 @@ def write(data, path="test_csv"):
         filed_names = ['time', 'acc_x', 'acc_y', 'acc_z', "gyo_x", "gyo_y", "gyo_z", "acc_scale", "gyo_scale"]
         writer = csv.DictWriter(csvfile, filed_names)
         # writer.writeheader()
-        for i in xrange(len(data["time"])):
+        for i in range(len(data["time"])):
             writer.writerow(
                 {
                     "time": data['time'][i],

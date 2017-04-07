@@ -10,7 +10,7 @@ class Camera(threading.Thread):
     def __init__(self, msg_q, camera_num):
         super(Camera, self).__init__()
         self.saved_once = False
-        self.SAVED_SECONDS = 6
+        self.SAVED_SECONDS = 4
         self.SAVED_TIME = self.SAVED_SECONDS * 15
         self.__frame = 0
         self.pre_pic = deque(maxlen=self.SAVED_TIME)

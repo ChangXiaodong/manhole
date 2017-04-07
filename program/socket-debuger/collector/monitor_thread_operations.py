@@ -92,13 +92,50 @@ class myThread(threading.Thread):
         return max_value
 
     def run(self):
+        #split data params
+        WIDTH = 2
+        MAX_CNT = 500
+        start_flag = 0
+        end = 0
+        max_value = 0
+        count = MAX_CNT
+        stable_cnt = 0
+        end_flag = 0
+        acc_x_quene = []
+        acc_y_quene = []
+        acc_z_quene = []
+        gyo_x_quene = []
+        gyo_y_quene = []
+        gyo_z_quene = []
+        time_stamp_quene = []
+        acc_scale_quene = []
+        acc_fchoice_quene = []
+        acc_dlpf_quene = []
+        gyo_scale_quene = []
+        gyo_fchoice_quene = []
+        gyo_dlpf_quene = []
+
+        pre_acc_x_quene = []
+        pre_acc_y_quene = []
+        pre_acc_z_quene = []
+        pre_gyo_x_quene = []
+        pre_gyo_y_quene = []
+        pre_gyo_z_quene = []
+        pre_time_stamp_quene = []
+        pre_acc_scale_quene = []
+        pre_acc_fchoice_quene = []
+        pre_acc_dlpf_quene = []
+        pre_gyo_scale_quene = []
+        pre_gyo_fchoice_quene = []
+        pre_gyo_dlpf_quene = []
+        pivot_quene = []
+        #
         coming_flag = 0
         start_time = 0
         csv_path = ""
         self.count = 0
         stable_count = 0
         self.open_count = 0
-
         self.frame_count = 0
         vehicle_coming_frame = 0
         while self.alive.isSet():
@@ -140,79 +177,176 @@ class myThread(threading.Thread):
                                                       acc_scale, acc_fchoice, acc_dlpf,
                                                       gyo_scale, gyo_fchoice, gyo_dlpf],
                                                      timestamp, self.frame_count))
-                            n = self.acc_scale_data_quene.__len__()
-                            if n >= self.MAX_LEN:
-                                self.accx_data_quene.pop(0)
-                                self.accy_data_quene.pop(0)
-                                self.accz_data_quene.pop(0)
-                                self.gyox_data_quene.pop(0)
-                                self.gyoy_data_quene.pop(0)
-                                self.gyoz_data_quene.pop(0)
-                                self.acc_scale_data_quene.pop(0)
-                                self.gyo_scale_data_quene.pop(0)
-                                self.acc_fchoice_data_quene.pop(0)
-                                self.acc_dlpf_data_quene.pop(0)
-                                self.gyo_fchoice_data_quene.pop(0)
-                                self.gyo_dlpf_data_quene.pop(0)
-                                self.time_stamp_quene.pop(0)
-                            self.accx_data_quene.append(acc_x)
-                            self.accy_data_quene.append(acc_y)
-                            self.accz_data_quene.append(acc_z)
-                            self.gyox_data_quene.append(gyo_x)
-                            self.gyoy_data_quene.append(gyo_y)
-                            self.gyoz_data_quene.append(gyo_z)
-                            self.acc_scale_data_quene.append(acc_scale)
-                            self.acc_dlpf_data_quene.append(acc_dlpf)
-                            self.acc_fchoice_data_quene.append(acc_fchoice)
-                            self.gyo_dlpf_data_quene.append(gyo_dlpf)
-                            self.gyo_fchoice_data_quene.append(gyo_fchoice)
-                            self.gyo_scale_data_quene.append(gyo_scale)
-                            self.time_stamp_quene.append(timestamp)
+                            pivot_value = acc_z
+                            pivot_quene.append(pivot_value)
+                            pre_acc_x_quene.append(acc_x)
+                            pre_acc_y_quene.append(acc_y)
+                            pre_acc_z_quene.append(acc_z)
+                            pre_gyo_x_quene.append(gyo_x)
+                            pre_gyo_y_quene.append(gyo_y)
+                            pre_gyo_z_quene.append(gyo_z)
+                            pre_acc_scale_quene.append(acc_scale)
+                            pre_acc_dlpf_quene.append(acc_dlpf)
+                            pre_acc_fchoice_quene.append(acc_fchoice)
+                            pre_gyo_dlpf_quene.append(gyo_dlpf)
+                            pre_gyo_fchoice_quene.append(gyo_fchoice)
+                            pre_gyo_scale_quene.append(gyo_scale)
+                            pre_time_stamp_quene.append(timestamp)
 
+                            if pre_acc_scale_quene.__len__() > 100:
+                                pre_acc_x_quene.pop(0)
+                                pre_acc_y_quene.pop(0)
+                                pre_acc_z_quene.pop(0)
+                                pre_gyo_x_quene.pop(0)
+                                pre_gyo_y_quene.pop(0)
+                                pre_gyo_z_quene.pop(0)
+                                pre_acc_scale_quene.pop(0)
+                                pre_acc_dlpf_quene.pop(0)
+                                pre_acc_fchoice_quene.pop(0)
+                                pre_gyo_dlpf_quene.pop(0)
+                                pre_gyo_fchoice_quene.pop(0)
+                                pre_gyo_scale_quene.pop(0)
+                                pre_time_stamp_quene.pop(0)
+                                pivot_quene.pop(0)
 
-
-                            if n == 300:
-                                self.msg_q.put("Data Quene Ready")
                             if self.__single_mode == True:
-                                if n > 300:
-                                    coming_pulse = self.pulse_max(self.accz_data_quene[n - 200:])
-                                    if coming_flag == 0 and coming_pulse > 2000 or self.force_record_flag != 0:
+                                if pivot_quene.__len__() > WIDTH + 1:
+                                    slop = abs((pivot_quene[-1] - pivot_quene[-WIDTH]) / (WIDTH + 1))
+                                    if start_flag == 0 and slop > 400:
+                                        acc_x_quene = pre_acc_x_quene[:]
+                                        acc_y_quene = pre_acc_y_quene[:]
+                                        acc_z_quene = pre_acc_z_quene[:]
+                                        gyo_x_quene = pre_gyo_x_quene[:]
+                                        gyo_y_quene = pre_gyo_y_quene[:]
+                                        gyo_z_quene = pre_gyo_z_quene[:]
+                                        time_stamp_quene = pre_time_stamp_quene[:]
+                                        acc_scale_quene = pre_acc_scale_quene[:]
+                                        acc_fchoice_quene = pre_acc_fchoice_quene[:]
+                                        acc_dlpf_quene = pre_acc_dlpf_quene[:]
+                                        gyo_scale_quene = pre_gyo_scale_quene[:]
+                                        gyo_fchoice_quene = pre_gyo_fchoice_quene[:]
+                                        gyo_dlpf_quene = pre_gyo_dlpf_quene[:]
+
+                                        count = MAX_CNT
+                                        stable_cnt = 0
+                                        start_flag = 1
                                         self.msg_q.put("Vehicle Coming")
                                         start_time = time.time()
-                                        coming_flag = 1
-                                        stable_count = 0
                                         csv_path = str(time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime(time.time())))
-                                        vehicle_coming_frame = self.frame_count - 300
                                         if self.camera:
                                             self.camera.save(csv_path)
-                                    if coming_flag == 1 and coming_pulse < 500:
-                                        stable_count += 1
-                                        if stable_count > 100:
-                                            coming_flag = 0
-                                            stable_count = 0
-                                            self.msg_q.put("Vehicle Leaving, {} Seconds data saved".format(
-                                                round(time.time() - start_time, 3) + 3.6
-                                            ))
-                                            data_dict = {}
-                                            quene_range = -(self.frame_count - vehicle_coming_frame)
-                                            data_dict['time'] = self.time_stamp_quene[quene_range:]
-                                            data_dict['acc_x'] = self.accx_data_quene[quene_range:]
-                                            data_dict['acc_y'] = self.accy_data_quene[quene_range:]
-                                            data_dict['acc_z'] = self.accz_data_quene[quene_range:]
-                                            data_dict['gyo_x'] = self.gyox_data_quene[quene_range:]
-                                            data_dict['gyo_y'] = self.gyoy_data_quene[quene_range:]
-                                            data_dict['gyo_z'] = self.gyoz_data_quene[quene_range:]
-                                            data_dict['acc_scale'] = self.acc_scale_data_quene[quene_range:]
-                                            data_dict['acc_fchoice'] = self.acc_fchoice_data_quene[quene_range:]
-                                            data_dict['acc_dlpf'] = self.acc_dlpf_data_quene[quene_range:]
-                                            data_dict['gyo_scale'] = self.gyo_scale_data_quene[quene_range:]
-                                            data_dict['gyo_fchoice'] = self.gyo_fchoice_data_quene[quene_range:]
-                                            data_dict['gyo_dlpf'] = self.gyo_dlpf_data_quene[quene_range:]
+                                    if start_flag == 1:
+                                        acc_x_quene.append(acc_x)
+                                        acc_y_quene.append(acc_y)
+                                        acc_z_quene.append(acc_z)
+                                        gyo_x_quene.append(gyo_x)
+                                        gyo_y_quene.append(gyo_y)
+                                        gyo_z_quene.append(gyo_z)
+                                        acc_scale_quene.append(acc_scale)
+                                        acc_dlpf_quene.append(acc_dlpf)
+                                        acc_fchoice_quene.append(acc_fchoice)
+                                        gyo_dlpf_quene.append(gyo_dlpf)
+                                        gyo_fchoice_quene.append(gyo_fchoice)
+                                        gyo_scale_quene.append(gyo_scale)
+                                        time_stamp_quene.append(timestamp)
 
-                                            self.active_q.put(data_dict)
-                                            t = threading.Thread(target=self.save_data, args=(data_dict, csv_path))
-                                            t.start()
+                                        if pivot_value > 0 and pivot_value > max_value:
+                                            max_value = pivot_value
+                                            if count < MAX_CNT // 2:
+                                                count = MAX_CNT
+                                            elif pivot_value > 0 and pivot_value > max_value * 0.75:
+                                                count = int(count * 1.2)
+                                        count -= 1
+                                    if count == 0:
+                                        end_flag = 1
+                                    if slop < 400:
+                                        stable_cnt += 1
+                                    else:
+                                        stable_cnt = 0
+                                    if stable_cnt > 100:
+                                        if count < MAX_CNT // 2:
+                                            end_flag = 1
+                                    if end_flag == 1:
+                                        start_flag = 0
+                                        end_flag = 0
+                                        count = MAX_CNT
+                                        stable_cnt = 0
+                                        self.msg_q.put("Vehicle Leaving, {} Seconds data saved".format(
+                                            round(time.time() - start_time, 3)
+                                        ))
+
+                                        data_dict = {}
+                                        data_dict['time'] = time_stamp_quene[:]
+                                        data_dict['acc_x'] = acc_x_quene[:]
+                                        data_dict['acc_y'] = acc_y_quene[:]
+                                        data_dict['acc_z'] = acc_z_quene[:]
+                                        data_dict['gyo_x'] = gyo_x_quene[:]
+                                        data_dict['gyo_y'] = gyo_y_quene[:]
+                                        data_dict['gyo_z'] = gyo_z_quene[:]
+                                        data_dict['acc_scale'] = acc_scale_quene
+                                        data_dict['acc_fchoice'] = acc_fchoice_quene
+                                        data_dict['acc_dlpf'] = acc_dlpf_quene
+                                        data_dict['gyo_scale'] = gyo_scale_quene
+                                        data_dict['gyo_fchoice'] = gyo_fchoice_quene
+                                        data_dict['gyo_dlpf'] = gyo_dlpf_quene
+                                        self.active_q.put(data_dict)
+                                        t = threading.Thread(target=self.save_data, args=(data_dict, csv_path))
+                                        t.start()
+                                        pre_acc_x_quene = []
+                                        pre_acc_y_quene = []
+                                        pre_acc_z_quene = []
+                                        pre_gyo_x_quene = []
+                                        pre_gyo_y_quene = []
+                                        pre_gyo_z_quene = []
+                                        pre_time_stamp_quene = []
+                                        pre_acc_scale_quene = []
+                                        pre_acc_fchoice_quene = []
+                                        pre_acc_dlpf_quene = []
+                                        pre_gyo_scale_quene = []
+                                        pre_gyo_fchoice_quene = []
+                                        pre_gyo_dlpf_quene = []
+                                        acc_x_quene = []
+                                        acc_y_quene = []
+                                        acc_z_quene = []
+                                        gyo_x_quene = []
+                                        gyo_y_quene = []
+                                        gyo_z_quene = []
+                                        time_stamp_quene = []
+                                        acc_scale_quene = []
+                                        acc_fchoice_quene = []
+                                        acc_dlpf_quene = []
+                                        gyo_scale_quene = []
+                                        gyo_fchoice_quene = []
+                                        gyo_dlpf_quene = []
                             else:
+                                n = self.acc_scale_data_quene.__len__()
+                                if n >= self.MAX_LEN:
+                                    self.accx_data_quene.pop(0)
+                                    self.accy_data_quene.pop(0)
+                                    self.accz_data_quene.pop(0)
+                                    self.gyox_data_quene.pop(0)
+                                    self.gyoy_data_quene.pop(0)
+                                    self.gyoz_data_quene.pop(0)
+                                    self.acc_scale_data_quene.pop(0)
+                                    self.gyo_scale_data_quene.pop(0)
+                                    self.acc_fchoice_data_quene.pop(0)
+                                    self.acc_dlpf_data_quene.pop(0)
+                                    self.gyo_fchoice_data_quene.pop(0)
+                                    self.gyo_dlpf_data_quene.pop(0)
+                                    self.time_stamp_quene.pop(0)
+                                self.accx_data_quene.append(acc_x)
+                                self.accy_data_quene.append(acc_y)
+                                self.accz_data_quene.append(acc_z)
+                                self.gyox_data_quene.append(gyo_x)
+                                self.gyoy_data_quene.append(gyo_y)
+                                self.gyoz_data_quene.append(gyo_z)
+                                self.acc_scale_data_quene.append(acc_scale)
+                                self.acc_dlpf_data_quene.append(acc_dlpf)
+                                self.acc_fchoice_data_quene.append(acc_fchoice)
+                                self.gyo_dlpf_data_quene.append(gyo_dlpf)
+                                self.gyo_fchoice_data_quene.append(gyo_fchoice)
+                                self.gyo_scale_data_quene.append(gyo_scale)
+                                self.time_stamp_quene.append(timestamp)
                                 if self.frame_count % 100 == 0:
                                     data_dict = {}
                                     quene_range = -100
