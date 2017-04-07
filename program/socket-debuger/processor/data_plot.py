@@ -45,6 +45,7 @@ def none_plot(fig, ax, title, value):
 def plot_2d(filter_type=None):
     if "Windows" in platform.platform():
         dir_path = "E:/Manhole/training data/2d_plot"
+        dir_path = "E:/Manhole/training data/split_error/3"
     else:
         dir_path = "/Users/xiaoxiami/Manhole/training data/2d_plot"
     data_dic = data_reader.get_data_in_all_dir(dir_path)

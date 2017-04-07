@@ -1,5 +1,6 @@
 # coding=utf-8
 import filter_function
+import math
 
 
 def peak_width_old(data):
@@ -147,26 +148,28 @@ def get_width_index(data):
 
 def split_data(data):
     partition = []
+    data_filter = filter_function.Filter()
+    # data = data_filter.fft_filter(data)
     # 计算原始数据的标准差，并经过一个均值滤波，为后面数据切分做准备
     var = []
     for i in range(len(data) - 3):
         v = int(variance(data[i:i + 3]) ** 0.5)
         var.append(0 if v < 100 else v)
-    filter = filter_function.Filter()
-    var = filter.mean_value_filter(var, 20)
-    var = filter.mean_value_filter(var, 20)
+    var = data_filter.mean_value_filter(var, 20)
+    var = data_filter.mean_value_filter(var, 10)
+    # var = data_filter.mid_value_filter(var)
+    max_var = max(var)
+    # 找到第一个波峰和他的斜率
     WIDTH = 20
     split = []
     # 将数据切分，有多少个轮子partition就有多长
     # for i, v in enumerate(var):
     #     print(i, v)
     i = WIDTH
-    max_var = max(var)
+
     pass_max_flag = 0
     # 寻找var的波谷进行切分
     while WIDTH <= i < len(var) - WIDTH:
-        if i == 514:
-            pass
         if var[i] > max_var // 20 or var[i] > 200:
             pass_max_flag = 1
         if pass_max_flag == 1:
@@ -178,6 +181,7 @@ def split_data(data):
                         count += 1
                     else:
                         if i - 100 > 0 and i + 100 < len(var):
+                            pass_max_flag = 0
                             left_max = max(var[i - 100:i])
                             right_max = max(var[i:i + 100])
                             if left_max > max(var) * 0.3 and right_max > max(var) * 0.3:
@@ -185,7 +189,7 @@ def split_data(data):
                                 i += WIDTH
                                 count = 0
                                 break
-            if count >= WIDTH * 2 - 3:
+            if count >= WIDTH * 2 - 3 and max(var[i - WIDTH:i + WIDTH]) - var[i] > 200:
                 split.append(i - 4)
                 i += WIDTH
         i += 1
@@ -225,6 +229,7 @@ def split_data(data):
         mem = s
 
     return partition, var
+
 
 def get_valid_data(data):
     '''
@@ -292,24 +297,26 @@ def get_peak_width(data, low, high):
             n -= 1
         i += 1
     # 若有四个index，说明有抖动没有滤掉
-    if n == 4:
-        min_buf = [
-            (0.8 * peak_min_index[0] + 0.2 * peak_min_index[1]),
-            (0.8 * peak_min_index[2] + 0.2 * peak_min_index[3]),
-        ]
-        max_buf = [
-            (0.8 * peak_max_index[0] + 0.2 * peak_max_index[1]),
-            (0.8 * peak_max_index[2] + 0.2 * peak_max_index[3]),
-        ]
-        peak_min_index = min_buf[:]
-        peak_max_index = max_buf[:]
+    # if n == 4:
+    #     min_buf = [
+    #         (0.8 * peak_min_index[0] + 0.2 * peak_min_index[1]),
+    #         (0.8 * peak_min_index[2] + 0.2 * peak_min_index[3]),
+    #     ]
+    #     max_buf = [
+    #         (0.8 * peak_max_index[0] + 0.2 * peak_max_index[1]),
+    #         (0.8 * peak_max_index[2] + 0.2 * peak_max_index[3]),
+    #     ]
+    #     peak_min_index = min_buf[:]
+    #     peak_max_index = max_buf[:]
 
     return peak_max_index, peak_min_index, var
+
 
 def index():
     if "Windows" in platform.platform():
         # data_path = "E:/Manhole/training data/original data/3-6/3/middle"
         data_path = "E:/Manhole/training data/2d_plot/"
+
     else:
         data_path = "/Users/xiaoxiami/Manhole/training data/original data/3-6/3/side"
 
@@ -338,6 +345,7 @@ def index():
         ax["acc-" + title].plot(range(len(var)), var)
 
     plt.show()
+
 
 def x_y_info():
     if "Windows" in platform.platform():
@@ -369,13 +377,13 @@ def x_y_info():
         ax["acc-" + title].set_ylim([-35000, 35000])
 
     plt.show()
+
+
 if __name__ == "__main__":
     import processor.data_reader
     import matplotlib.pyplot as plt
     import platform
     from mpl_toolkits.mplot3d import Axes3D
 
-
     index()
-    #x_y_info()
-
+    # x_y_info()
