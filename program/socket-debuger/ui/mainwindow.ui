@@ -508,7 +508,7 @@
        <property name="title">
         <string>ACC</string>
        </property>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>11</x>
@@ -594,7 +594,7 @@
        <property name="title">
         <string>GYO</string>
        </property>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -1339,6 +1339,49 @@
       </widget>
      </widget>
     </widget>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>Monitor</string>
+     </attribute>
+     <widget class="QFrame" name="frame_4">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1011</width>
+        <height>621</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QLabel" name="status_label">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>130</y>
+         <width>261</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>黑体</family>
+         <pointsize>48</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>井盖正常</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
    </widget>
    <widget class="QPushButton" name="recordButton">
     <property name="geometry">
@@ -1772,8 +1815,10 @@
     <addaction name="menuOpen_Camera"/>
     <addaction name="actionClose"/>
    </widget>
+   <widget class="QMenu" name="menuMonitor"/>
    <addaction name="menuFile"/>
    <addaction name="menuVideo"/>
+   <addaction name="menuMonitor"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -1823,6 +1868,11 @@
    </property>
    <property name="shortcut">
     <string>Q</string>
+   </property>
+  </action>
+  <action name="actionOpen_Alert">
+   <property name="text">
+    <string>Open Alert</string>
    </property>
   </action>
  </widget>

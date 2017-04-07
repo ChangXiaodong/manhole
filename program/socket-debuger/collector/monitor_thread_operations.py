@@ -97,6 +97,7 @@ class myThread(threading.Thread):
         csv_path = ""
         self.count = 0
         stable_count = 0
+        self.open_count = 0
 
         self.frame_count = 0
         vehicle_coming_frame = 0
@@ -167,6 +168,9 @@ class myThread(threading.Thread):
                             self.gyo_fchoice_data_quene.append(gyo_fchoice)
                             self.gyo_scale_data_quene.append(gyo_scale)
                             self.time_stamp_quene.append(timestamp)
+
+
+
                             if n == 300:
                                 self.msg_q.put("Data Quene Ready")
                             if self.__single_mode == True:
@@ -271,3 +275,5 @@ class myThread(threading.Thread):
             self.__seq_start_time = int(time.time())
         else:
             self.camera.set_single_mode(True)
+
+

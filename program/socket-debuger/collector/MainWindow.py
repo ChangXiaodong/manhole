@@ -50,6 +50,7 @@ class MainWindow(QtGui.QMainWindow):
         self.identify_result_memory = 0
         self.camera = None
         self.data_source = "uart"
+        self.open_cnt = 0
 
     def plot_factory(self, parent_object):
         plot = Qwt.QwtPlot(parent_object)
@@ -376,13 +377,29 @@ class MainWindow(QtGui.QMainWindow):
                                 data["gyo_scale"]
                                 )
 
+        def open_detection(x, y, z):
+            import math
+            if z == 0:
+                z = 1
+            angle = math.atan((x ** 2 + y ** 2) ** 0.5 / z)
+            angle = abs(int(angle * 360))
+            if angle > 100:
+                self.open_cnt += 1
+            else:
+                self.open_cnt = 0
+            if self.open_cnt > 3:
+                self.status_label.setText(u"井盖开启")
+            else:
+                self.status_label.setText(u"井盖正常")
+
+        open_detection(data_dict["acc_x"], data_dict["acc_y"], data_dict["acc_z"], )
+
         self.acc_scale = data_dict["acc_scale"]
         self.acc_fchoice = data_dict["acc_fchoice"]
         self.acc_dlpf = data_dict["acc_dlpf"]
         self.gyo_scale = data_dict["gyo_scale"]
         self.gyo_fchoice = data_dict["gyo_fchoice"]
         self.gyo_dlpf = data_dict["gyo_dlpf"]
-
 
         if self.data_source == "uart":
             self.update_label_count += 1
