@@ -51,6 +51,7 @@ class MainWindow(QtGui.QMainWindow):
         self.camera = None
         self.data_source = "uart"
         self.open_cnt = 0
+        self.uart_mode = "live"
 
     def plot_factory(self, parent_object):
         plot = Qwt.QwtPlot(parent_object)
@@ -82,8 +83,6 @@ class MainWindow(QtGui.QMainWindow):
     def init_defaultUI(self):
         self.stop_pushButton.setDisabled(True)
         self.disconnect_pushButton.setDisabled(True)
-        self.canvas_start_pushButton.setDisabled(True)
-        self.canvas_pause_pushButton.setDisabled(True)
         self.recordButton.setDisabled(True)
         self.BaudRate_lineEdit.setText("115200")
         self.updateStatusBar("UART Closed")
@@ -107,8 +106,6 @@ class MainWindow(QtGui.QMainWindow):
         self.actionExit.triggered.connect(self.close)
         self.open_pushButton.clicked.connect(self.on_open_serial)
         self.stop_pushButton.clicked.connect(self.on_close_serial)
-        self.canvas_start_pushButton.clicked.connect(self.on_start_canvas)
-        self.canvas_pause_pushButton.clicked.connect(self.on_pause_canvas)
         self.recordButton.clicked.connect(self.on_record)
         self.actionUpdate_uart_port.triggered.connect(self.on_update_uart_port)
         self.actionCamera1.triggered.connect(self.on_open_camera1)
@@ -124,6 +121,8 @@ class MainWindow(QtGui.QMainWindow):
         self.write_config_pushButton.clicked.connect(self.on_write_config)
         self.connect_pushButton.clicked.connect(self.on_connect_socket)
         self.disconnect_pushButton.clicked.connect(self.on_disconnect_socket)
+        self.static_radioButton.clicked.connect(self.on_static_radio)
+        self.live_radioButton.clicked.connect(self.on_live_radio)
 
         QtCore.QObject.connect(
             self.Port_num_comboBox,
@@ -140,6 +139,12 @@ class MainWindow(QtGui.QMainWindow):
             QtCore.SIGNAL("currentChanged(int)"),
             self.on_tab_changed
         )
+
+    def on_static_radio(self):
+        self.uart_mode = "static"
+
+    def on_live_radio(self):
+        self.uart_mode = "live"
 
     def on_seq_radio(self):
         self.receive_thread.set_single_mode(False)
@@ -423,16 +428,6 @@ class MainWindow(QtGui.QMainWindow):
         if active_data:
             self.update_plot(active_data)
 
-    def on_start_canvas(self):
-        self.__enablecanvas = True
-        self.canvas_pause_pushButton.setEnabled(True)
-        self.canvas_start_pushButton.setDisabled(True)
-
-    def on_pause_canvas(self):
-        self.__enablecanvas = False
-        self.canvas_pause_pushButton.setDisabled(True)
-        self.canvas_start_pushButton.setEnabled(True)
-
     def on_identify_state_changed(self):
         if self.__enable_identify is False:  # identify running
             self.__enable_identify = True
@@ -471,15 +466,26 @@ class MainWindow(QtGui.QMainWindow):
                                            "unknow port num")
                 self.settings = {}
                 return
+
             try:
-                self.receive_thread = socket.myThread(
-                    self.settings,
-                    self.data_q,
-                    self.active_q,
-                    self.error_q,
-                    self.msg_q,
-                    self.camera
-                )
+                if self.uart_mode == "live":
+                    self.receive_thread = socket.myThread(
+                        self.settings,
+                        self.data_q,
+                        self.active_q,
+                        self.error_q,
+                        self.msg_q,
+                        self.camera
+                    )
+                else:
+                    self.receive_thread = socket.staticThread(
+                        self.settings,
+                        self.data_q,
+                        self.active_q,
+                        self.error_q,
+                        self.msg_q,
+                        self.camera
+                    )
                 self.receive_thread.setDaemon(True)
                 self.receive_thread.start()
                 com_error = globals.get_item_from_queue(self.error_q)
@@ -495,14 +501,11 @@ class MainWindow(QtGui.QMainWindow):
         self.Port_num_comboBox.setDisabled(True)
         self.stop_pushButton.setEnabled(True)
         self.open_pushButton.setDisabled(True)
-        self.canvas_start_pushButton.setEnabled(True)
-        self.canvas_pause_pushButton.setEnabled(True)
         self.BaudRate_lineEdit.setDisabled(True)
         self.recordButton.setEnabled(True)
         self.updateStatusBar("UART Opened")
         self.data_source = "uart"
         self.timer.start(15)
-        self.on_start_canvas()
 
     def on_close_serial(self):
         if self.receive_thread is not None:

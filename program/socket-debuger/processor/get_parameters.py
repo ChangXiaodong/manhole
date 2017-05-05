@@ -153,7 +153,7 @@ def split_data(data):
     # 计算原始数据的标准差，并经过一个均值滤波，为后面数据切分做准备
     var = []
     for i in range(len(data) - 3):
-        v = int(variance(data[i:i + 3]) ** 0.5)
+        v = int(variance(data[i:i + 3], data[0]) ** 0.5)
         var.append(0 if v < 100 else v)
     var = data_filter.mean_value_filter(var, 20)
     var = data_filter.mean_value_filter(var, 10)
@@ -284,18 +284,11 @@ def get_peak_width(data, low, high):
                     min_buf = v
                     min_index = j + base_length
         if max_index > low and max_index < high and min_index > low and min_index < high:
-            peak_max_index.append(max_index)
-            peak_min_index.append(min_index)
+            # 删除波峰波谷过长的index，这种是识别错误的
+            if abs(max_index - min_index) < 70:
+                peak_max_index.append(max_index)
+                peak_min_index.append(min_index)
         base_length += len(part)
-    i = 0
-    n = len(peak_min_index)
-    # 删除波峰波谷过长的index，这种是识别错误的
-    while i < n:
-        if abs(peak_min_index[i] - peak_max_index[i]) > 70:
-            peak_min_index.pop(i)
-            peak_max_index.pop(i)
-            n -= 1
-        i += 1
     # 若有四个index，说明有抖动没有滤掉
     # if n == 4:
     #     min_buf = [
@@ -315,7 +308,7 @@ def get_peak_width(data, low, high):
 def index():
     if "Windows" in platform.platform():
         # data_path = "E:/Manhole/training data/original data/3-6/3/middle"
-        data_path = "E:/Manhole/training data/2d_plot/"
+        data_path = "E:/Manhole/training data/original data/4-12/2/2017-04-12_16-39-49/"
 
     else:
         data_path = "/Users/xiaoxiami/Manhole/training data/original data/3-6/3/side"

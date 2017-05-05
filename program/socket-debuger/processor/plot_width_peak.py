@@ -9,7 +9,7 @@ import numpy as np
 
 if "Windows" in platform.platform():
     # data_path = "E:/Manhole/training data/original data/3-29/2"
-    data_path = "C:/Users/chang/Desktop/display_data/good"
+    data_path = "E:/Manhole/training data/original data/4-12/1"
     # data_path = "E:/Manhole/training data/split_error"
     # data_path = "E:/Manhole/training data/2d_plot"
 else:
@@ -58,9 +58,9 @@ else:
         train_data.append([width[i], peak_value[i]])
     train_data = np.array(train_data)
     train_data.tofile(data_path + "/.bin")
-
 fig = plt.figure()
 ax = fig.add_subplot(111)
+print(train_data)
 k_means_fit = KMeans(n_clusters=3, random_state=150).fit(train_data)
 y_pred = k_means_fit.predict(train_data)
 
@@ -76,17 +76,17 @@ for v in y_pred:
     else:
         small_vehicle += 1
 static_vehicle = sorted([small_vehicle, middle_vehicle, big_vehicle])
-print(static_vehicle)
 import tkMessageBox
+
 if "bad" in data_path:
     time = 25.0
 elif "middle" in data_path:
     time = 10.0
 else:
     time = 10.0
-
+centers = sorted(k_means_fit.cluster_centers_,  key=lambda x : x[0])
 res_string = "沉降程度：{:.2f}%\n中型车流量:{:.1f} 辆/分钟\n大型车流量:{:.1f} 辆/分钟\n总体车流量:{:.1f} 辆/分钟".format(
-    k_means_fit.cluster_centers_[0][1],
+    centers[0][1],
     static_vehicle[1] / time, static_vehicle[0] / time, total_vehicle / time
 )
 tkMessageBox.showinfo(u"识别结果", res_string)
@@ -103,8 +103,8 @@ for i in range(len(train_data)):
         label = u"大型车"
     ax.plot(train_data[i][0], train_data[i][1], "o", picker=5, c=color)
 
-# for x, y in k_means_fit.cluster_centers_:
-#     ax.plot(x, y, "y*", markersize=10)
+for x, y in k_means_fit.cluster_centers_:
+    ax.plot(x, y, "y*", markersize=24)
 ax.set_ylim(0, 130)
 
 
@@ -120,7 +120,7 @@ def onpick(event):
     figi = {}
     ax = {}
     for i in range(len(xdata)):
-        figi[i] = plt.figure(figsize=(16, 8))
+        figi[i] = plt.figure()
         title = quary[str(int(xdata[i])) + str(int(ydata[i]))]
         ax[i] = figi[i].add_subplot(211)
         x = range(len(data_q[title]))

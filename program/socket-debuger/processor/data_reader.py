@@ -38,6 +38,8 @@ def get_data_by_csvpath(path=""):
     gyo_x = []
     gyo_y = []
     gyo_z = []
+    acc_scale = []
+    gyo_scale = []
     with open(path) as csvfile:
         # reader = csv.DictReader(csvfile)
         reader = csv.reader(csvfile)
@@ -48,7 +50,9 @@ def get_data_by_csvpath(path=""):
             gyo_x.append(int(row[4]))
             gyo_y.append(int(row[5]))
             gyo_z.append(int(row[6]))
-    return acc_x, acc_y, acc_z, gyo_x, gyo_y, gyo_z
+            acc_scale.append(int(row[7]))
+            gyo_scale.append(int(row[8]))
+    return acc_x, acc_y, acc_z, gyo_x, gyo_y, gyo_z, acc_scale, gyo_scale
 
 
 def get_data_by_csvpath_8bit(path=""):
@@ -120,25 +124,23 @@ def get_file_recursive(dir_path=""):
     return file_list
 
 
-def get_data_in_all_dir(dir_path="", data_bit=16):
+def get_data_in_all_dir(dir_path=""):
     dir_path = dir_path_check(dir_path)
     file_list = get_file_recursive(dir_path)
     data_dic = {}
     for file in file_list:
-        if data_bit == 16:
-            acc_x, acc_y, acc_z, gyo_x, gyo_y, gyo_z = get_data_by_csvpath(file)
-        else:
-            acc_x, acc_y, acc_z, gyo_x, gyo_y, gyo_z = get_data_by_csvpath_8bit(file)
+        acc_x, acc_y, acc_z, gyo_x, gyo_y, gyo_z, acc_scale, gyo_scale = get_data_by_csvpath(file)
         data_dic[str(file).split("/")[-1].split(".")[0]] = {
             "acc_x": acc_x,
             "acc_y": acc_y,
             "acc_z": acc_z,
             "gyo_x": gyo_x,
             "gyo_y": gyo_y,
-            "gyo_z": gyo_z
+            "gyo_z": gyo_z,
+            "acc_scale": acc_scale,
+            "gyo_scale": gyo_scale
         }
     return data_dic
-
 
 if __name__ == "__main__":
     print(get_data_by_csvpath("E:\Manhole\\test data\middle_fast\\2\middle_fast_2.csv"))

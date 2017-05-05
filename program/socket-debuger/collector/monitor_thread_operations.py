@@ -6,6 +6,7 @@ import time
 import serial
 import socket
 import csv_writer
+import matplotlib.pyplot as plt
 
 
 class myThread(threading.Thread):
@@ -92,12 +93,10 @@ class myThread(threading.Thread):
         return max_value
 
     def run(self):
-        #split data params
+        # split data params
         WIDTH = 2
-        MAX_CNT = 500
+        MAX_CNT = 600
         start_flag = 0
-        end = 0
-        max_value = 0
         count = MAX_CNT
         stable_cnt = 0
         end_flag = 0
@@ -129,15 +128,10 @@ class myThread(threading.Thread):
         pre_gyo_fchoice_quene = []
         pre_gyo_dlpf_quene = []
         pivot_quene = []
-        #
-        coming_flag = 0
+
         start_time = 0
         csv_path = ""
-        self.count = 0
-        stable_count = 0
-        self.open_count = 0
         self.frame_count = 0
-        vehicle_coming_frame = 0
         while self.alive.isSet():
             if self.type == "uart":
                 head = self.uart.read(1)
@@ -157,7 +151,6 @@ class myThread(threading.Thread):
                     for s in line:
                         data.append(ord(s))
                     if len(data) == 18:
-                        self.count += 1
                         self.frame_count += 1
                         acc_x, acc_y, acc_z = self.get_MSB(data[:6])
                         gyo_x, gyo_y, gyo_z = self.get_MSB(data[6:])
@@ -250,22 +243,19 @@ class myThread(threading.Thread):
                                         gyo_scale_quene.append(gyo_scale)
                                         time_stamp_quene.append(timestamp)
 
-                                        if pivot_value > 0 and pivot_value > max_value:
-                                            max_value = pivot_value
-                                            if count < MAX_CNT // 2:
-                                                count = MAX_CNT
-                                            elif pivot_value > 0 and pivot_value > max_value * 0.75:
-                                                count = int(count * 1.2)
                                         count -= 1
-                                    if count == 0:
-                                        end_flag = 1
-                                    if slop < 400:
-                                        stable_cnt += 1
-                                    else:
-                                        stable_cnt = 0
-                                    if stable_cnt > 100:
-                                        if count < MAX_CNT // 2:
+                                        if count == 0:
+                                            print("count")
                                             end_flag = 1
+                                        if slop < 400:
+                                            stable_cnt += 1
+                                        else:
+                                            stable_cnt = 0
+                                        if stable_cnt > 200:
+                                            if count < MAX_CNT // 2:
+                                                print("stable")
+                                                end_flag = 1
+
                                     if end_flag == 1:
                                         start_flag = 0
                                         end_flag = 0
@@ -411,3 +401,168 @@ class myThread(threading.Thread):
             self.camera.set_single_mode(True)
 
 
+class staticThread(threading.Thread):
+    def __init__(
+            self,
+            settings,
+            data_q,
+            active_q,
+            error_q,
+            msg_q,
+            camera,
+            device="uart",
+            port_stopbits=serial.STOPBITS_ONE,
+            port_parity=serial.PARITY_NONE,
+            port_timeout=0.01
+    ):
+        super(staticThread, self).__init__()
+        self.type = device
+        self.display_data_q = data_q
+        self.error_q = error_q
+        self.active_q = active_q
+        self.alive = threading.Event()
+        self.alive.set()
+        self.__enable_record_data = True
+        self.__uart_pause = False
+        # self.data_quene = deque(maxlen=1000)
+        self.data_busy = False
+        self.msg_q = msg_q
+        self.MAX_LEN = 25000
+        self.accx_data_quene = []
+        self.accy_data_quene = []
+        self.accz_data_quene = []
+        self.gyox_data_quene = []
+        self.gyoy_data_quene = []
+        self.gyoz_data_quene = []
+        self.acc_scale_data_quene = []
+        self.acc_fchoice_data_quene = []
+        self.acc_dlpf_data_quene = []
+        self.gyo_scale_data_quene = []
+        self.gyo_fchoice_data_quene = []
+        self.gyo_dlpf_data_quene = []
+        self.time_stamp_quene = []
+        self.camera = camera
+        self.force_record_flag = 0
+        self.__single_mode = True
+        self.__seq_csv_path = ''
+        self.__seq_start_time = 0
+        self.serial_settings = settings
+        self.serial_settings["stopbits"] = port_stopbits
+        self.serial_settings["parity"] = port_parity
+        self.serial_settings["timeout"] = port_timeout
+        self.uart = None
+        self.creat_serial()
+
+
+    def get_MSB(self, bytes):
+        x = bytes[0] << 8 | (bytes[1])
+
+        if (x & (1 << 16 - 1)):
+            x = x - (1 << 16)
+
+        y = bytes[2] << 8 | (bytes[3])
+        if (y & (1 << 16 - 1)):
+            y = y - (1 << 16)
+
+        z = bytes[4] << 8 | (bytes[5])
+        if (z & (1 << 16 - 1)):
+            z = z - (1 << 16)
+
+        return x, y, z
+
+    def pulse_max(self, data):
+        def mean(data):
+            return sum(data) / len(data)
+
+        stable_value = mean(data[:5])
+        max_value = 0
+        for i in range(len(data)):
+            max_value = max(max_value, abs(data[i] - stable_value))
+        return max_value
+
+    def run(self):
+        # split data params
+        acc_x_quene = []
+        acc_y_quene = []
+        acc_z_quene = []
+        gyo_x_quene = []
+        gyo_y_quene = []
+        gyo_z_quene = []
+        var_quene = []
+
+        self.frame_count = 0
+        while self.alive.isSet():
+            head = self.uart.read(1)
+            if head and ord(head) == 0x0D:
+                head = self.uart.read(1)
+                if head and ord(head) == 0x0A:
+                    buf = self.uart.read(10)
+                    max_index = []
+                    max_index.append(ord(buf[0]) << 8 | ord(buf[1]))
+                    max_index.append(ord(buf[2]) << 8 | ord(buf[3]))
+                    max_index.append(ord(buf[4]) << 8 | ord(buf[5]))
+                    max_index.append(ord(buf[6]) << 8 | ord(buf[7]))
+                    max_index.append(ord(buf[8]) << 8 | ord(buf[9]))
+
+                    buf = self.uart.read(10)
+                    min_index = []
+                    min_index.append(ord(buf[0]) << 8 | ord(buf[1]))
+                    min_index.append(ord(buf[2]) << 8 | ord(buf[3]))
+                    min_index.append(ord(buf[4]) << 8 | ord(buf[5]))
+                    min_index.append(ord(buf[6]) << 8 | ord(buf[7]))
+                    min_index.append(ord(buf[8]) << 8 | ord(buf[9]))
+
+
+                    fig = plt.figure()
+                    ax = fig.add_subplot(211)
+                    ax.plot(acc_x_quene)
+                    ax.plot(acc_y_quene)
+                    ax.plot(acc_z_quene)
+                    print(max_index)
+                    print(min_index)
+                    for i in range(len(max_index)):
+                        if max_index[i] * min_index[i] != 0:
+                            ax.plot(max_index[i], acc_z_quene[0], 'ro')
+                            ax.plot(min_index[i], acc_z_quene[0], 'go')
+                    ax = fig.add_subplot(212)
+
+                    ax.plot(var_quene)
+                    plt.show()
+                    acc_x_quene = []
+                    acc_y_quene = []
+                    acc_z_quene = []
+                    gyo_x_quene = []
+                    gyo_y_quene = []
+                    gyo_z_quene = []
+                    var_quene = []
+
+            if head and ord(head) == 0x7D:
+                head = self.uart.read(1)
+                if head and ord(head) == 0x7E:
+                    line = self.uart.read(16)
+                    data = []
+                    for s in line:
+                        data.append(ord(s))
+                    if len(data) == 16:
+                        self.frame_count += 1
+                        acc_x, acc_y, acc_z = self.get_MSB(data[:6])
+                        gyo_x, gyo_y, gyo_z = self.get_MSB(data[6:])
+                        if -32769 < acc_x < 32769 and -32769 < acc_y < 32769 and -32769 < acc_z < 32769 and \
+                                                -32769 < gyo_x < 32769 and -32769 < gyo_y < 32769 and -32769 < gyo_z < 32769:
+                            acc_x_quene.append(acc_x)
+                            acc_y_quene.append(acc_y)
+                            acc_z_quene.append(acc_z)
+                            gyo_x_quene.append(gyo_x)
+                            gyo_y_quene.append(gyo_y)
+                            gyo_z_quene.append(gyo_z)
+
+                            var = data[12] << 24 | data[13] << 16 | data[14] << 8 | data[15]
+                            var_quene.append(var)
+
+    def creat_serial(self):
+        try:
+            if self.uart:
+                self.uart.close()
+            self.uart = serial.Serial(**self.serial_settings)
+        except serial.SerialException as e:
+            self.error_q.put(e.message)
