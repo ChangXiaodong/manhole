@@ -13,7 +13,7 @@ if __name__ == '__main__':
     # data_path = "E:/Manhole/training data/original data/2-22/"
     # data_path = "E:/Manhole/training data/original data/2-24"
     # data_path = "E:/Manhole/training data/original data/2-28/"
-    data_path = "E:/Manhole/training data/scale/good/"
+    data_path = "..//training data/scale/good/"
     data = np.array(Filter.DBSCAN_filter(data_path))
     if not data.any():
         print("unavailable data")

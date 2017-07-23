@@ -16,6 +16,7 @@ else:
     data_path = "/Users/xiaoxiami/Manhole/training data/original data/3-6/3/side"
 
 data_dic = data_reader.get_data_in_all_dir(data_path)
+print(data_dic)
 peak_value = []
 width = []
 start_q = {}
@@ -76,8 +77,7 @@ for v in y_pred:
     else:
         small_vehicle += 1
 static_vehicle = sorted([small_vehicle, middle_vehicle, big_vehicle])
-import tkMessageBox
-
+# import tkMessageBox
 if "bad" in data_path:
     time = 25.0
 elif "middle" in data_path:
@@ -89,7 +89,8 @@ res_string = "沉降程度：{:.2f}%\n中型车流量:{:.1f} 辆/分钟\n大型�
     centers[0][1],
     static_vehicle[1] / time, static_vehicle[0] / time, total_vehicle / time
 )
-tkMessageBox.showinfo(u"识别结果", res_string)
+# tkMessageBox.showinfo(u"识别结果", res_string)
+print(u"识别结果:{}".format(res_string))
 
 for i in range(len(train_data)):
     if y_pred[i] == 0:
